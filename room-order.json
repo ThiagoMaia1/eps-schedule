@@ -1,50 +1,57 @@
 {
-  "First": [
-    "Boylston",
-    "Tremont"
-  ],
-  "Second": [
-    "Back Bay Ballroom A",
-    "Back Bay Ballroom B",
-    "Back Bay Ballroom C",
-    "Back Bay Ballroom D"
-  ],
-  "Third": [
-    "Boston University",
-    "Brandeis",
-    "Commonwealth",
-    "Fairfax A",
-    "Harvard",
-    "MIT",
-    "Northeastern",
-    "Regis",
-    "Simmons",
-    "Suffolk",
-    "Tufts",
-    "Wellesley"
-  ],
-  "Fourth": [
-    "Falmouth",
-    "Grand Ballroom Salon A",
-    "Grand Ballroom Salon B",
-    "Grand Ballroom Salon C",
-    "Grand Ballroom Salon D",
-    "Grand Ballroom Salon EFG",
-    "Grand Ballroom Salon H",
-    "Grand Ballroom Salon I",
-    "Grand Ballroom Salon J",
-    "Grand Ballroom Salon K",
-    "Hyannis",
-    "Nantucket",
-    "Orleans",
-    "Provincetown",
-    "Vineyard",
-    "Yarmouth"
-  ],
-  "Fifth": [
-    "Maine",
-    "Massachusetts",
-    "New Hampshire",
-    "Vermont"
-  ]
+  "Copley Place": {
+    "First": [
+      "Boylston",
+      "Tremont"
+    ],
+    "Third": [
+      "Boston University",
+      "Brandeis",
+      "Harvard",
+      "MIT",
+      "Northeastern",
+      "Regis",
+      "Simmons",
+      "Suffolk",
+      "Suﬀolk",
+      "Tufts",
+      "Wellesley"
+    ],
+    "Fourth": [
+      "Falmouth",
+      "Grand Ballroom Salon A",
+      "Grand Ballroom Salon B",
+      "Grand Ballroom Salon C",
+      "Grand Ballroom Salon D",
+      "Grand Ballroom Salon EFG",
+      "Grand Ballroom Salon H",
+      "Grand Ballroom Salon I",
+      "Grand Ballroom Salon J",
+      "Grand Ballroom Salon K",
+      "Hyannis",
+      "Nantucket",
+      "Orleans",
+      "Provincetown",
+      "Vineyard",
+      "Yarmouth"
+    ],
+    "Fifth": [
+      "Maine",
+      "Massachusetts",
+      "New Hampshire",
+      "Vermont"
+    ]
+  },
+  "Sheraton": {
+    "Second": [
+      "Back Bay Ballroom A",
+      "Back Bay Ballroom B",
+      "Back Bay Ballroom C",
+      "Back Bay Ballroom D"
+    ],
+    "Third": [
+      "Commonwealth",
+      "Fairfax A"
+    ]
+  }
 }
