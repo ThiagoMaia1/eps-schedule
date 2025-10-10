@@ -19,6 +19,7 @@ A modern, interactive schedule viewer for ETS (Escola de Tecnologia e Sistemas) 
 - **🏷️ Session Tags**: Filter by EPS and ETS session types
 - **📱 Responsive Design**: Works seamlessly on desktop and mobile devices
 - **💾 Persistent State**: Your selected sessions are saved locally and persist across sessions
+- **📊 Analytics**: Optional Cloudflare Web Analytics integration (privacy-friendly, no cookies)
 
 ## 🚀 Tech Stack
 
@@ -51,13 +52,31 @@ cd eps-schedule
 npm install
 ```
 
-3. Start the development server:
+3. Configure environment variables (optional):
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local` and add your Cloudflare Web Analytics token:
+
+```
+VITE_CLOUDFLARE_TOKEN=your_actual_token_here
+```
+
+To get a token:
+
+- Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
+- Navigate to **Web Analytics** → **Add a site**
+- Copy your token from the generated script
+
+4. Start the development server:
 
 ```bash
 npm run dev
 ```
 
-4. Open your browser to `http://localhost:5173`
+5. Open your browser to `http://localhost:5173`
 
 ## 🎯 Usage
 
