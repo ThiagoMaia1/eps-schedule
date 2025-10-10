@@ -106,7 +106,7 @@ const Filters: React.FC<FiltersProps> = ({
         <div className="controls-wrapper">
           <div className="controls">
             <span
-              className={`btn ${showOnlySelected ? 'active' : ''} ${selectedCount === 0 ? 'disabled' : ''}`}
+              className={`btn ${showOnlySelected ? 'active' : ''}`}
               onClick={onToggleSelected}
             >
               Show only selected sessions
