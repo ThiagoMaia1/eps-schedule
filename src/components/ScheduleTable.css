@@ -5,8 +5,8 @@
 
 @media (max-width: 768px) {
   :root {
-    --col-width: 300px;
-    --time-col-width: 80px;
+    --col-width: min(320px, calc(100vw - 70px));
+    --time-col-width: 50px;
   }
 }
 
@@ -19,8 +19,16 @@
   margin-bottom: 0;
   white-space: nowrap;
   position: relative;
-  height: calc(100vh - 180px);
+  flex: 1;
+  min-height: 0;
   overscroll-behavior: contain;
+}
+
+@media (max-width: 768px) {
+  .scroller {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .calendar-container {
@@ -39,6 +47,12 @@
   z-index: var(--z-time-column);
   background: #fcfcfd;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .time-guide-column {
+    scroll-snap-align: start;
+  }
 }
 
 .calendar-header {
@@ -83,7 +97,10 @@
   border-right: 1px solid #e5e7eb !important;
   border-bottom: none;
   padding: 4px 8px;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 /* Location Columns */
@@ -93,6 +110,13 @@
   max-width: var(--col-width);
   flex-shrink: 0;
   background: #fff;
+}
+
+@media (max-width: 768px) {
+  .location-column {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
 }
 
 .location-column:last-child {
@@ -108,9 +132,10 @@
 
 @media (max-width: 768px) {
   .linear-column {
-    width: calc(100vw - var(--time-col-width) - 40px);
-    min-width: calc(100vw - var(--time-col-width) - 40px);
-    max-width: calc(100vw - var(--time-col-width) - 40px);
+    width: min(320px, calc(100vw - var(--time-col-width) - 40px));
+    min-width: min(320px, calc(100vw - var(--time-col-width) - 40px));
+    max-width: min(320px, calc(100vw - var(--time-col-width) - 40px));
+    scroll-snap-align: start;
   }
 }
 
@@ -141,9 +166,12 @@
 
 .session-wrapper:hover {
   overflow: visible;
-  height: max-content !important;
   z-index: var(--z-session-hover);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.session-wrapper:not(.general-event-session-wrapper):hover {
+  height: max-content !important;
 }
 
 /* Linear view session styling */
@@ -221,8 +249,9 @@
   }
 
   .time-marker {
-    font-size: 0.7rem;
-    padding: 2px 4px;
+    font-size: 0.6rem;
+    padding: 2px 1px;
+    line-height: 1.2;
   }
 
   .empty-selected-cell {

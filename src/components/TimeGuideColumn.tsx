@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { type ScheduleData } from '../types/schedule'
 import { formatMinutesToTime } from '../utils/scheduleTableUtils'
 import TableLabelButton from './TableLabelButton'
@@ -24,6 +24,18 @@ const TimeGuideColumn: React.FC<TimeGuideColumnProps> = ({
   onTimeMarkerClick,
   dayData,
 }) => {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   return (
     <div className="time-guide-column">
       <div className="calendar-header" />
@@ -42,7 +54,7 @@ const TimeGuideColumn: React.FC<TimeGuideColumnProps> = ({
             title="View all sessions at this time"
             aria-label={`View all sessions at ${formatMinutesToTime(time)}`}
           >
-            {formatMinutesToTime(time)}
+            {formatMinutesToTime(time, isMobile)}
           </TableLabelButton>
         ))}
       </div>

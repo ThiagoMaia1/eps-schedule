@@ -36,6 +36,7 @@ interface SessionDataRow {
   start_time: string
   end_time: string
   location?: string
+  locationObject?: Location
   event_type?: string
   speaker?: string
   affiliation?: string
@@ -181,6 +182,7 @@ export const parseScheduleData = (): ScheduleData[] => {
         start_time: event.startTime,
         end_time: event.endTime,
         location: formatLocation(event.location),
+        locationObject: event.location,
         event_type: event.eventType,
         speaker: event.speaker?.name,
         affiliation: event.speaker?.affiliation,
@@ -326,6 +328,7 @@ const transformSessionDataToScheduleData = (
             speakers: row.speakers || undefined,
             theme: row.theme || undefined,
             eventType: row.event_type || undefined,
+            location: row.locationObject || undefined,
             originalTime: row.orig_time_if_moved || undefined,
             startTime: row.start_time,
             endTime: row.end_time,

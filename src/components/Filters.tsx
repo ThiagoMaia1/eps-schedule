@@ -31,6 +31,8 @@ interface FiltersProps {
   onToggleHideSpecialEvents: () => void
   linearView: boolean
   onToggleLinearView: () => void
+  showGeneralEventsInColumns: boolean
+  onToggleGeneralEventsInColumns: () => void
   tracks: string[]
   activeTrack: string | null
   onTrackChange: (track: string | null) => void
@@ -70,6 +72,8 @@ const Filters: React.FC<FiltersProps> = ({
   onToggleHideSpecialEvents,
   linearView,
   onToggleLinearView,
+  showGeneralEventsInColumns,
+  onToggleGeneralEventsInColumns,
   tracks,
   activeTrack,
   onTrackChange,
@@ -181,6 +185,13 @@ const Filters: React.FC<FiltersProps> = ({
             >
               Hide Special Events
             </span>
+            <span
+              style={{ display: 'none' }}
+              className={`btn ${showGeneralEventsInColumns ? 'active' : ''}`}
+              onClick={onToggleGeneralEventsInColumns}
+            >
+              General Events in Columns
+            </span>
             {searchText && (
               <span className="btn active" onClick={() => onSearchChange('')}>
                 Search: {searchText}
@@ -246,7 +257,17 @@ const Filters: React.FC<FiltersProps> = ({
           To select a session, click the session card. Your selections will
           persist if you refresh the page. Sessions under the{' '}
           <strong>Evangelical Philosophical Society</strong> are shaded light
-          blue.
+          blue.{' '}
+          {typeof window !== 'undefined' &&
+          'ontouchstart' in window &&
+          navigator.maxTouchPoints > 0 ? (
+            <>Use pinch-to-zoom to adjust the schedule view.</>
+          ) : (
+            <>
+              Use <strong>Ctrl/Cmd + Mouse Wheel</strong> to zoom in and out of
+              the schedule.
+            </>
+          )}
         </div>
       </div>
     </div>

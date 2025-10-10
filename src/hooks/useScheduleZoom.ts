@@ -10,7 +10,7 @@ interface UseScheduleZoomOptions {
 
 export const useScheduleZoom = (options: UseScheduleZoomOptions = {}) => {
   const {
-    minZoom = 1,
+    minZoom = 2.5,
     maxZoom = 10,
     defaultZoom = 4,
     zoomStep = 0.5,

@@ -24,6 +24,7 @@ function App() {
     hideGeneralEvents,
     hideSpecialEvents,
     linearView,
+    showGeneralEventsInColumns,
     selectedSessions,
     isSessionsLoaded,
     setActiveLocation,
@@ -39,6 +40,7 @@ function App() {
     handleToggleHideGeneralEvents,
     handleToggleHideSpecialEvents,
     handleToggleLinearView,
+    handleToggleGeneralEventsInColumns,
     handleToggleSessionSelection,
     handleCopySelectedSessions,
     handleImportValidatedSessions,
@@ -168,6 +170,8 @@ function App() {
           onToggleHideSpecialEvents={handleToggleHideSpecialEvents}
           linearView={linearView}
           onToggleLinearView={handleToggleLinearView}
+          showGeneralEventsInColumns={showGeneralEventsInColumns}
+          onToggleGeneralEventsInColumns={handleToggleGeneralEventsInColumns}
           tracks={allTracks}
           activeTrack={activeTrack}
           onTrackChange={setActiveTrack}
@@ -196,6 +200,7 @@ function App() {
           hideGeneralEvents={hideGeneralEvents}
           hideSpecialEvents={hideSpecialEvents}
           linearView={linearView}
+          showGeneralEventsInColumns={showGeneralEventsInColumns}
           selectedSessions={selectedSessions}
           onToggleSelection={handleToggleSessionSelection}
           onLocationChange={setActiveLocation}

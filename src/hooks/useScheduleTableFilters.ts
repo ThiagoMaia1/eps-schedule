@@ -234,6 +234,7 @@ export const useScheduleTableFilters = (
   )
 
   // Check if there are any visible sessions across all days
+  // For regular view, only count locations that have non-general/special events
   const hasAnyVisibleSessions = useCallback(
     (scheduleData: ScheduleData[], linearView: boolean): boolean => {
       return scheduleData.some((dayData) => {
@@ -242,7 +243,11 @@ export const useScheduleTableFilters = (
         } else {
           const visibleLocations = dayData.locations.filter((location) => {
             if (!isLocationVisible(location)) return false
-            return getAllSessions(dayData, location).length > 0
+            const sessions = getAllSessions(dayData, location)
+            // Only count if there's at least one non-general/special event
+            return sessions.some(
+              (session) => !session.isGeneralEvent && !session.isSpecialEvent
+            )
           })
           return visibleLocations.length > 0
         }

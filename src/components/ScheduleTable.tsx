@@ -26,6 +26,7 @@ interface ScheduleTableProps {
   hideGeneralEvents: boolean
   hideSpecialEvents: boolean
   linearView: boolean
+  showGeneralEventsInColumns: boolean
   selectedSessions: Set<string>
   onToggleSelection: (sessionId: string) => void
   onLocationChange: (location: string | null) => void
@@ -45,6 +46,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   hideGeneralEvents,
   hideSpecialEvents,
   linearView,
+  showGeneralEventsInColumns,
   selectedSessions,
   onToggleSelection,
   onLocationChange,
@@ -136,6 +138,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
 
   // Calculate unified visible locations across all days for regular view
   // A location should be shown if it has visible sessions on ANY day
+  // Exclude locations that only have general/special events (unless showGeneralEventsInColumns is true)
   const unifiedVisibleLocations = React.useMemo(() => {
     if (linearView) return [] // Not needed for linear view
 
@@ -155,7 +158,17 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
 
       // Check if this location has visible sessions on any day
       const hasSessionsOnAnyDay = scheduleData.some((dayData) => {
-        return getAllSessions(dayData, location).length > 0
+        const sessions = getAllSessions(dayData, location)
+
+        // If showing general events in columns, include locations with any sessions
+        if (showGeneralEventsInColumns) {
+          return sessions.length > 0
+        }
+
+        // Otherwise, only include if there's at least one non-general/special event
+        return sessions.some(
+          (session) => !session.isGeneralEvent && !session.isSpecialEvent
+        )
       })
 
       if (hasSessionsOnAnyDay) {
@@ -181,7 +194,13 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     }
 
     return orderedLocations
-  }, [scheduleData, linearView, isLocationVisible, getAllSessions])
+  }, [
+    scheduleData,
+    linearView,
+    isLocationVisible,
+    getAllSessions,
+    showGeneralEventsInColumns,
+  ])
 
   // Check if there are any visible sessions across all days
   const hasVisibleSessions = hasAnyVisibleSessions(scheduleData, linearView)
@@ -274,6 +293,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
               onTimeMarkerClick={handleTimeMarkerClick}
               getAllSessions={getAllSessions}
               isEntryVisible={isEntryVisible}
+              showGeneralEventsInColumns={showGeneralEventsInColumns}
             />
           )
         })}

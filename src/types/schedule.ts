@@ -11,6 +11,11 @@ export interface ScheduleEntry {
   speakers?: Speaker[] // Array of speakers for panel discussions
   theme?: string
   eventType?: string // For general events: "Morning Prayer", "Lunch", "ETS Plenary Session I", etc.
+  location?: {
+    hotel: string
+    floor: string
+    room: string
+  }
   originalTime?: string
   startTime: string // Start time of the session (e.g., "9:00 AM")
   endTime: string // End time of the session (e.g., "9:40 AM")

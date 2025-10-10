@@ -1,5 +1,11 @@
 .app-container {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
     sans-serif;
   margin: 0;
   padding: 24px;
@@ -7,7 +13,8 @@
   line-height: 1.35;
   display: flex;
   flex-direction: column;
-  max-height: 99vh;
+  height: 99vh;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {

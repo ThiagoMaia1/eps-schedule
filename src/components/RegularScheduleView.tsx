@@ -32,6 +32,7 @@ interface RegularScheduleViewProps {
   ) => void
   getAllSessions: (dayData: ScheduleData, location: string) => ScheduleEntry[]
   isEntryVisible: (entry: ScheduleEntry, dayData?: ScheduleData) => boolean
+  showGeneralEventsInColumns: boolean
 }
 
 const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
@@ -50,6 +51,7 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
   onTimeMarkerClick,
   getAllSessions,
   isEntryVisible,
+  showGeneralEventsInColumns,
 }) => {
   return (
     <DayContainer dayTitle={dayData.day}>
@@ -113,6 +115,45 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                     }}
                   />
                 ))}
+
+                {/* Show general events in this column if the option is enabled */}
+                {showGeneralEventsInColumns &&
+                  !showOnlySelected &&
+                  !searchText.trim() &&
+                  sessions
+                    .filter((entry) => entry.isGeneralEvent)
+                    .map((entry, entryIndex) => {
+                      const duration = entry.endMinutes - entry.startMinutes
+                      const top =
+                        (entry.startMinutes - minTime) * pixelsPerMinute
+                      const height = duration * pixelsPerMinute
+
+                      return (
+                        <div
+                          key={`general-${entryIndex}`}
+                          className="session-wrapper general-event-session-wrapper"
+                          style={{
+                            position: 'absolute',
+                            top: `${top}px`,
+                            height: `${height}px`,
+                            minHeight: `${height}px`,
+                            left: '5px',
+                            right: '5px',
+                            zIndex: 10,
+                            width: 'calc(100% - 10px)',
+                          }}
+                        >
+                          <GeneralEventCard
+                            entry={entry}
+                            searchText={searchText}
+                            top={0}
+                            height={height}
+                            visibleColumnsCount={1}
+                            isInPopup={true}
+                          />
+                        </div>
+                      )
+                    })}
 
                 {/* Shift/Moderator blocks with their sessions as children */}
                 {/* Hide track blocks when filtering by selected or search */}
@@ -189,9 +230,37 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                     const top = (entry.startMinutes - minTime) * pixelsPerMinute
                     const height = duration * pixelsPerMinute
 
-                    // Special handling for general events and plenary/presidential
+                    // Handle general events based on showGeneralEventsInColumns setting
                     if (entry.isGeneralEvent) {
-                      return null // We'll handle these separately
+                      // If showing general events in columns, render them here
+                      if (showGeneralEventsInColumns) {
+                        return (
+                          <div
+                            key={entryIndex}
+                            className="session-wrapper general-event-session-wrapper"
+                            style={{
+                              position: 'absolute',
+                              top: `${top}px`,
+                              height: `${height}px`,
+                              minHeight: `${height}px`,
+                              left: '5px',
+                              right: '5px',
+                              zIndex: 10,
+                              width: 'calc(100% - 10px)',
+                            }}
+                          >
+                            <GeneralEventCard
+                              entry={entry}
+                              searchText={searchText}
+                              top={0}
+                              height={height}
+                              visibleColumnsCount={1}
+                              isInPopup={true}
+                            />
+                          </div>
+                        )
+                      }
+                      return null // Otherwise, handle separately as full-width banner
                     }
 
                     return (
@@ -223,32 +292,33 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
         })}
       </div>
 
-      {/* General Events (full-width) */}
-      {dayData.timeSlots.map((slot, slotIndex) => {
-        const allEntries = Object.values(slot.sessions).flat()
-        const generalEvent = allEntries.find(
-          (entry) => entry.isGeneralEvent && isEntryVisible(entry, dayData)
-        )
-
-        if (generalEvent) {
-          const duration = generalEvent.endMinutes - generalEvent.startMinutes
-          const top = (generalEvent.startMinutes - minTime) * pixelsPerMinute
-          const height = duration * pixelsPerMinute
-
-          return (
-            <GeneralEventCard
-              key={`general-${slotIndex}`}
-              entry={generalEvent}
-              searchText={searchText}
-              top={top}
-              height={height}
-              visibleColumnsCount={visibleLocations.length}
-            />
+      {/* General Events (full-width) - only render if NOT showing in columns */}
+      {!showGeneralEventsInColumns &&
+        dayData.timeSlots.map((slot, slotIndex) => {
+          const allEntries = Object.values(slot.sessions).flat()
+          const generalEvent = allEntries.find(
+            (entry) => entry.isGeneralEvent && isEntryVisible(entry, dayData)
           )
-        }
 
-        return null
-      })}
+          if (generalEvent) {
+            const duration = generalEvent.endMinutes - generalEvent.startMinutes
+            const top = (generalEvent.startMinutes - minTime) * pixelsPerMinute
+            const height = duration * pixelsPerMinute
+
+            return (
+              <GeneralEventCard
+                key={`general-${slotIndex}`}
+                entry={generalEvent}
+                searchText={searchText}
+                top={top}
+                height={height}
+                visibleColumnsCount={visibleLocations.length}
+              />
+            )
+          }
+
+          return null
+        })}
     </DayContainer>
   )
 }

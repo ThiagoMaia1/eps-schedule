@@ -4,6 +4,10 @@
   padding: 12px 14px;
   border-radius: 8px;
   flex-shrink: 0;
+  max-height: 50vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .filter-toggle {
@@ -17,11 +21,11 @@
   font-size: 0.95em;
   font-weight: 600;
   cursor: pointer;
-  margin-bottom: 12px;
   text-align: center;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 
 .filter-toggle:not(.collapsed) {
@@ -163,11 +167,6 @@
   margin-top: 8px;
   font-size: 0.9em;
   color: #4b5563;
-}
-
-.red {
-  color: #b91c1c;
-  font-weight: 700;
 }
 
 @media (max-width: 1024px) {

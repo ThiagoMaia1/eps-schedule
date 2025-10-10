@@ -52,6 +52,7 @@ interface FilterQueryParams extends Record<string, string> {
   hideGeneral: string
   hideSpecial: string
   linear: string
+  generalInColumns: string
 }
 
 export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
@@ -98,6 +99,9 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
   // hideSpecialEvents defaults to true when not set, only false when explicitly set to 'false'
   const hideSpecialEvents = queryParams.hideSpecial === 'false' ? false : true
   const linearView = stringToBoolean(queryParams.linear)
+  const showGeneralEventsInColumns = stringToBoolean(
+    queryParams.generalInColumns
+  )
 
   // Load selected sessions from localStorage on mount and clean up invalid ones
   useEffect(() => {
@@ -311,6 +315,18 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     })
   }, [linearView, setQueryParams])
 
+  const handleToggleGeneralEventsInColumns = useCallback(() => {
+    setQueryParams((prev) => {
+      const newParams = { ...prev }
+      if (!showGeneralEventsInColumns) {
+        newParams.generalInColumns = 'true'
+      } else {
+        delete newParams.generalInColumns
+      }
+      return newParams
+    })
+  }, [showGeneralEventsInColumns, setQueryParams])
+
   const handleToggleSessionSelection = useCallback(
     (sessionId: string) => {
       // Skip history update if this is an undo/redo action
@@ -464,6 +480,7 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     hideGeneralEvents,
     hideSpecialEvents,
     linearView,
+    showGeneralEventsInColumns,
     selectedSessions,
     isSessionsLoaded,
 
@@ -486,6 +503,7 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     handleToggleHideGeneralEvents,
     handleToggleHideSpecialEvents,
     handleToggleLinearView,
+    handleToggleGeneralEventsInColumns,
     handleToggleSessionSelection,
 
     // Import/Export handlers

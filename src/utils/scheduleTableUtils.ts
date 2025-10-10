@@ -1,11 +1,20 @@
 import { type ScheduleData, type ScheduleEntry } from '../types/schedule'
 
 // Format minutes to time string
-export const formatMinutesToTime = (minutes: number): string => {
+export const formatMinutesToTime = (
+  minutes: number,
+  compact: boolean = false
+): string => {
   const hours = Math.floor(minutes / 60)
   const mins = minutes % 60
   const period = hours >= 12 ? 'PM' : 'AM'
   const displayHours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours
+
+  // In compact mode, omit :00 for on-the-hour times
+  if (compact && mins === 0) {
+    return `${displayHours} ${period}`
+  }
+
   return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`
 }
 
