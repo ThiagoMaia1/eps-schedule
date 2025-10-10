@@ -60,6 +60,22 @@
 
 /* Mobile responsive */
 @media (max-width: 768px) {
+  .search-input-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .search-input-label {
+    flex-shrink: 0;
+    width: 60px;
+    font-size: 0.75rem;
+  }
+
+  .search-input-wrapper {
+    flex: 1;
+  }
+
   .search-input-field {
     padding: 0.5rem 2.5rem 0.5rem 2.5rem;
     font-size: 0.875rem;

@@ -11,6 +11,8 @@
 }
 
 .scroller {
+  max-height: calc(100vh - 140px);
+  min-height: calc(100vh - 140px);
   overflow-x: auto;
   overflow-y: auto;
   border: 1px solid #e5e7eb;
@@ -20,7 +22,6 @@
   white-space: nowrap;
   position: relative;
   flex: 1;
-  min-height: 0;
   overscroll-behavior: contain;
 }
 
@@ -28,6 +29,7 @@
   .scroller {
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    scroll-padding-left: var(--time-col-width);
   }
 }
 
@@ -51,7 +53,7 @@
 
 @media (max-width: 768px) {
   .time-guide-column {
-    scroll-snap-align: start;
+    /* No scroll-snap-align - time column should not be a snap point */
   }
 }
 

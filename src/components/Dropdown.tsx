@@ -46,7 +46,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const customStyles: StylesConfig<OptionType, false> = {
     control: (provided, state) => ({
       ...provided,
-      padding: '0.125rem 0.375rem',
+      padding: 0,
       fontSize: '0.9375rem',
       border: state.isFocused ? '2px solid #3b82f6' : '2px solid #e5e7eb',
       borderRadius: '0.5rem',

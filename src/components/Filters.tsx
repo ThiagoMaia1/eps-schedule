@@ -3,6 +3,7 @@ import {
   MdSwapHoriz,
   MdKeyboardArrowDown,
   MdKeyboardArrowUp,
+  MdInfoOutline,
 } from 'react-icons/md'
 import Dropdown from './Dropdown'
 import SearchInput from './SearchInput'
@@ -94,6 +95,7 @@ const Filters: React.FC<FiltersProps> = ({
     return typeof window !== 'undefined' && window.innerWidth < 768
   })
   const [isImportExportOpen, setIsImportExportOpen] = useState(false)
+  const [showLegendTooltip, setShowLegendTooltip] = useState(false)
 
   // Update collapsed state on window resize
   useEffect(() => {
@@ -105,6 +107,13 @@ const Filters: React.FC<FiltersProps> = ({
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  // Close tooltip when panel is collapsed
+  useEffect(() => {
+    if (isPanelCollapsed) {
+      setShowLegendTooltip(false)
+    }
+  }, [isPanelCollapsed])
 
   return (
     <div className="summary">
@@ -129,12 +138,48 @@ const Filters: React.FC<FiltersProps> = ({
       <div className={`filter-content ${isPanelCollapsed ? 'collapsed' : ''}`}>
         <div className="controls-wrapper">
           <div className="controls">
-            <span
-              className={`btn ${showOnlySelected ? 'active' : ''}`}
-              onClick={onToggleSelected}
-            >
-              Only selected sessions
-            </span>
+            <div className="only-selected-container">
+              <button
+                className="info-icon-button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setShowLegendTooltip(!showLegendTooltip)
+                }}
+                aria-label="Show help information"
+              >
+                <MdInfoOutline />
+              </button>
+              <span
+                className={`btn ${showOnlySelected ? 'active' : ''}`}
+                onClick={onToggleSelected}
+              >
+                Only selected sessions
+              </span>
+              {showLegendTooltip && (
+                <>
+                  <div
+                    className="legend-tooltip-backdrop"
+                    onClick={() => setShowLegendTooltip(false)}
+                  />
+                  <div className="legend-tooltip">
+                    To select a session, click the session card. Your selections
+                    will persist if you refresh the page. Sessions under the{' '}
+                    <strong>Evangelical Philosophical Society</strong> are
+                    shaded light blue.{' '}
+                    {typeof window !== 'undefined' &&
+                    'ontouchstart' in window &&
+                    navigator.maxTouchPoints > 0 ? (
+                      <>Use pinch-to-zoom to adjust the schedule view.</>
+                    ) : (
+                      <>
+                        Use <strong>Ctrl/Cmd + Mouse Wheel</strong> to zoom in
+                        and out of the schedule.
+                      </>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
             {showOnlySelected && (
               <span
                 className={`btn ${linearView ? 'active' : ''}`}

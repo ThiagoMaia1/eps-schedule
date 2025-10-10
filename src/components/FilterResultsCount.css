@@ -114,8 +114,47 @@
 }
 
 @media (max-width: 640px) {
+  .totals-info {
+    padding: 10px 12px;
+  }
+
   .totals-comparison {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .totals-metric {
+    gap: 6px;
+  }
+
+  .metric-header {
+    gap: 6px;
+  }
+
+  .metric-icon {
+    font-size: 1.1em;
+    width: 1.1em;
+    height: 1.1em;
+  }
+
+  .metric-label {
+    font-size: 0.85em;
+  }
+
+  /* Hide the progress bar on mobile */
+  .metric-bar {
+    display: none;
+  }
+
+  .metric-numbers {
+    font-size: 0.95em;
+  }
+
+  .metric-showing {
+    font-size: 0.75em;
+  }
+
+  .metric-filtered {
+    font-size: 1.1em;
   }
 }
