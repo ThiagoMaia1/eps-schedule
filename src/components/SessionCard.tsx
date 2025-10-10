@@ -99,11 +99,9 @@ const SessionCard: React.FC<SessionCardProps> = ({
         <div className="track">{highlightText(entry.track, searchText)}</div>
       )}
       {moderator && (
-        <div className="moderator-info">
-          <div className="moderator-label">Moderator:</div>
-          <div className="moderator-name">
-            {highlightText(moderator.name, searchText)}
-          </div>
+        <div className="speaker">
+          <span className="session-tag moderator-tag">Moderator</span>
+          {highlightText(moderator.name, searchText)}
         </div>
       )}
     </div>

@@ -23,7 +23,8 @@ interface ScheduleTableProps {
   showOnlyCopleyPlace: boolean
   showOnlySheraton: boolean
   showOnlyGeneralEvents: boolean
-  showOnlySpecialEvents: boolean
+  hideGeneralEvents: boolean
+  hideSpecialEvents: boolean
   linearView: boolean
   selectedSessions: Set<string>
   onToggleSelection: (sessionId: string) => void
@@ -41,7 +42,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   showOnlyCopleyPlace,
   showOnlySheraton,
   showOnlyGeneralEvents,
-  showOnlySpecialEvents,
+  hideGeneralEvents,
+  hideSpecialEvents,
   linearView,
   selectedSessions,
   onToggleSelection,
@@ -68,7 +70,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     showOnlyCopleyPlace,
     showOnlySheraton,
     showOnlyGeneralEvents,
-    showOnlySpecialEvents,
+    hideGeneralEvents,
+    hideSpecialEvents,
     selectedSessions,
   })
 

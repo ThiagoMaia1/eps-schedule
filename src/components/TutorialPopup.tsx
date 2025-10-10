@@ -10,15 +10,24 @@ const TUTORIAL_DISMISSED_KEY = 'tutorialDismissed'
 
 interface TutorialPopupProps {
   selectedSessionsCount: number
+  isSessionsLoaded: boolean
 }
 
 const TutorialPopup: React.FC<TutorialPopupProps> = ({
   selectedSessionsCount,
+  isSessionsLoaded,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [dontShowAgain, setDontShowAgain] = useState(false)
+  const [allSlidesVisited, setAllSlidesVisited] = useState(false)
+  const [goToNextSlide, setGoToNextSlide] = useState<(() => void) | null>(null)
 
   useEffect(() => {
+    // Don't show tutorial until sessions are loaded from localStorage
+    if (!isSessionsLoaded) {
+      return
+    }
+
     // Check if user has sessions or has dismissed the tutorial
     const tutorialDismissed = localStorage.getItem(TUTORIAL_DISMISSED_KEY)
 
@@ -27,13 +36,26 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
     } else {
       setIsOpen(false)
     }
-  }, [selectedSessionsCount])
+  }, [selectedSessionsCount, isSessionsLoaded])
 
   const handleClose = () => {
+    // Don't allow closing if not all slides have been visited
+    if (!allSlidesVisited) {
+      return
+    }
+
     if (dontShowAgain) {
       localStorage.setItem(TUTORIAL_DISMISSED_KEY, 'true')
     }
     setIsOpen(false)
+  }
+
+  const handleButtonClick = () => {
+    if (allSlidesVisited) {
+      handleClose()
+    } else if (goToNextSlide) {
+      goToNextSlide()
+    }
   }
 
   // Don't render any content if popup is not open
@@ -48,9 +70,13 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
       onClose={handleClose}
       title="Welcome! Here's how to use the schedule"
       maxWidth="900px"
+      showCloseButton={allSlidesVisited}
     >
       <div className="tutorial-popup">
-        <Slideshow>
+        <Slideshow
+          onAllSlidesVisited={setAllSlidesVisited}
+          onNextSlideCallback={(goToNext) => setGoToNextSlide(() => goToNext)}
+        >
           <div className="tutorial-slide">
             <div className="tutorial-description">
               <h3>Step 1: Select Sessions</h3>
@@ -105,8 +131,8 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
             />
             <span>Don't show this again</span>
           </label>
-          <button className="tutorial-button" onClick={handleClose}>
-            Got it!
+          <button className="tutorial-button" onClick={handleButtonClick}>
+            {allSlidesVisited ? 'Got it!' : 'Next'}
           </button>
         </div>
       </div>

@@ -3,12 +3,19 @@ import './Slideshow.css'
 
 interface SlideshowProps {
   children: React.ReactNode[]
+  onAllSlidesVisited?: (visited: boolean) => void
+  onNextSlideCallback?: (goToNext: () => void) => void
 }
 
-const Slideshow: React.FC<SlideshowProps> = ({ children }) => {
+const Slideshow: React.FC<SlideshowProps> = ({
+  children,
+  onAllSlidesVisited,
+  onNextSlideCallback,
+}) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [previousSlide, setPreviousSlide] = useState<number | null>(null)
   const [direction, setDirection] = useState<'left' | 'right'>('right')
+  const [visitedSlides, setVisitedSlides] = useState<Set<number>>(new Set([0]))
 
   const totalSlides = React.Children.count(children)
 
@@ -45,6 +52,24 @@ const Slideshow: React.FC<SlideshowProps> = ({ children }) => {
     setDirection('right')
     setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1))
   }
+
+  // Track visited slides and notify parent when all have been visited
+  useEffect(() => {
+    const updatedVisitedSlides = new Set(visitedSlides).add(currentSlide)
+    setVisitedSlides(updatedVisitedSlides)
+
+    if (onAllSlidesVisited) {
+      const allVisited = updatedVisitedSlides.size === totalSlides
+      onAllSlidesVisited(allVisited)
+    }
+  }, [currentSlide, totalSlides, onAllSlidesVisited])
+
+  // Provide the goToNext function to the parent
+  useEffect(() => {
+    if (onNextSlideCallback) {
+      onNextSlideCallback(goToNext)
+    }
+  }, [onNextSlideCallback, goToNext])
 
   if (totalSlides === 0) {
     return null

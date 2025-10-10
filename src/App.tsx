@@ -21,9 +21,11 @@ function App() {
     showOnlyCopleyPlace,
     showOnlySheraton,
     showOnlyGeneralEvents,
-    showOnlySpecialEvents,
+    hideGeneralEvents,
+    hideSpecialEvents,
     linearView,
     selectedSessions,
+    isSessionsLoaded,
     setActiveLocation,
     setActiveTrack,
     setSearchText,
@@ -34,7 +36,8 @@ function App() {
     handleToggleCopleyPlace,
     handleToggleSheraton,
     handleToggleGeneralEvents,
-    handleToggleSpecialEvents,
+    handleToggleHideGeneralEvents,
+    handleToggleHideSpecialEvents,
     handleToggleLinearView,
     handleToggleSessionSelection,
     handleCopySelectedSessions,
@@ -68,8 +71,9 @@ function App() {
       // Other filters
       if (showOnlySelected && !selectedSessions.has(entry.id)) return false
       if (showOnlyGeneralEvents && !entry.isGeneralEvent) return false
-      // Hide special events unless the filter is active
-      if (entry.isSpecialEvent && !showOnlySpecialEvents) return false
+      // Hide filters
+      if (entry.isGeneralEvent && hideGeneralEvents) return false
+      if (entry.isSpecialEvent && hideSpecialEvents) return false
       if (showOnlyEPS && !entry.isEPS && !entry.isGeneralEvent) return false
       if (showOnlyETS && entry.isEPS && !entry.isGeneralEvent) return false
       if (activeTrack && entry.track !== activeTrack) return false
@@ -132,7 +136,8 @@ function App() {
     showOnlyCopleyPlace,
     showOnlySheraton,
     showOnlyGeneralEvents,
-    showOnlySpecialEvents,
+    hideGeneralEvents,
+    hideSpecialEvents,
     selectedSessions,
   ])
 
@@ -157,8 +162,10 @@ function App() {
           onToggleSheraton={handleToggleSheraton}
           showOnlyGeneralEvents={showOnlyGeneralEvents}
           onToggleGeneralEvents={handleToggleGeneralEvents}
-          showOnlySpecialEvents={showOnlySpecialEvents}
-          onToggleSpecialEvents={handleToggleSpecialEvents}
+          hideGeneralEvents={hideGeneralEvents}
+          onToggleHideGeneralEvents={handleToggleHideGeneralEvents}
+          hideSpecialEvents={hideSpecialEvents}
+          onToggleHideSpecialEvents={handleToggleHideSpecialEvents}
           linearView={linearView}
           onToggleLinearView={handleToggleLinearView}
           tracks={allTracks}
@@ -186,7 +193,8 @@ function App() {
           showOnlyCopleyPlace={showOnlyCopleyPlace}
           showOnlySheraton={showOnlySheraton}
           showOnlyGeneralEvents={showOnlyGeneralEvents}
-          showOnlySpecialEvents={showOnlySpecialEvents}
+          hideGeneralEvents={hideGeneralEvents}
+          hideSpecialEvents={hideSpecialEvents}
           linearView={linearView}
           selectedSessions={selectedSessions}
           onToggleSelection={handleToggleSessionSelection}
@@ -194,7 +202,10 @@ function App() {
         />
       </div>
       <Footer />
-      <TutorialPopup selectedSessionsCount={selectedSessions.size} />
+      <TutorialPopup
+        selectedSessionsCount={selectedSessions.size}
+        isSessionsLoaded={isSessionsLoaded}
+      />
     </>
   )
 }

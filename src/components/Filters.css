@@ -19,6 +19,13 @@
   cursor: pointer;
   margin-bottom: 12px;
   text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.filter-toggle:not(.collapsed) {
+  margin-bottom: 12px;
 }
 
 .filter-toggle:hover {
@@ -43,7 +50,12 @@
   }
 
   .filter-toggle {
-    display: block;
+    display: flex;
+  }
+
+  .filter-content {
+    max-height: 0;
+    opacity: 0;
   }
 
   .filter-content:not(.collapsed) {

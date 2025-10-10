@@ -23,7 +23,8 @@ interface UseScheduleTableFiltersProps {
   showOnlyCopleyPlace: boolean
   showOnlySheraton: boolean
   showOnlyGeneralEvents: boolean
-  showOnlySpecialEvents: boolean
+  hideGeneralEvents: boolean
+  hideSpecialEvents: boolean
   selectedSessions: Set<string>
 }
 
@@ -40,7 +41,8 @@ export const useScheduleTableFilters = (
     showOnlyCopleyPlace,
     showOnlySheraton,
     showOnlyGeneralEvents,
-    showOnlySpecialEvents,
+    hideGeneralEvents,
+    hideSpecialEvents,
     selectedSessions,
   } = props
 
@@ -71,8 +73,9 @@ export const useScheduleTableFilters = (
     (entry: ScheduleEntry): boolean => {
       if (showOnlySelected && !selectedSessions.has(entry.id)) return false
       if (showOnlyGeneralEvents && !entry.isGeneralEvent) return false
-      // Hide special events unless the filter is active
-      if (entry.isSpecialEvent && !showOnlySpecialEvents) return false
+      // Hide filters
+      if (entry.isGeneralEvent && hideGeneralEvents) return false
+      if (entry.isSpecialEvent && hideSpecialEvents) return false
       if (showOnlyEPS && !entry.isEPS && !entry.isGeneralEvent) return false
       if (showOnlyETS && entry.isEPS && !entry.isGeneralEvent) return false
       if (activeTrack && entry.track !== activeTrack) return false
@@ -103,7 +106,8 @@ export const useScheduleTableFilters = (
     [
       showOnlySelected,
       showOnlyGeneralEvents,
-      showOnlySpecialEvents,
+      hideGeneralEvents,
+      hideSpecialEvents,
       showOnlyEPS,
       showOnlyETS,
       activeTrack,

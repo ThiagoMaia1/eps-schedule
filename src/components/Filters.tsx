@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { MdSwapHoriz } from 'react-icons/md'
+import {
+  MdSwapHoriz,
+  MdKeyboardArrowDown,
+  MdKeyboardArrowUp,
+} from 'react-icons/md'
 import Dropdown from './Dropdown'
 import SearchInput from './SearchInput'
 import ImportExportSessions from './ImportExportSessions'
@@ -21,8 +25,10 @@ interface FiltersProps {
   onToggleSheraton: () => void
   showOnlyGeneralEvents: boolean
   onToggleGeneralEvents: () => void
-  showOnlySpecialEvents: boolean
-  onToggleSpecialEvents: () => void
+  hideGeneralEvents: boolean
+  onToggleHideGeneralEvents: () => void
+  hideSpecialEvents: boolean
+  onToggleHideSpecialEvents: () => void
   linearView: boolean
   onToggleLinearView: () => void
   tracks: string[]
@@ -58,8 +64,10 @@ const Filters: React.FC<FiltersProps> = ({
   onToggleSheraton,
   showOnlyGeneralEvents,
   onToggleGeneralEvents,
-  showOnlySpecialEvents,
-  onToggleSpecialEvents,
+  hideGeneralEvents,
+  onToggleHideGeneralEvents,
+  hideSpecialEvents,
+  onToggleHideSpecialEvents,
   linearView,
   onToggleLinearView,
   tracks,
@@ -77,29 +85,41 @@ const Filters: React.FC<FiltersProps> = ({
   onImportValidatedSessions,
   scheduleData,
 }) => {
-  const [isPanelCollapsed, setIsPanelCollapsed] = useState(false)
+  // Initialize collapsed state based on window width to avoid flash on mobile
+  const [isPanelCollapsed, setIsPanelCollapsed] = useState(() => {
+    return typeof window !== 'undefined' && window.innerWidth < 768
+  })
   const [isImportExportOpen, setIsImportExportOpen] = useState(false)
 
-  // Collapse panel by default on mobile
+  // Update collapsed state on window resize
   useEffect(() => {
-    const checkMobile = () => {
+    const handleResize = () => {
       setIsPanelCollapsed(window.innerWidth < 768)
     }
 
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
+    window.addEventListener('resize', handleResize)
 
-    return () => window.removeEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   return (
     <div className="summary">
       <button
-        className="filter-toggle"
+        className={`filter-toggle ${isPanelCollapsed ? 'collapsed' : ''}`}
         onClick={() => setIsPanelCollapsed(!isPanelCollapsed)}
         aria-expanded={!isPanelCollapsed}
       >
-        {isPanelCollapsed ? '▼ Show Filters' : '▲ Hide Filters'}
+        {isPanelCollapsed ? (
+          <>
+            Show Filters
+            <MdKeyboardArrowDown size={20} />
+          </>
+        ) : (
+          <>
+            Hide Filters
+            <MdKeyboardArrowUp size={20} />
+          </>
+        )}
       </button>
 
       <div className={`filter-content ${isPanelCollapsed ? 'collapsed' : ''}`}>
@@ -109,7 +129,7 @@ const Filters: React.FC<FiltersProps> = ({
               className={`btn ${showOnlySelected ? 'active' : ''}`}
               onClick={onToggleSelected}
             >
-              Show only selected sessions
+              Only selected sessions
             </span>
             {showOnlySelected && (
               <span
@@ -123,37 +143,43 @@ const Filters: React.FC<FiltersProps> = ({
               className={`btn ${showOnlyETS ? 'active' : ''}`}
               onClick={onToggleETS}
             >
-              Show only ETS sessions
+              Only ETS sessions
             </span>
             <span
               className={`btn ${showOnlyEPS ? 'active' : ''}`}
               onClick={onToggleEPS}
             >
-              Show only EPS sessions
+              Only EPS sessions
             </span>
             <span
               className={`btn ${showOnlyCopleyPlace ? 'active' : ''}`}
               onClick={onToggleCopleyPlace}
             >
-              Copley Place
+              Only Copley Place
             </span>
             <span
               className={`btn ${showOnlySheraton ? 'active' : ''}`}
               onClick={onToggleSheraton}
             >
-              Sheraton
+              Only Sheraton
             </span>
             <span
               className={`btn ${showOnlyGeneralEvents ? 'active' : ''}`}
               onClick={onToggleGeneralEvents}
             >
-              General Events
+              Only General Events
             </span>
             <span
-              className={`btn ${showOnlySpecialEvents ? 'active' : ''}`}
-              onClick={onToggleSpecialEvents}
+              className={`btn ${hideGeneralEvents ? 'active' : ''}`}
+              onClick={onToggleHideGeneralEvents}
             >
-              Include Special Events
+              Hide General Events
+            </span>
+            <span
+              className={`btn ${hideSpecialEvents ? 'active' : ''}`}
+              onClick={onToggleHideSpecialEvents}
+            >
+              Hide Special Events
             </span>
             {searchText && (
               <span className="btn active" onClick={() => onSearchChange('')}>

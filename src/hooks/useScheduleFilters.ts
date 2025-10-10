@@ -49,7 +49,8 @@ interface FilterQueryParams extends Record<string, string> {
   copley: string
   sheraton: string
   general: string
-  special: string
+  hideGeneral: string
+  hideSpecial: string
   linear: string
 }
 
@@ -61,6 +62,7 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
   const [selectedSessions, setSelectedSessionsState] = useState<Set<string>>(
     new Set()
   )
+  const [isSessionsLoaded, setIsSessionsLoaded] = useState<boolean>(false)
 
   // Undo/Redo history
   const [history, setHistory] = useState<Set<string>[]>([])
@@ -83,50 +85,19 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
   }, [scheduleData])
 
   // Derive filter states from query params
-  const activeLocation = useMemo(
-    () => queryParams.location || null,
-    [queryParams.location]
-  )
-  const activeTrack = useMemo(
-    () => queryParams.track || null,
-    [queryParams.track]
-  )
-  const searchText = useMemo(
-    () => queryParams.search || '',
-    [queryParams.search]
-  )
-  const showOnlySelected = useMemo(
-    () => stringToBoolean(queryParams.selected),
-    [queryParams.selected]
-  )
-  const showOnlyEPS = useMemo(
-    () => stringToBoolean(queryParams.eps),
-    [queryParams.eps]
-  )
-  const showOnlyETS = useMemo(
-    () => stringToBoolean(queryParams.ets),
-    [queryParams.ets]
-  )
-  const showOnlyCopleyPlace = useMemo(
-    () => stringToBoolean(queryParams.copley),
-    [queryParams.copley]
-  )
-  const showOnlySheraton = useMemo(
-    () => stringToBoolean(queryParams.sheraton),
-    [queryParams.sheraton]
-  )
-  const showOnlyGeneralEvents = useMemo(
-    () => stringToBoolean(queryParams.general),
-    [queryParams.general]
-  )
-  const showOnlySpecialEvents = useMemo(
-    () => stringToBoolean(queryParams.special),
-    [queryParams.special]
-  )
-  const linearView = useMemo(
-    () => stringToBoolean(queryParams.linear),
-    [queryParams.linear]
-  )
+  const activeLocation = queryParams.location || null
+  const activeTrack = queryParams.track || null
+  const searchText = queryParams.search || ''
+  const showOnlySelected = stringToBoolean(queryParams.selected)
+  const showOnlyEPS = stringToBoolean(queryParams.eps)
+  const showOnlyETS = stringToBoolean(queryParams.ets)
+  const showOnlyCopleyPlace = stringToBoolean(queryParams.copley)
+  const showOnlySheraton = stringToBoolean(queryParams.sheraton)
+  const showOnlyGeneralEvents = stringToBoolean(queryParams.general)
+  const hideGeneralEvents = stringToBoolean(queryParams.hideGeneral)
+  // hideSpecialEvents defaults to true when not set, only false when explicitly set to 'false'
+  const hideSpecialEvents = queryParams.hideSpecial === 'false' ? false : true
+  const linearView = stringToBoolean(queryParams.linear)
 
   // Load selected sessions from localStorage on mount and clean up invalid ones
   useEffect(() => {
@@ -151,6 +122,8 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     // Initialize history with the cleaned state
     setHistory([validSelected])
     setHistoryIndex(0)
+    // Mark sessions as loaded
+    setIsSessionsLoaded(true)
   }, [getAllValidSessionIds])
 
   // Ensure linear view is only active when showing selected sessions
@@ -300,17 +273,31 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     })
   }, [showOnlyGeneralEvents, setQueryParams])
 
-  const handleToggleSpecialEvents = useCallback(() => {
+  const handleToggleHideGeneralEvents = useCallback(() => {
     setQueryParams((prev) => {
       const newParams = { ...prev }
-      if (!showOnlySpecialEvents) {
-        newParams.special = 'true'
+      if (!hideGeneralEvents) {
+        newParams.hideGeneral = 'true'
       } else {
-        delete newParams.special
+        delete newParams.hideGeneral
       }
       return newParams
     })
-  }, [showOnlySpecialEvents, setQueryParams])
+  }, [hideGeneralEvents, setQueryParams])
+
+  const handleToggleHideSpecialEvents = useCallback(() => {
+    setQueryParams((prev) => {
+      const newParams = { ...prev }
+      if (!hideSpecialEvents) {
+        // Turning on hide (default state) - remove param
+        delete newParams.hideSpecial
+      } else {
+        // Turning off hide (show special events) - explicitly set to 'false'
+        newParams.hideSpecial = 'false'
+      }
+      return newParams
+    })
+  }, [hideSpecialEvents, setQueryParams])
 
   const handleToggleLinearView = useCallback(() => {
     setQueryParams((prev) => {
@@ -474,9 +461,11 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     showOnlyCopleyPlace,
     showOnlySheraton,
     showOnlyGeneralEvents,
-    showOnlySpecialEvents,
+    hideGeneralEvents,
+    hideSpecialEvents,
     linearView,
     selectedSessions,
+    isSessionsLoaded,
 
     // Setters
     setActiveLocation,
@@ -494,7 +483,8 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     handleToggleCopleyPlace,
     handleToggleSheraton,
     handleToggleGeneralEvents,
-    handleToggleSpecialEvents,
+    handleToggleHideGeneralEvents,
+    handleToggleHideSpecialEvents,
     handleToggleLinearView,
     handleToggleSessionSelection,
 
