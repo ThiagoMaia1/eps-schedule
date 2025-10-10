@@ -22,7 +22,7 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
     // Check if user has sessions or has dismissed the tutorial
     const tutorialDismissed = localStorage.getItem(TUTORIAL_DISMISSED_KEY)
 
-    if (true || (selectedSessionsCount === 0 && !tutorialDismissed)) {
+    if (selectedSessionsCount === 0 && !tutorialDismissed) {
       setIsOpen(true)
     } else {
       setIsOpen(false)
