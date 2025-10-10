@@ -1,0 +1,35 @@
+:root {
+  /* Z-index layering system */
+  --z-day-header: 600; /* Day section headers - highest priority */
+  --z-time-column: 550; /* Sticky time guide column */
+  --z-header: 500; /* Column headers */
+  --z-time-header: 501; /* Time column header - slightly above other headers */
+  --z-shift-track-highlight: 400; /* Shift track highlight */
+  --z-session-hover: 100; /* Session cards on hover */
+  --z-session: 20; /* Session cards normal state */
+  --z-moderator-block: 10; /* Moderator shift blocks */
+  --z-background: 1; /* Background elements (grid lines, etc.) */
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: auto;
+}
+
+html,
+body {
+  width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}

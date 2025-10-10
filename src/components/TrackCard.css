@@ -1,0 +1,127 @@
+/* Main shift container that spans the entire shift duration */
+.shift-moderator-block {
+  background: #fff;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: var(--z-moderator-block);
+}
+
+/* Expand track block when a session inside is hovered */
+.shift-moderator-block:has(.session-wrapper:hover) {
+  overflow: visible;
+  z-index: calc(var(--z-moderator-block) + 1);
+}
+
+/* Right border using ::after so it gets clipped by the rounded border */
+.shift-moderator-block::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  background-color: #ffd700;
+  pointer-events: none;
+  z-index: var(--z-background);
+  height: 100%;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Track header styling - positioned at the top of the shift block */
+.track-header {
+  background: #fff;
+  padding: 6px 8px;
+  border-radius: 9px 9px 2px 2px;
+  pointer-events: none;
+  position: relative;
+  z-index: var(--z-background);
+}
+
+.track-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.track-text {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: 400;
+  color: #000;
+  line-height: 1.3;
+}
+
+.track-name {
+  font-weight: 400;
+  color: #000;
+}
+
+.track-subtheme {
+  font-weight: 400;
+  color: #333;
+}
+
+.track-info-icon {
+  color: #ffd700;
+  font-size: 18px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+}
+
+.track-info-icon:hover {
+  color: #ffed4e;
+  transform: scale(1.1);
+}
+
+/* Tooltip content styles */
+.moderator-tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 100%;
+}
+
+.tooltip-track-title {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 500;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.tooltip-label {
+  font-size: 11px;
+  color: #999;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.tooltip-moderator-name {
+  font-size: 14px;
+  color: #ffd700;
+  font-weight: 600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.tooltip-moderator-affiliation {
+  font-size: 12px;
+  color: #ccc;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}

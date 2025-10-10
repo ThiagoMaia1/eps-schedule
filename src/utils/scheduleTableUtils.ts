@@ -1,0 +1,61 @@
+import { type ScheduleData, type ScheduleEntry } from '../types/schedule'
+
+// Format minutes to time string
+export const formatMinutesToTime = (minutes: number): string => {
+  const hours = Math.floor(minutes / 60)
+  const mins = minutes % 60
+  const period = hours >= 12 ? 'PM' : 'AM'
+  const displayHours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours
+  return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`
+}
+
+// Calculate time range for a day
+export const getTimeRange = (
+  dayData: ScheduleData,
+  isEntryVisible: (entry: ScheduleEntry, dayData?: ScheduleData) => boolean
+) => {
+  let minTime = Infinity
+  let maxTime = -Infinity
+
+  dayData.timeSlots.forEach((slot) => {
+    Object.values(slot.sessions).forEach((entries) => {
+      entries.forEach((entry) => {
+        if (!isEntryVisible(entry, dayData)) return
+
+        if (entry.startMinutes < minTime) minTime = entry.startMinutes
+        if (entry.endMinutes > maxTime) maxTime = entry.endMinutes
+      })
+    })
+  })
+
+  // If no sessions, use a default range
+  if (minTime === Infinity || maxTime === -Infinity) {
+    minTime = 8 * 60 // 8:00 AM
+    maxTime = 18 * 60 // 6:00 PM
+  }
+
+  // Round to nearest hour
+  minTime = Math.floor(minTime / 60) * 60
+  maxTime = Math.ceil(maxTime / 60) * 60
+
+  return { minTime, maxTime }
+}
+
+// Generate hourly time markers
+export const generateTimeMarkers = (
+  minTime: number,
+  maxTime: number
+): number[] => {
+  const markers: number[] = []
+  for (let time = minTime; time < maxTime; time += 60) {
+    markers.push(time)
+  }
+  return markers
+}
+
+// Get hotel from location string
+export const getHotelFromLocation = (location: string): string | null => {
+  if (location.includes('Copley Place')) return 'Copley Place'
+  if (location.includes('Sheraton')) return 'Sheraton'
+  return null
+}

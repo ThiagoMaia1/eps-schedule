@@ -1,0 +1,39 @@
+.table-label-button {
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  font: inherit;
+  background: none;
+  text-align: left;
+  width: 100%;
+  background: #fcfcfd;
+  color: lightgrey;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #6b7280;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial;
+}
+
+.table-label-button:hover {
+  color: #3730a3;
+  background-color: #e0e7ff;
+}
+
+.table-label-button:active {
+  transform: scale(0.98);
+}
+
+.table-label-button.active {
+  background-color: #3730a3;
+  color: white;
+}
+
+.table-label-button.active:hover {
+  background-color: #312e81;
+}
