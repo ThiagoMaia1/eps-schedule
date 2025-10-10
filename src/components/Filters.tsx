@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { MdLayers, MdEventNote, MdSwapHoriz } from 'react-icons/md'
+import { MdSwapHoriz } from 'react-icons/md'
 import Dropdown from './Dropdown'
 import SearchInput from './SearchInput'
 import ImportExportSessions from './ImportExportSessions'
+import FilterResultsCount from './FilterResultsCount'
 import { type ScheduleData } from '../types/schedule'
 import './Filters.css'
 
@@ -192,65 +193,12 @@ const Filters: React.FC<FiltersProps> = ({
           />
         </div>
 
-        <div className="totals-info">
-          {filteredSessions !== totalSessions ||
-          filteredTracks !== totalTracks ? (
-            <div className="totals-comparison">
-              <div className="totals-metric">
-                <div className="metric-header">
-                  <MdLayers className="metric-icon" />
-                  <span className="metric-label">Tracks</span>
-                </div>
-                <div className="metric-values">
-                  <div className="metric-bar">
-                    <div
-                      className="metric-bar-fill filtered"
-                      style={{
-                        width: `${(filteredTracks / totalTracks) * 100}%`,
-                      }}
-                    />
-                  </div>
-                  <div className="metric-numbers">
-                    <span className="metric-showing">Showing</span>
-                    <span className="metric-filtered">{filteredTracks}</span>
-                    <span className="metric-separator">/</span>
-                    <span className="metric-total">{totalTracks}</span>
-                  </div>
-                </div>
-              </div>
-              <div className="totals-metric">
-                <div className="metric-header">
-                  <MdEventNote className="metric-icon" />
-                  <span className="metric-label">Sessions</span>
-                </div>
-                <div className="metric-values">
-                  <div className="metric-bar">
-                    <div
-                      className="metric-bar-fill filtered"
-                      style={{
-                        width: `${(filteredSessions / totalSessions) * 100}%`,
-                      }}
-                    />
-                  </div>
-                  <div className="metric-numbers">
-                    <span className="metric-showing">Showing</span>
-                    <span className="metric-filtered">{filteredSessions}</span>
-                    <span className="metric-separator">/</span>
-                    <span className="metric-total">{totalSessions}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="totals-simple">
-              <MdLayers className="metric-icon" />
-              <span className="totals-value">{totalTracks} tracks</span>
-              <span className="totals-separator">•</span>
-              <MdEventNote className="metric-icon" />
-              <span className="totals-value">{totalSessions} sessions</span>
-            </div>
-          )}
-        </div>
+        <FilterResultsCount
+          totalTracks={totalTracks}
+          totalSessions={totalSessions}
+          filteredTracks={filteredTracks}
+          filteredSessions={filteredSessions}
+        />
 
         <div className="filter-row">
           <SearchInput

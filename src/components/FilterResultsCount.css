@@ -1,0 +1,121 @@
+.totals-info {
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.9em;
+}
+
+.totals-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.totals-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-icon {
+  font-size: 1.3em;
+  width: 1.3em;
+  height: 1.3em;
+  color: #3730a3;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-label {
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.metric-values {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metric-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.metric-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4f46e5 0%, #3730a3 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  min-width: 2px;
+}
+
+.metric-numbers {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 1.05em;
+}
+
+.metric-showing {
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.metric-filtered {
+  color: #3730a3;
+  font-weight: 700;
+  font-size: 1.2em;
+}
+
+.metric-separator {
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.metric-total {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.totals-simple {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.totals-value {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.totals-separator {
+  color: #d1d5db;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .totals-comparison {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

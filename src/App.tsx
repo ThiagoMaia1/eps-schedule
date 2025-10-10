@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import Filters from './components/Filters'
 import ScheduleTable from './components/ScheduleTable'
 import Footer from './components/Footer'
+import TutorialPopup from './components/TutorialPopup'
 import { type ScheduleEntry } from './types/schedule'
 import { useScheduleFilters } from './hooks/useScheduleFilters'
 import { scheduleData } from './utils/scheduleParser'
@@ -41,8 +42,9 @@ function App() {
   } = useScheduleFilters(scheduleData)
 
   // Calculate total and filtered session and track counts
+  // Excludes general sessions from the count
   const { totalSessions, filteredSessions, filteredTracks } = useMemo(() => {
-    // Count all sessions
+    // Count all sessions (excluding general events)
     let total = 0
     let filtered = 0
     const filteredTrackSet = new Set<string>()
@@ -100,11 +102,14 @@ function App() {
       day.timeSlots.forEach((slot) => {
         Object.entries(slot.sessions).forEach(([location, entries]) => {
           entries.forEach((entry) => {
-            total++
-            if (isEntryVisible(entry, location)) {
-              filtered++
-              if (entry.track) {
-                filteredTrackSet.add(entry.track)
+            // Exclude general events from the count
+            if (!entry.isGeneralEvent) {
+              total++
+              if (isEntryVisible(entry, location)) {
+                filtered++
+                if (entry.track) {
+                  filteredTrackSet.add(entry.track)
+                }
               }
             }
           })
@@ -189,6 +194,7 @@ function App() {
         />
       </div>
       <Footer />
+      <TutorialPopup selectedSessionsCount={selectedSessions.size} />
     </>
   )
 }

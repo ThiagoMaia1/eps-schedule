@@ -23,35 +23,6 @@
   overscroll-behavior: contain;
 }
 
-.day-container {
-  display: block;
-  position: relative;
-  min-width: max-content;
-}
-
-.day-header {
-  margin: 0;
-  padding: 18px 12px 12px 12px;
-  display: block;
-  position: sticky;
-  top: 0;
-  left: 0;
-  background: #fff;
-  z-index: var(--z-day-header);
-  box-shadow: 0 2px 0 0 #e5e7eb;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1f2937;
-  width: 100%;
-}
-
-/* Calendar Grid Layout */
-.calendar-wrapper {
-  position: relative;
-  min-width: max-content;
-  background: #f8f8f8;
-}
-
 .calendar-container {
   display: flex;
   position: relative;
@@ -242,11 +213,6 @@
 }
 
 @media (max-width: 768px) {
-  .day-header {
-    font-size: 1.25rem;
-    padding: 12px 8px 8px 8px;
-  }
-
   .calendar-header {
     font-size: 0.85rem;
     padding: 8px 6px;

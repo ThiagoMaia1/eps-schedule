@@ -298,12 +298,12 @@ const ImportExportSessions: React.FC<ImportExportSessionsProps> = ({
         </div>
 
         <div className="popup-body">
-          <div className="import-export-instructions">
-            <p>
-              Use this tool to transfer your selected sessions between devices
-              or browsers. Export your selections as data, then import them on
-              another device.
-            </p>
+          <div>
+            Use this tool to transfer your selected sessions between devices or
+            browsers. Export your selections as data, then import them on
+            another device.
+            <br />
+            <br />
           </div>
 
           <div className="import-export-section">
@@ -348,6 +348,9 @@ const ImportExportSessions: React.FC<ImportExportSessionsProps> = ({
             <p className="section-description">
               Paste session data below to import and merge with your current
               selections.
+              <br /> <strong>Note:</strong> Invalid sessions will be
+              automatically filtered out. Sessions already selected will be
+              skipped.
             </p>
             <label className="input-label">Session Data:</label>
             <textarea
@@ -372,11 +375,6 @@ const ImportExportSessions: React.FC<ImportExportSessionsProps> = ({
               {message.text}
             </div>
           )}
-
-          <div className="import-export-note">
-            <strong>Note:</strong> Invalid sessions will be automatically
-            filtered out. Duplicate sessions (already selected) will be skipped.
-          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,36 @@
+.day-container {
+  display: block;
+  position: relative;
+  min-width: max-content;
+}
+
+.day-header {
+  margin: 0;
+  padding: 18px 12px 12px 12px;
+  display: block;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: #fff;
+  z-index: var(--z-day-header);
+  box-shadow: 0 2px 0 0 #e5e7eb;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  width: calc(100vw - 50px);
+}
+
+/* Calendar Grid Layout */
+.calendar-wrapper {
+  position: relative;
+  min-width: max-content;
+  background: #f8f8f8;
+}
+
+@media (max-width: 768px) {
+  .day-header {
+    font-size: 1.25rem;
+    padding: 12px 8px 8px 8px;
+    width: calc(100vw - 26px);
+  }
+}
