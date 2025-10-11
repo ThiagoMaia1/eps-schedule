@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import './Popup.css'
+import { usePopupStyles } from './Popup.styles'
 
 interface PopupProps {
   isOpen: boolean
@@ -18,6 +18,8 @@ const Popup: React.FC<PopupProps> = ({
   maxWidth = '600px',
   showCloseButton = true,
 }) => {
+  const { classes } = usePopupStyles()
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -39,9 +41,9 @@ const Popup: React.FC<PopupProps> = ({
   if (!isOpen) return null
 
   return (
-    <div className="popup-overlay" onClick={onClose}>
+    <div className={classes.popupOverlay} onClick={onClose}>
       <div
-        className="popup-content"
+        className={classes.popupContent}
         style={{ maxWidth }}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
@@ -49,15 +51,15 @@ const Popup: React.FC<PopupProps> = ({
         aria-labelledby={title ? 'popup-title' : undefined}
       >
         {(title || showCloseButton) && (
-          <div className="popup-header">
+          <div className={classes.popupHeader}>
             {title && (
-              <h2 id="popup-title" className="popup-title">
+              <h2 id="popup-title" className={classes.popupTitle}>
                 {title}
               </h2>
             )}
             {showCloseButton && (
               <button
-                className="popup-close-button"
+                className={classes.popupCloseButton}
                 onClick={onClose}
                 aria-label="Close popup"
                 type="button"
@@ -80,7 +82,7 @@ const Popup: React.FC<PopupProps> = ({
             )}
           </div>
         )}
-        <div className="popup-body">{children}</div>
+        <div className={classes.popupBody}>{children}</div>
       </div>
     </div>
   )

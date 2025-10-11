@@ -1,5 +1,5 @@
 import React from 'react'
-import './DayContainer.css'
+import { useDayContainerStyles } from './DayContainer.styles'
 
 interface DayContainerProps {
   dayTitle: string
@@ -7,10 +7,12 @@ interface DayContainerProps {
 }
 
 const DayContainer: React.FC<DayContainerProps> = ({ dayTitle, children }) => {
+  const { classes } = useDayContainerStyles()
+
   return (
-    <div className="day-container">
-      <h2 className="day-header">{dayTitle}</h2>
-      <div className="calendar-wrapper">{children}</div>
+    <div className={classes.dayContainer}>
+      <h2 className={classes.dayHeader}>{dayTitle}</h2>
+      <div className={classes.calendarWrapper}>{children}</div>
     </div>
   )
 }

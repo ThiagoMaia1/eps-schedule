@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './Slideshow.css'
+import { useSlideshowStyles } from './Slideshow.styles'
 
 interface SlideshowProps {
   children: React.ReactNode[]
@@ -17,6 +17,7 @@ const Slideshow: React.FC<SlideshowProps> = ({
   const [direction, setDirection] = useState<'left' | 'right'>('right')
   const [visitedSlides, setVisitedSlides] = useState<Set<number>>(new Set([0]))
 
+  const { classes, cx } = useSlideshowStyles()
   const totalSlides = React.Children.count(children)
 
   // Clear previous slide after animation completes
@@ -76,17 +77,17 @@ const Slideshow: React.FC<SlideshowProps> = ({
   }
 
   return (
-    <div className="slideshow">
-      <div className="slideshow-content">
+    <div className={classes.slideshow}>
+      <div className={classes.slideshowContent}>
         <button
-          className="slideshow-arrow slideshow-arrow-left"
+          className={cx(classes.slideshowArrow, classes.slideshowArrowLeft)}
           onClick={goToPrevious}
           aria-label="Previous slide"
         >
           ‹
         </button>
 
-        <div className="slideshow-slides">
+        <div className={classes.slideshowSlides}>
           {React.Children.map(children, (child, index) => {
             const isActive = index === currentSlide
             const isPrevious = index === previousSlide
@@ -94,11 +95,15 @@ const Slideshow: React.FC<SlideshowProps> = ({
 
             return (
               <div
-                className={`slideshow-slide ${
-                  isActive ? 'active' : ''
-                } ${isPrevious ? 'previous' : ''} ${
-                  isActive ? `slide-in-${direction}` : ''
-                } ${isPrevious ? `slide-out-${direction}` : ''}`}
+                className={cx(
+                  classes.slideshowSlide,
+                  isActive && classes.slideActive,
+                  isPrevious && classes.slidePrevious,
+                  isActive && direction === 'right' && classes.slideInRight,
+                  isPrevious && direction === 'right' && classes.slideOutLeft,
+                  isActive && direction === 'left' && classes.slideInLeft,
+                  isPrevious && direction === 'left' && classes.slideOutRight
+                )}
                 key={index}
                 style={{ display: shouldRender ? 'block' : 'none' }}
               >
@@ -109,7 +114,7 @@ const Slideshow: React.FC<SlideshowProps> = ({
         </div>
 
         <button
-          className="slideshow-arrow slideshow-arrow-right"
+          className={cx(classes.slideshowArrow, classes.slideshowArrowRight)}
           onClick={goToNext}
           aria-label="Next slide"
         >
@@ -117,13 +122,14 @@ const Slideshow: React.FC<SlideshowProps> = ({
         </button>
       </div>
 
-      <div className="slideshow-dots">
+      <div className={classes.slideshowDots}>
         {Array.from({ length: totalSlides }).map((_, index) => (
           <button
             key={index}
-            className={`slideshow-dot ${
-              index === currentSlide ? 'active' : ''
-            }`}
+            className={cx(
+              classes.slideshowDot,
+              index === currentSlide && classes.slideshowDotActive
+            )}
             onClick={() => goToSlide(index)}
             aria-label={`Go to slide ${index + 1}`}
           />

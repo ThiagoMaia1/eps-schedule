@@ -6,6 +6,7 @@
   --z-time-header: 501; /* Time column header - slightly above other headers */
   --z-shift-track-highlight: 400; /* Shift track highlight */
   --z-session-hover: 100; /* Session cards on hover */
+  --z-general-event: 30; /* General event banners - above sessions */
   --z-session: 20; /* Session cards normal state */
   --z-moderator-block: 10; /* Moderator shift blocks */
   --z-background: 1; /* Background elements (grid lines, etc.) */
@@ -23,18 +24,30 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: auto;
+  overflow: hidden;
 }
 
 html,
 body {
   width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 #root {
   width: 100%;
+  height: 100%;
+  overflow: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.react-select-container {
+  width: 100%;
 }

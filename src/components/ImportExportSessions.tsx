@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { MdContentCopy, MdFileUpload, MdClose } from 'react-icons/md'
+import { MdContentCopy, MdFileUpload } from 'react-icons/md'
 import { type ScheduleData } from '../types/schedule'
 import { getSelectedSessions } from '../utils/localStorage'
-import './ImportExportSessions.css'
+import { useImportExportSessionsStyles } from './ImportExportSessions.styles'
+import Popup from './Popup'
 
 interface ImportExportSessionsProps {
   selectedCount: number
@@ -269,6 +270,10 @@ const ImportExportSessions: React.FC<ImportExportSessionsProps> = ({
     }
   }
 
+  const { classes, cx } = useImportExportSessionsStyles({
+    messageType: message?.type,
+  })
+
   // Reset state when popup closes
   useEffect(() => {
     if (!isOpen) {
@@ -278,106 +283,87 @@ const ImportExportSessions: React.FC<ImportExportSessionsProps> = ({
     }
   }, [isOpen])
 
-  if (!isOpen) return null
-
   return (
-    <div className="popup-overlay" onClick={onClose}>
-      <div
-        className="popup-content import-export-popup"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="popup-header">
-          <h2 className="popup-title">Transfer Sessions</h2>
-          <button
-            className="popup-close-button"
-            onClick={onClose}
-            aria-label="Close popup"
-          >
-            <MdClose />
-          </button>
-        </div>
+    <Popup
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Transfer Sessions"
+      maxWidth="700px"
+    >
+      <div>
+        Use this tool to transfer your selected sessions between devices or
+        browsers. Export your selections as data, then import them on another
+        device.
+        <br />
+        <br />
+      </div>
 
-        <div className="popup-body">
-          <div>
-            Use this tool to transfer your selected sessions between devices or
-            browsers. Export your selections as data, then import them on
-            another device.
-            <br />
-            <br />
-          </div>
-
-          <div className="import-export-section">
-            <h3 className="section-title">Export Sessions</h3>
-            <p className="section-description">
-              Export your currently selected sessions ({selectedCount}{' '}
-              selected).
-            </p>
-            <button
-              className="import-export-btn export-btn"
-              onClick={handleExport}
-              disabled={selectedCount === 0}
-            >
-              <MdContentCopy className="btn-icon" />
-              Export Selected Sessions
-            </button>
-            {exportedData && (
-              <div className="export-output">
-                <div className="output-header">
-                  <label className="output-label">Exported Data:</label>
-                  <button
-                    className="copy-output-btn"
-                    onClick={handleCopyExported}
-                  >
-                    <MdContentCopy /> Copy
-                  </button>
-                </div>
-                <textarea
-                  className="export-textarea"
-                  value={exportedData}
-                  readOnly
-                  rows={6}
-                />
-              </div>
-            )}
-          </div>
-
-          <div className="import-export-divider" />
-
-          <div className="import-export-section">
-            <h3 className="section-title">Import Sessions</h3>
-            <p className="section-description">
-              Paste session data below to import and merge with your current
-              selections.
-              <br /> <strong>Note:</strong> Invalid sessions will be
-              automatically filtered out. Sessions already selected will be
-              skipped.
-            </p>
-            <label className="input-label">Session Data:</label>
+      <div className={classes.importExportSection}>
+        <h3 className={classes.sectionTitle}>Export Sessions</h3>
+        <p className={classes.sectionDescription}>
+          Export your currently selected sessions ({selectedCount} selected).
+        </p>
+        <button
+          className={cx(classes.importExportBtn, classes.exportBtn)}
+          onClick={handleExport}
+          disabled={selectedCount === 0}
+        >
+          <MdContentCopy className="btn-icon" />
+          Export Selected Sessions
+        </button>
+        {exportedData && (
+          <div className={classes.exportOutput}>
+            <div className={classes.outputHeader}>
+              <label className={classes.outputLabel}>Exported Data:</label>
+              <button
+                className={classes.copyOutputBtn}
+                onClick={handleCopyExported}
+              >
+                <MdContentCopy /> Copy
+              </button>
+            </div>
             <textarea
-              className="import-textarea"
-              value={importText}
-              onChange={(e) => setImportText(e.target.value)}
-              placeholder='Paste exported session data here (e.g., ["session1", "session2"])'
+              className={classes.exportTextarea}
+              value={exportedData}
+              readOnly
               rows={6}
             />
-            <button
-              className="import-export-btn import-btn"
-              onClick={handleImport}
-              disabled={!importText.trim()}
-            >
-              <MdFileUpload className="btn-icon" />
-              Import Sessions
-            </button>
           </div>
-
-          {message && (
-            <div className={`import-export-message ${message.type}`}>
-              {message.text}
-            </div>
-          )}
-        </div>
+        )}
       </div>
-    </div>
+
+      <div className={classes.importExportDivider} />
+
+      <div className={classes.importExportSection}>
+        <h3 className={classes.sectionTitle}>Import Sessions</h3>
+        <p className={classes.sectionDescription}>
+          Paste session data below to import and merge with your current
+          selections.
+          <br /> <strong>Note:</strong> Invalid sessions will be automatically
+          filtered out. Sessions already selected will be skipped.
+        </p>
+        <label className={classes.inputLabel}>Session Data:</label>
+        <textarea
+          className={classes.importTextarea}
+          value={importText}
+          onChange={(e) => setImportText(e.target.value)}
+          placeholder='Paste exported session data here (e.g., ["session1", "session2"])'
+          rows={6}
+        />
+        <button
+          className={cx(classes.importExportBtn, classes.importBtn)}
+          onClick={handleImport}
+          disabled={!importText.trim()}
+        >
+          <MdFileUpload className="btn-icon" />
+          Import Sessions
+        </button>
+      </div>
+
+      {message && (
+        <div className={classes.importExportMessage}>{message.text}</div>
+      )}
+    </Popup>
   )
 }
 

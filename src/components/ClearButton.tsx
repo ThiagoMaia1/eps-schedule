@@ -1,5 +1,5 @@
 import React from 'react'
-import './ClearButton.css'
+import { useClearButtonStyles } from './ClearButton.styles'
 
 interface ClearButtonProps {
   onClick: () => void
@@ -10,9 +10,11 @@ const ClearButton: React.FC<ClearButtonProps> = ({
   onClick,
   ariaLabel = 'Clear',
 }) => {
+  const { classes } = useClearButtonStyles()
+
   return (
     <button
-      className="clear-button"
+      className={classes.clearButton}
       onClick={onClick}
       aria-label={ariaLabel}
       type="button"

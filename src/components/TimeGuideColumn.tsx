@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { type ScheduleData } from '../types/schedule'
 import { formatMinutesToTime } from '../utils/scheduleTableUtils'
-import TableLabelButton from './TableLabelButton'
+import { useScheduleTableStyles } from './ScheduleTable.styles'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 interface TimeGuideColumnProps {
   timeMarkers: number[]
@@ -24,26 +25,20 @@ const TimeGuideColumn: React.FC<TimeGuideColumnProps> = ({
   onTimeMarkerClick,
   dayData,
 }) => {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
-    }
-
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+  const { classes, cx } = useScheduleTableStyles({})
+  const isMobile = useIsMobile()
 
   return (
-    <div className="time-guide-column">
-      <div className="calendar-header" />
-      <div className="time-guide-content" style={{ height: calendarHeight }}>
+    <div className={classes.timeGuideColumn}>
+      <div className={cx(classes.calendarHeader, classes.timeGuideHeader)} />
+      <div
+        className={classes.timeGuideContent}
+        style={{ height: calendarHeight }}
+      >
         {timeMarkers.map((time, idx) => (
-          <TableLabelButton
+          <button
             key={idx}
-            className="time-marker"
+            className={classes.timeMarker}
             style={{
               top: (time - minTime) * pixelsPerMinute,
               height: 60 * pixelsPerMinute,
@@ -55,7 +50,7 @@ const TimeGuideColumn: React.FC<TimeGuideColumnProps> = ({
             aria-label={`View all sessions at ${formatMinutesToTime(time)}`}
           >
             {formatMinutesToTime(time, isMobile)}
-          </TableLabelButton>
+          </button>
         ))}
       </div>
     </div>

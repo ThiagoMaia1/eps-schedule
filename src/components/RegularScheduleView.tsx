@@ -8,8 +8,8 @@ import SessionCard from './SessionCard'
 import TrackCard from './TrackCard'
 import GeneralEventCard from './GeneralEventCard'
 import TimeGuideColumn from './TimeGuideColumn'
-import TableLabelButton from './TableLabelButton'
 import DayContainer from './DayContainer'
+import { useScheduleTableStyles } from './ScheduleTable.styles'
 
 interface RegularScheduleViewProps {
   dayData: ScheduleData
@@ -53,9 +53,12 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
   isEntryVisible,
   showGeneralEventsInColumns,
 }) => {
+  const { classes: baseClasses } = useScheduleTableStyles({})
+  const { classes: activeClasses } = useScheduleTableStyles({ active: true })
+
   return (
     <DayContainer dayTitle={dayData.day}>
-      <div className="calendar-container">
+      <div className={baseClasses.calendarContainer}>
         {/* Time guide column */}
         <TimeGuideColumn
           timeMarkers={timeMarkers}
@@ -81,9 +84,13 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
           const isLocationFiltered = activeLocation === location
 
           return (
-            <div key={locIndex} className="location-column">
-              <TableLabelButton
-                className="calendar-header location-header"
+            <div key={locIndex} className={baseClasses.locationColumn}>
+              <button
+                className={
+                  isLocationFiltered
+                    ? activeClasses.calendarHeader
+                    : baseClasses.calendarHeader
+                }
                 onClick={() =>
                   onLocationChange(isLocationFiltered ? null : location)
                 }
@@ -97,19 +104,18 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                     ? 'Click to clear location filter'
                     : 'Click to filter by this location'
                 }
-                active={isLocationFiltered}
               >
                 {location}
-              </TableLabelButton>
+              </button>
               <div
-                className="sessions-container"
+                className={baseClasses.sessionsContainer}
                 style={{ height: calendarHeight }}
               >
                 {/* Hour grid lines */}
                 {timeMarkers.map((time, idx) => (
                   <div
                     key={`grid-${idx}`}
-                    className="hour-grid-line"
+                    className={baseClasses.hourGridLine}
                     style={{
                       top: (time - minTime) * pixelsPerMinute,
                     }}
@@ -131,7 +137,8 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                       return (
                         <div
                           key={`general-${entryIndex}`}
-                          className="session-wrapper general-event-session-wrapper"
+                          className={baseClasses.sessionWrapper}
+                          data-session-wrapper
                           style={{
                             position: 'absolute',
                             top: `${top}px`,
@@ -139,7 +146,6 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                             minHeight: `${height}px`,
                             left: '5px',
                             right: '5px',
-                            zIndex: 10,
                             width: 'calc(100% - 10px)',
                           }}
                         >
@@ -199,7 +205,8 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                           return (
                             <div
                               key={entryIndex}
-                              className="session-wrapper"
+                              className={baseClasses.sessionWrapper}
+                              data-session-wrapper
                               style={{
                                 position: 'absolute',
                                 top: `${top + trackHeaderHeight}px`,
@@ -237,7 +244,8 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                         return (
                           <div
                             key={entryIndex}
-                            className="session-wrapper general-event-session-wrapper"
+                            className={baseClasses.sessionWrapper}
+                            data-session-wrapper
                             style={{
                               position: 'absolute',
                               top: `${top}px`,
@@ -245,7 +253,6 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                               minHeight: `${height}px`,
                               left: '5px',
                               right: '5px',
-                              zIndex: 10,
                               width: 'calc(100% - 10px)',
                             }}
                           >
@@ -266,7 +273,8 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                     return (
                       <div
                         key={entryIndex}
-                        className="session-wrapper"
+                        className={baseClasses.sessionWrapper}
+                        data-session-wrapper
                         style={{
                           position: 'absolute',
                           top: `${top}px`,
@@ -312,7 +320,7 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                 searchText={searchText}
                 top={top}
                 height={height}
-                visibleColumnsCount={visibleLocations.length}
+                visibleColumnsCount={Math.max(visibleLocations.length, 1)}
               />
             )
           }

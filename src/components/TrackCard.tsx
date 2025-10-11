@@ -1,6 +1,6 @@
 import React from 'react'
 import { type ShiftBlock } from '../types/schedule'
-import './TrackCard.css'
+import { useTrackCardStyles } from './TrackCard.styles'
 import { Tooltip } from 'react-tooltip'
 import { IoInformationCircleOutline } from 'react-icons/io5'
 
@@ -21,11 +21,13 @@ const TrackCard: React.FC<TrackCardProps> = ({
   const tooltipId = `moderator-tooltip-${shift.id}`
   const trackHeaderHeight = 32 // Height of the track header section
 
+  const { classes } = useTrackCardStyles()
+
   return (
     <>
       {/* Main shift container with yellow border spanning the shift height including track header */}
       <div
-        className="shift-moderator-block"
+        className={classes.shiftModeratorBlock}
         style={{
           position: 'absolute',
           top: shift.track ? `${top - trackHeaderHeight}px` : `${top}px`,
@@ -38,16 +40,19 @@ const TrackCard: React.FC<TrackCardProps> = ({
       >
         {/* Track header at the top with info icon */}
         {shift.track && (
-          <div className="track-header">
-            <div className="track-header-content">
-              <div className="track-text">
-                <span className="track-name">{shift.track}</span>
+          <div className={classes.trackHeader}>
+            <div className={classes.trackHeaderContent}>
+              <div className={classes.trackText}>
+                <span className={classes.trackName}>{shift.track}</span>
                 {shift.subtheme && (
-                  <span className="track-subtheme"> - {shift.subtheme}</span>
+                  <span className={classes.trackSubtheme}>
+                    {' '}
+                    - {shift.subtheme}
+                  </span>
                 )}
               </div>
               <IoInformationCircleOutline
-                className="track-info-icon"
+                className={classes.trackInfoIcon}
                 data-tooltip-id={tooltipId}
                 data-tooltip-place="left"
               />
@@ -74,15 +79,17 @@ const TrackCard: React.FC<TrackCardProps> = ({
           zIndex: 1000,
         }}
       >
-        <div className="moderator-tooltip-content">
-          <div className="tooltip-track-title">
+        <div className={classes.moderatorTooltipContent}>
+          <div className={classes.tooltipTrackTitle}>
             {shift.track}
             {shift.subtheme && ` - ${shift.subtheme}`}
           </div>
-          <div className="tooltip-label">Moderator:</div>
-          <div className="tooltip-moderator-name">{shift.moderator.name}</div>
+          <div className={classes.tooltipLabel}>Moderator:</div>
+          <div className={classes.tooltipModeratorName}>
+            {shift.moderator.name}
+          </div>
           {shift.moderator.affiliation && (
-            <div className="tooltip-moderator-affiliation">
+            <div className={classes.tooltipModeratorAffiliation}>
               {shift.moderator.affiliation}
             </div>
           )}

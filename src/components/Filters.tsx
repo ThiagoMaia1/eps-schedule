@@ -10,7 +10,7 @@ import SearchInput from './SearchInput'
 import ImportExportSessions from './ImportExportSessions'
 import FilterResultsCount from './FilterResultsCount'
 import { type ScheduleData } from '../types/schedule'
-import './Filters.css'
+import { useFiltersStyles } from './Filters.styles'
 
 interface FiltersProps {
   showOnlySelected: boolean
@@ -50,6 +50,7 @@ interface FiltersProps {
     validSessions: string[],
     allValidSessionIds: Set<string>
   ) => Promise<{ success: boolean; count: number }>
+  onClearAllFilters: () => void
   scheduleData: ScheduleData[]
 }
 
@@ -88,6 +89,7 @@ const Filters: React.FC<FiltersProps> = ({
   filteredSessions,
   onCopySelectedSessions,
   onImportValidatedSessions,
+  onClearAllFilters,
   scheduleData,
 }) => {
   // Initialize collapsed state based on window width to avoid flash on mobile
@@ -96,6 +98,8 @@ const Filters: React.FC<FiltersProps> = ({
   })
   const [isImportExportOpen, setIsImportExportOpen] = useState(false)
   const [showLegendTooltip, setShowLegendTooltip] = useState(false)
+
+  const { classes, cx } = useFiltersStyles({ isPanelCollapsed })
 
   // Update collapsed state on window resize
   useEffect(() => {
@@ -115,16 +119,40 @@ const Filters: React.FC<FiltersProps> = ({
     }
   }, [isPanelCollapsed])
 
+  // Count active filters
+  const countActiveFilters = () => {
+    let count = 0
+    if (showOnlySelected) count++
+    if (showOnlyEPS) count++
+    if (showOnlyETS) count++
+    if (showOnlyCopleyPlace) count++
+    if (showOnlySheraton) count++
+    if (showOnlyGeneralEvents) count++
+    if (hideGeneralEvents) count++
+    if (searchText) count++
+    if (activeLocation) count++
+    if (activeTrack) count++
+    if (linearView && showOnlySelected) count++
+    return count
+  }
+
+  const activeFilterCount = countActiveFilters()
+
   return (
-    <div className="summary">
+    <div className={classes.summary}>
       <button
-        className={`filter-toggle ${isPanelCollapsed ? 'collapsed' : ''}`}
+        className={classes.filterToggle}
         onClick={() => setIsPanelCollapsed(!isPanelCollapsed)}
         aria-expanded={!isPanelCollapsed}
       >
         {isPanelCollapsed ? (
           <>
-            Show Filters
+            <span className={classes.filterToggleText}>
+              Show Filters
+              {activeFilterCount > 0 && (
+                <span className={classes.filterBadge}>{activeFilterCount}</span>
+              )}
+            </span>
             <MdKeyboardArrowDown size={20} />
           </>
         ) : (
@@ -135,12 +163,12 @@ const Filters: React.FC<FiltersProps> = ({
         )}
       </button>
 
-      <div className={`filter-content ${isPanelCollapsed ? 'collapsed' : ''}`}>
-        <div className="controls-wrapper">
-          <div className="controls">
-            <div className="only-selected-container">
+      <div className={classes.filterContent}>
+        <div className={classes.controlsWrapper}>
+          <div className={classes.controls}>
+            <div className={classes.onlySelectedContainer}>
               <button
-                className="info-icon-button"
+                className={classes.infoIconButton}
                 onClick={(e) => {
                   e.stopPropagation()
                   setShowLegendTooltip(!showLegendTooltip)
@@ -150,7 +178,10 @@ const Filters: React.FC<FiltersProps> = ({
                 <MdInfoOutline />
               </button>
               <span
-                className={`btn ${showOnlySelected ? 'active' : ''}`}
+                className={cx(
+                  classes.btn,
+                  showOnlySelected && classes.btnActive
+                )}
                 onClick={onToggleSelected}
               >
                 Only selected sessions
@@ -158,10 +189,10 @@ const Filters: React.FC<FiltersProps> = ({
               {showLegendTooltip && (
                 <>
                   <div
-                    className="legend-tooltip-backdrop"
+                    className={classes.legendTooltipBackdrop}
                     onClick={() => setShowLegendTooltip(false)}
                   />
-                  <div className="legend-tooltip">
+                  <div className={classes.legendTooltip}>
                     To select a session, click the session card. Your selections
                     will persist if you refresh the page. Sessions under the{' '}
                     <strong>Evangelical Philosophical Society</strong> are
@@ -182,82 +213,111 @@ const Filters: React.FC<FiltersProps> = ({
             </div>
             {showOnlySelected && (
               <span
-                className={`btn ${linearView ? 'active' : ''}`}
+                className={cx(classes.btn, linearView && classes.btnActive)}
                 onClick={onToggleLinearView}
               >
                 Linear View
               </span>
             )}
             <span
-              className={`btn ${showOnlyETS ? 'active' : ''}`}
+              className={cx(classes.btn, showOnlyETS && classes.btnActive)}
               onClick={onToggleETS}
             >
               Only ETS sessions
             </span>
             <span
-              className={`btn ${showOnlyEPS ? 'active' : ''}`}
+              className={cx(classes.btn, showOnlyEPS && classes.btnActive)}
               onClick={onToggleEPS}
             >
               Only EPS sessions
             </span>
             <span
-              className={`btn ${showOnlyCopleyPlace ? 'active' : ''}`}
+              className={cx(
+                classes.btn,
+                showOnlyCopleyPlace && classes.btnActive
+              )}
               onClick={onToggleCopleyPlace}
             >
               Only Copley Place
             </span>
             <span
-              className={`btn ${showOnlySheraton ? 'active' : ''}`}
+              className={cx(classes.btn, showOnlySheraton && classes.btnActive)}
               onClick={onToggleSheraton}
             >
               Only Sheraton
             </span>
             <span
-              className={`btn ${showOnlyGeneralEvents ? 'active' : ''}`}
+              className={cx(
+                classes.btn,
+                showOnlyGeneralEvents && classes.btnActive
+              )}
               onClick={onToggleGeneralEvents}
             >
               Only General Events
             </span>
             <span
-              className={`btn ${hideGeneralEvents ? 'active' : ''}`}
+              className={cx(
+                classes.btn,
+                hideGeneralEvents && classes.btnActive
+              )}
               onClick={onToggleHideGeneralEvents}
             >
               Hide General Events
             </span>
             <span
-              className={`btn ${hideSpecialEvents ? 'active' : ''}`}
+              className={cx(
+                classes.btn,
+                hideSpecialEvents && classes.btnActive
+              )}
               onClick={onToggleHideSpecialEvents}
             >
               Hide Special Events
             </span>
             <span
               style={{ display: 'none' }}
-              className={`btn ${showGeneralEventsInColumns ? 'active' : ''}`}
+              className={cx(
+                classes.btn,
+                showGeneralEventsInColumns && classes.btnActive
+              )}
               onClick={onToggleGeneralEventsInColumns}
             >
               General Events in Columns
             </span>
             {searchText && (
-              <span className="btn active" onClick={() => onSearchChange('')}>
+              <span
+                className={cx(classes.btn, classes.btnActive)}
+                onClick={() => onSearchChange('')}
+              >
                 Search: {searchText}
               </span>
             )}
             {activeLocation && (
               <span
-                className="btn active"
+                className={cx(classes.btn, classes.btnActive)}
                 onClick={() => onLocationChange(null)}
               >
                 Location: {activeLocation}
               </span>
             )}
             {activeTrack && (
-              <span className="btn active" onClick={() => onTrackChange(null)}>
+              <span
+                className={cx(classes.btn, classes.btnActive)}
+                onClick={() => onTrackChange(null)}
+              >
                 Track: {activeTrack}
               </span>
             )}
-            <div className="controls-spacer"></div>
+            <div className={classes.controlsSpacer}></div>
+            {activeFilterCount > 0 && (
+              <span
+                className={cx(classes.btn, classes.clearAllBtn)}
+                onClick={onClearAllFilters}
+              >
+                Clear All
+              </span>
+            )}
             <span
-              className="btn transfer-btn"
+              className={cx(classes.btn, classes.transferBtn)}
               onClick={() => setIsImportExportOpen(true)}
             >
               <MdSwapHoriz className="btn-icon" />
@@ -282,7 +342,7 @@ const Filters: React.FC<FiltersProps> = ({
           filteredSessions={filteredSessions}
         />
 
-        <div className="filter-row">
+        <div className={classes.filterRow}>
           <SearchInput
             label="Search"
             value={searchText}
@@ -298,7 +358,7 @@ const Filters: React.FC<FiltersProps> = ({
             showClearButton={true}
           />
         </div>
-        <div className="legend">
+        <div className={classes.legend}>
           To select a session, click the session card. Your selections will
           persist if you refresh the page. Sessions under the{' '}
           <strong>Evangelical Philosophical Society</strong> are shaded light

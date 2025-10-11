@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Popup from './Popup'
 import Slideshow from './Slideshow'
-import './TutorialPopup.css'
+import { useTutorialPopupStyles } from './TutorialPopup.styles'
 import step1Gif from '/tutorial-gifs/step1-select-sessions.gif'
 import step2Gif from '/tutorial-gifs/step2-linear-view.gif'
 import step3Gif from '/tutorial-gifs/step3-filtering.gif'
 
 const TUTORIAL_DISMISSED_KEY = 'tutorialDismissed'
+const TUTORIAL_DISMISSED_SESSION_KEY = 'tutorialDismissedSession'
 
 interface TutorialPopupProps {
   selectedSessionsCount: number
@@ -22,16 +23,26 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
   const [allSlidesVisited, setAllSlidesVisited] = useState(false)
   const [goToNextSlide, setGoToNextSlide] = useState<(() => void) | null>(null)
 
+  const { classes } = useTutorialPopupStyles()
+
   useEffect(() => {
     // Don't show tutorial until sessions are loaded from localStorage
     if (!isSessionsLoaded) {
       return
     }
 
-    // Check if user has sessions or has dismissed the tutorial
+    // Check if user has permanently dismissed the tutorial (localStorage)
     const tutorialDismissed = localStorage.getItem(TUTORIAL_DISMISSED_KEY)
+    // Check if user has dismissed the tutorial for this session (sessionStorage)
+    const tutorialDismissedSession = sessionStorage.getItem(
+      TUTORIAL_DISMISSED_SESSION_KEY
+    )
 
-    if (selectedSessionsCount === 0 && !tutorialDismissed) {
+    if (
+      selectedSessionsCount === 0 &&
+      !tutorialDismissed &&
+      !tutorialDismissedSession
+    ) {
       setIsOpen(true)
     } else {
       setIsOpen(false)
@@ -45,7 +56,11 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
     }
 
     if (dontShowAgain) {
+      // Permanently dismiss (persists across browser sessions)
       localStorage.setItem(TUTORIAL_DISMISSED_KEY, 'true')
+    } else {
+      // Dismiss only for this session (until browser refresh)
+      sessionStorage.setItem(TUTORIAL_DISMISSED_SESSION_KEY, 'true')
     }
     setIsOpen(false)
   }
@@ -72,13 +87,13 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
       maxWidth="900px"
       showCloseButton={allSlidesVisited}
     >
-      <div className="tutorial-popup">
+      <div className={classes.tutorialPopup}>
         <Slideshow
           onAllSlidesVisited={setAllSlidesVisited}
           onNextSlideCallback={(goToNext) => setGoToNextSlide(() => goToNext)}
         >
-          <div className="tutorial-slide">
-            <div className="tutorial-description">
+          <div className={classes.tutorialSlide}>
+            <div className={classes.tutorialDescription}>
               <h3>Step 1: Select Sessions</h3>
               <p>
                 Click on any session to add it to your personal schedule.
@@ -92,8 +107,8 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
             />
           </div>
 
-          <div className="tutorial-slide">
-            <div className="tutorial-description">
+          <div className={classes.tutorialSlide}>
+            <div className={classes.tutorialDescription}>
               <h3>Step 2: Linear View</h3>
               <p>
                 Toggle linear view to see all sessions in a continuous timeline,
@@ -106,8 +121,8 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
             />
           </div>
 
-          <div className="tutorial-slide">
-            <div className="tutorial-description">
+          <div className={classes.tutorialSlide}>
+            <div className={classes.tutorialDescription}>
               <h3>Step 3: Filtering</h3>
               <p>
                 Use the powerful filters to narrow down sessions by track,
@@ -122,8 +137,8 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
           </div>
         </Slideshow>
 
-        <div className="tutorial-footer">
-          <label className="tutorial-checkbox">
+        <div className={classes.tutorialFooter}>
+          <label className={classes.tutorialCheckbox}>
             <input
               type="checkbox"
               checked={dontShowAgain}
@@ -131,7 +146,10 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
             />
             <span>Don't show this again</span>
           </label>
-          <button className="tutorial-button" onClick={handleButtonClick}>
+          <button
+            className={classes.tutorialButton}
+            onClick={handleButtonClick}
+          >
             {allSlidesVisited ? 'Got it!' : 'Next'}
           </button>
         </div>

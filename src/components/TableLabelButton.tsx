@@ -1,5 +1,5 @@
 import React from 'react'
-import './TableLabelButton.css'
+import { useTableLabelButtonStyles } from './TableLabelButton.styles'
 
 interface TableLabelButtonProps {
   children: React.ReactNode
@@ -20,9 +20,11 @@ const TableLabelButton: React.FC<TableLabelButtonProps> = ({
   style,
   active = false,
 }) => {
+  const { classes, cx } = useTableLabelButtonStyles({ active })
+
   return (
     <button
-      className={`table-label-button ${className} ${active ? 'active' : ''}`}
+      className={cx(classes.tableLabelButton, className)}
       onClick={onClick}
       title={title}
       aria-label={ariaLabel}

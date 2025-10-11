@@ -466,6 +466,11 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     [historyIndex, selectedSessions]
   )
 
+  // Clear all filters and return to default state
+  const handleClearAllFilters = useCallback(() => {
+    setQueryParams({})
+  }, [setQueryParams])
+
   return {
     // Filter states
     activeLocation,
@@ -509,5 +514,8 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     // Import/Export handlers
     handleCopySelectedSessions,
     handleImportValidatedSessions,
+
+    // Clear all filters
+    handleClearAllFilters,
   }
 }

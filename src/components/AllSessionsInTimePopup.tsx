@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Popup from './Popup'
 import SessionCard from './SessionCard'
 import GeneralEventCard from './GeneralEventCard'
+import SearchInput from './SearchInput'
 import { type ScheduleEntry } from '../types/schedule'
-import './AllSessionsInTimePopup.css'
+import { useAllSessionsInTimePopupStyles } from './AllSessionsInTimePopup.styles'
 
 interface SessionWithLocation {
   entry: ScheduleEntry
@@ -29,20 +30,52 @@ const AllSessionsInTimePopup: React.FC<AllSessionsInTimePopupProps> = ({
   onToggleSelection,
   searchText,
 }) => {
-  // Group sessions by whether they're general events
-  const generalEvents = sessions.filter((s) => s.entry.isGeneralEvent)
-  const regularSessions = sessions.filter((s) => !s.entry.isGeneralEvent)
+  const { classes, cx } = useAllSessionsInTimePopupStyles()
+  const [popupSearchText, setPopupSearchText] = useState('')
+  const effectiveSearchText = searchText || popupSearchText
+
+  // Filter sessions based on local popup search (only if no global search is active)
+  const filterSession = (session: SessionWithLocation) => {
+    // Only apply popup search if there's no global search
+    if (searchText || !popupSearchText) return true
+
+    const search = popupSearchText.toLowerCase()
+    const entry = session.entry
+
+    return (
+      entry.speaker?.toLowerCase().includes(search) ||
+      entry.affiliation?.toLowerCase().includes(search) ||
+      entry.theme?.toLowerCase().includes(search) ||
+      entry.eventType?.toLowerCase().includes(search) ||
+      entry.speakers?.some((speaker) =>
+        speaker.name.toLowerCase().includes(search)
+      ) ||
+      entry.track?.toLowerCase().includes(search) ||
+      session.location?.toLowerCase().includes(search)
+    )
+  }
+
+  // Group and filter sessions by whether they're general events
+  const generalEvents = sessions
+    .filter((s) => s.entry.isGeneralEvent)
+    .filter(filterSession)
+  const regularSessions = sessions
+    .filter((s) => !s.entry.isGeneralEvent)
+    .filter(filterSession)
+
+  const totalFilteredSessions = generalEvents.length + regularSessions.length
+  const totalSessions = sessions.length
 
   const sessionCountText =
-    generalEvents.length > 0 && regularSessions.length > 0
-      ? `${generalEvents.length + regularSessions.length} sessions`
-      : `${sessions.length} session${sessions.length !== 1 ? 's' : ''}`
+    !searchText && popupSearchText && totalFilteredSessions !== totalSessions
+      ? `${totalFilteredSessions} of ${totalSessions} session${totalSessions !== 1 ? 's' : ''}`
+      : `${totalSessions} session${totalSessions !== 1 ? 's' : ''}`
 
   const popupTitle = (
-    <span className="popup-title-with-count">
+    <span className={classes.popupTitleWithCount}>
       Sessions at {time}
       {sessions.length > 0 && (
-        <span className="session-count-badge">{sessionCountText}</span>
+        <span className={classes.sessionCountBadge}>{sessionCountText}</span>
       )}
     </span>
   )
@@ -54,55 +87,80 @@ const AllSessionsInTimePopup: React.FC<AllSessionsInTimePopupProps> = ({
       title={popupTitle}
       maxWidth="900px"
     >
-      <div className="all-sessions-popup-content">
+      <div className={classes.allSessionsPopupContent}>
         {sessions.length === 0 ? (
-          <div className="no-sessions-message">
+          <div className={classes.noSessionsMessage}>
             <p>No sessions at this time.</p>
           </div>
         ) : (
           <>
-            {generalEvents.length > 0 && (
-              <div className="general-events-section">
-                <h3 className="section-title">General Events</h3>
-                <div className="sessions-grid">
-                  {generalEvents.map(({ entry }) => (
-                    <div
-                      key={entry.id}
-                      className="session-item general-event-item"
-                    >
-                      <GeneralEventCard
-                        entry={entry}
-                        searchText={searchText}
-                        top={0}
-                        height={0}
-                        visibleColumnsCount={1}
-                        isInPopup={true}
-                      />
-                    </div>
-                  ))}
-                </div>
+            {!searchText && (
+              <div className={classes.searchSection}>
+                <SearchInput
+                  label="Search"
+                  value={popupSearchText}
+                  onChange={setPopupSearchText}
+                  placeholder="Search by title, speaker, track, or location..."
+                  debounceMs={200}
+                />
               </div>
             )}
 
-            {regularSessions.length > 0 && (
-              <div className="regular-sessions-section">
-                {generalEvents.length > 0 && (
-                  <h3 className="section-title">Regular Sessions</h3>
-                )}
-                <div className="sessions-grid">
-                  {regularSessions.map(({ entry, location }) => (
-                    <div key={entry.id} className="session-item">
-                      <div className="session-location-label">{location}</div>
-                      <SessionCard
-                        entry={entry}
-                        isSelected={selectedSessions.has(entry.id)}
-                        onToggleSelection={onToggleSelection}
-                        searchText={searchText}
-                      />
-                    </div>
-                  ))}
-                </div>
+            {totalFilteredSessions === 0 ? (
+              <div className={classes.noSessionsMessage}>
+                <p>No sessions found matching "{popupSearchText}".</p>
               </div>
+            ) : (
+              <>
+                {generalEvents.length > 0 && (
+                  <div className={classes.generalEventsSection}>
+                    <h3 className={classes.sectionTitle}>General Events</h3>
+                    <div className={classes.sessionsGrid}>
+                      {generalEvents.map(({ entry }) => (
+                        <div
+                          key={entry.id}
+                          className={cx(
+                            classes.sessionItem,
+                            classes.generalEventItem
+                          )}
+                        >
+                          <GeneralEventCard
+                            entry={entry}
+                            searchText={effectiveSearchText}
+                            top={0}
+                            height={0}
+                            visibleColumnsCount={1}
+                            isInPopup={true}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {regularSessions.length > 0 && (
+                  <div className={classes.regularSessionsSection}>
+                    {generalEvents.length > 0 && (
+                      <h3 className={classes.sectionTitle}>Regular Sessions</h3>
+                    )}
+                    <div className={classes.sessionsGrid}>
+                      {regularSessions.map(({ entry, location }) => (
+                        <div key={entry.id} className={classes.sessionItem}>
+                          <div className={classes.sessionLocationLabel}>
+                            {location}
+                          </div>
+                          <SessionCard
+                            entry={entry}
+                            isSelected={selectedSessions.has(entry.id)}
+                            onToggleSelection={onToggleSelection}
+                            searchText={effectiveSearchText}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </>
         )}

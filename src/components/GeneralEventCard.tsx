@@ -1,7 +1,9 @@
 import React from 'react'
 import { type ScheduleEntry } from '../types/schedule'
 import { highlightText } from '../utils/textHighlight'
-import './GeneralEventCard.css'
+import { useGeneralEventCardStyles } from './GeneralEventCard.styles'
+import { theme } from '../styles/theme'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 interface GeneralEventCardProps {
   entry: ScheduleEntry
@@ -20,64 +22,85 @@ const GeneralEventCard: React.FC<GeneralEventCardProps> = ({
   visibleColumnsCount,
   isInPopup = false,
 }) => {
+  const { classes } = useGeneralEventCardStyles({
+    isSpecialEvent: entry.isSpecialEvent ?? false,
+    isPopupMode: isInPopup,
+  })
+  const isMobile = useIsMobile()
+
   // Determine what content to display
   const hasEventType = entry.eventType
   const hasTheme = entry.theme
   const hasSpeakers = entry.speakers && entry.speakers.length > 0
   const hasSingleSpeaker = entry.speaker
+  const hasLocation = entry.location?.room
 
   return (
     <div
-      className={`general-event-banner ${entry.isSpecialEvent ? 'special-event' : ''} ${isInPopup ? 'popup-mode' : ''}`}
+      className={classes.generalEventBanner}
       style={
         isInPopup
-          ? {}
+          ? {
+              width: '100%',
+            }
           : {
               position: 'absolute',
               top: `${top + 44}px`, // Offset for calendar header
               height: `${height}px`,
-              left: 'var(--time-col-width)',
-              width: `calc(var(--col-width) * ${visibleColumnsCount})`,
-              zIndex: 10,
+              width: `calc(${
+                isMobile
+                  ? theme.dimensions.colWidthMobile
+                  : theme.dimensions.colWidth
+              } * ${visibleColumnsCount})`,
             }
       }
     >
-      <div className="general-event-content">
-        <div className="general-event-text-container">
-          <div className="general-event-hierarchy">
-            <div className="event-time-label">
-              {entry.startTime} - {entry.endTime}
+      <div className={classes.generalEventContent}>
+        <div className={classes.generalEventTextContainer}>
+          <div className={classes.generalEventHierarchy}>
+            <div className={classes.eventTimeAndLocation}>
+              <div className={classes.eventTimeLabel}>
+                {entry.startTime} - {entry.endTime}
+              </div>
+              {hasLocation && (
+                <div className={classes.eventLocationLabel}>
+                  {entry.location?.hotel} - {entry.location?.floor} Floor:{' '}
+                  {entry.location?.room}
+                </div>
+              )}
             </div>
 
             {hasEventType && (
-              <div className="event-type">
+              <div className={classes.eventType}>
                 {highlightText(entry.eventType ?? '', searchText)}
               </div>
             )}
 
             {/* Unified Details Section with Single Border */}
             {(hasTheme || hasSpeakers || hasSingleSpeaker) && (
-              <div className="event-details">
+              <div className={classes.eventDetails}>
                 {/* Theme - Secondary Level (if different from event type) */}
                 {hasTheme && (
-                  <div className="event-theme">
+                  <div className={classes.eventTheme}>
                     {highlightText(entry.theme ?? '', searchText)}
                   </div>
                 )}
 
                 {/* Speakers - Tertiary Level */}
                 {hasSpeakers ? (
-                  <div className="event-speakers">
+                  <div className={classes.eventSpeakers}>
                     {entry.speakers!.map((speaker, index) => (
-                      <div key={index} className="speaker-item">
-                        <span className="speaker-name">
+                      <div key={index} className={classes.speakerItem}>
+                        <span className={classes.speakerName}>
                           {highlightText(speaker.name, searchText)}
                           {speaker.isInvitedGuest && (
-                            <span className="invited-badge">Invited Guest</span>
+                            <span className={classes.invitedBadge}>
+                              Invited Guest
+                            </span>
                           )}
                         </span>
                         {speaker.affiliation && (
-                          <span className="speaker-affiliation">
+                          <span className={classes.speakerAffiliation}>
                             {highlightText(speaker.affiliation, searchText)}
                           </span>
                         )}
@@ -85,16 +108,18 @@ const GeneralEventCard: React.FC<GeneralEventCardProps> = ({
                     ))}
                   </div>
                 ) : hasSingleSpeaker ? (
-                  <div className="event-speakers">
-                    <div className="speaker-item">
-                      <span className="speaker-name">
+                  <div className={classes.eventSpeakers}>
+                    <div className={classes.speakerItem}>
+                      <span className={classes.speakerName}>
                         {highlightText(entry.speaker!, searchText)}
                         {entry.isInvitedGuest && (
-                          <span className="invited-badge">Invited Guest</span>
+                          <span className={classes.invitedBadge}>
+                            Invited Guest
+                          </span>
                         )}
                       </span>
                       {entry.affiliation && (
-                        <span className="speaker-affiliation">
+                        <span className={classes.speakerAffiliation}>
                           {highlightText(entry.affiliation, searchText)}
                         </span>
                       )}
@@ -109,7 +134,7 @@ const GeneralEventCard: React.FC<GeneralEventCardProps> = ({
               !hasTheme &&
               !hasSpeakers &&
               !hasSingleSpeaker && (
-                <div className="event-type">
+                <div className={classes.eventType}>
                   {highlightText('General Event', searchText)}
                 </div>
               )}

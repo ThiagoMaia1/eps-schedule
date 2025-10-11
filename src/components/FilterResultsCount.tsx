@@ -1,6 +1,6 @@
 import React from 'react'
 import { MdLayers, MdEventNote } from 'react-icons/md'
-import './FilterResultsCount.css'
+import { useFilterResultsCountStyles } from './FilterResultsCount.styles'
 
 interface FilterResultsCountProps {
   totalTracks: number
@@ -15,54 +15,57 @@ const FilterResultsCount: React.FC<FilterResultsCountProps> = ({
   filteredTracks,
   filteredSessions,
 }) => {
+  const { classes } = useFilterResultsCountStyles()
   const isFiltered =
     filteredSessions !== totalSessions || filteredTracks !== totalTracks
 
   if (isFiltered) {
     return (
-      <div className="totals-info">
-        <div className="totals-comparison">
-          <div className="totals-metric">
-            <div className="metric-header">
-              <MdLayers className="metric-icon" />
-              <span className="metric-label">Tracks</span>
+      <div className={classes.totalsInfo}>
+        <div className={classes.totalsComparison}>
+          <div className={classes.totalsMetric}>
+            <div className={classes.metricHeader}>
+              <MdLayers className={classes.metricIcon} />
+              <span className={classes.metricLabel}>Tracks</span>
             </div>
-            <div className="metric-values">
-              <div className="metric-bar">
+            <div className={classes.metricValues}>
+              <div className={classes.metricBar}>
                 <div
-                  className="metric-bar-fill filtered"
+                  className={classes.metricBarFill}
                   style={{
                     width: `${(filteredTracks / totalTracks) * 100}%`,
                   }}
                 />
               </div>
-              <div className="metric-numbers">
-                <span className="metric-showing">Showing</span>
-                <span className="metric-filtered">{filteredTracks}</span>
-                <span className="metric-separator">/</span>
-                <span className="metric-total">{totalTracks}</span>
+              <div className={classes.metricNumbers}>
+                <span className={classes.metricShowing}>Showing</span>
+                <span className={classes.metricFiltered}>{filteredTracks}</span>
+                <span className={classes.metricSeparator}>/</span>
+                <span className={classes.metricTotal}>{totalTracks}</span>
               </div>
             </div>
           </div>
-          <div className="totals-metric">
-            <div className="metric-header">
-              <MdEventNote className="metric-icon" />
-              <span className="metric-label">Sessions</span>
+          <div className={classes.totalsMetric}>
+            <div className={classes.metricHeader}>
+              <MdEventNote className={classes.metricIcon} />
+              <span className={classes.metricLabel}>Sessions</span>
             </div>
-            <div className="metric-values">
-              <div className="metric-bar">
+            <div className={classes.metricValues}>
+              <div className={classes.metricBar}>
                 <div
-                  className="metric-bar-fill filtered"
+                  className={classes.metricBarFill}
                   style={{
                     width: `${(filteredSessions / totalSessions) * 100}%`,
                   }}
                 />
               </div>
-              <div className="metric-numbers">
-                <span className="metric-showing">Showing</span>
-                <span className="metric-filtered">{filteredSessions}</span>
-                <span className="metric-separator">/</span>
-                <span className="metric-total">{totalSessions}</span>
+              <div className={classes.metricNumbers}>
+                <span className={classes.metricShowing}>Showing</span>
+                <span className={classes.metricFiltered}>
+                  {filteredSessions}
+                </span>
+                <span className={classes.metricSeparator}>/</span>
+                <span className={classes.metricTotal}>{totalSessions}</span>
               </div>
             </div>
           </div>
@@ -72,13 +75,13 @@ const FilterResultsCount: React.FC<FilterResultsCountProps> = ({
   }
 
   return (
-    <div className="totals-info">
-      <div className="totals-simple">
-        <MdLayers className="metric-icon" />
-        <span className="totals-value">{totalTracks} tracks</span>
-        <span className="totals-separator">•</span>
-        <MdEventNote className="metric-icon" />
-        <span className="totals-value">{totalSessions} sessions</span>
+    <div className={classes.totalsInfo}>
+      <div className={classes.totalsSimple}>
+        <MdLayers className={classes.metricIcon} />
+        <span className={classes.totalsValue}>{totalTracks} tracks</span>
+        <span className={classes.totalsSeparator}>•</span>
+        <MdEventNote className={classes.metricIcon} />
+        <span className={classes.totalsValue}>{totalSessions} sessions</span>
       </div>
     </div>
   )

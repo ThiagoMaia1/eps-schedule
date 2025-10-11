@@ -1,7 +1,7 @@
 import React from 'react'
 import { type ScheduleEntry } from '../types/schedule'
 import { highlightText } from '../utils/textHighlight'
-import './SessionCard.css'
+import { useSessionCardStyles } from './SessionCard.styles'
 
 interface SessionCardProps {
   entry: ScheduleEntry
@@ -25,6 +25,12 @@ const SessionCard: React.FC<SessionCardProps> = ({
   shouldShowTrack = true,
   moderator,
 }) => {
+  const { classes, cx } = useSessionCardStyles({
+    isSelected,
+    isEPS: entry.isEPS || false,
+    isPanelOrQA: entry.isPanelOrQA || false,
+  })
+
   const handleClick = () => {
     onToggleSelection(entry.id)
   }
@@ -32,41 +38,50 @@ const SessionCard: React.FC<SessionCardProps> = ({
   const isResponse = entry.theme === 'Response'
 
   return (
-    <div
-      className={`cell ${isSelected ? 'recommended' : ''} ${
-        entry.isEPS ? 'eps' : ''
-      } ${entry.isPanelOrQA ? 'panel-or-qa' : ''}`}
-      onClick={handleClick}
-      style={{ cursor: 'pointer' }}
-    >
-      <div className="session-time">
+    <div className={classes.cell} onClick={handleClick}>
+      <div className={classes.sessionTime}>
         {entry.startTime} - {entry.endTime}
       </div>
       {(entry.isPanelDiscussion || entry.isQAndA || isResponse) && (
-        <div className="speaker">
+        <div className={classes.speaker}>
           {entry.isPanelDiscussion && (
-            <span className="session-tag panel-discussion-tag">
+            <span
+              className={cx(classes.sessionTag, classes.panelDiscussionTag)}
+            >
               Panel Discussion
             </span>
           )}
           {entry.isQAndA && (
-            <span className="session-tag panel-discussion-tag">Q&A</span>
+            <span
+              className={cx(classes.sessionTag, classes.panelDiscussionTag)}
+            >
+              Q&A
+            </span>
           )}
           {isResponse && (
-            <span className="session-tag panel-discussion-tag">Response</span>
+            <span
+              className={cx(classes.sessionTag, classes.panelDiscussionTag)}
+            >
+              Response
+            </span>
           )}
         </div>
       )}
       {entry.speaker && (
-        <div className="speaker">
+        <div className={classes.speaker}>
           {highlightText(entry.speaker, searchText)}
           {entry.isInvitedGuest && (
-            <span className="session-tag invited-guest-tag">Invited Guest</span>
+            <>
+              {' '}
+              <span className={cx(classes.sessionTag, classes.invitedGuestTag)}>
+                Invited Guest
+              </span>
+            </>
           )}
         </div>
       )}
       {entry.affiliation && (
-        <div className="affiliation">
+        <div className={classes.affiliation}>
           {highlightText(entry.affiliation, searchText)}
         </div>
       )}
@@ -74,16 +89,18 @@ const SessionCard: React.FC<SessionCardProps> = ({
         <>
           {entry.speakers.map((speaker, index) => (
             <React.Fragment key={index}>
-              <div className="speaker">
+              <div className={classes.speaker}>
                 {highlightText(speaker.name, searchText)}
                 {speaker.isInvitedGuest && (
-                  <span className="session-tag invited-guest-tag">
+                  <span
+                    className={cx(classes.sessionTag, classes.invitedGuestTag)}
+                  >
                     Invited Guest
                   </span>
                 )}
               </div>
               {speaker.affiliation && (
-                <div className="affiliation">
+                <div className={classes.affiliation}>
                   {highlightText(speaker.affiliation, searchText)}
                 </div>
               )}
@@ -91,16 +108,22 @@ const SessionCard: React.FC<SessionCardProps> = ({
           ))}
         </>
       )}
-      {location && <div className="location">{location}</div>}
+      {location && <div className={classes.location}>{location}</div>}
       {entry.theme && !isResponse && (
-        <div className="theme">{highlightText(entry.theme, searchText)}</div>
+        <div className={classes.theme}>
+          {highlightText(entry.theme, searchText)}
+        </div>
       )}
       {shouldShowTrack && entry.track && (
-        <div className="track">{highlightText(entry.track, searchText)}</div>
+        <div className={classes.track}>
+          {highlightText(entry.track, searchText)}
+        </div>
       )}
       {moderator && (
-        <div className="speaker">
-          <span className="session-tag moderator-tag">Moderator</span>
+        <div className={classes.speaker}>
+          <span className={cx(classes.sessionTag, classes.moderatorTag)}>
+            Moderator
+          </span>
           {highlightText(moderator.name, searchText)}
         </div>
       )}

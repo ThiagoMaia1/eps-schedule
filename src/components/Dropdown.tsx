@@ -5,7 +5,7 @@ import Select, {
   type ClearIndicatorProps,
 } from 'react-select'
 import { IoClose } from 'react-icons/io5'
-import './Dropdown.css'
+import { useDropdownStyles } from './Dropdown.styles'
 
 interface DropdownProps {
   label: string
@@ -29,6 +29,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   placeholder = 'All',
   showClearButton = false,
 }) => {
+  const { classes } = useDropdownStyles()
   const selectOptions: OptionType[] = options.map((option) => ({
     value: option,
     label: option,
@@ -147,11 +148,11 @@ const Dropdown: React.FC<DropdownProps> = ({
   }
 
   return (
-    <div className="dropdown-container">
-      <label className="dropdown-label" htmlFor={`dropdown-${label}`}>
+    <div className={classes.dropdownContainer}>
+      <label className={classes.dropdownLabel} htmlFor={`dropdown-${label}`}>
         {label}
       </label>
-      <div className="dropdown-wrapper">
+      <div className={classes.dropdownWrapper}>
         <Select
           inputId={`dropdown-${label}`}
           value={selectedOption}

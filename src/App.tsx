@@ -7,9 +7,10 @@ import { type ScheduleEntry } from './types/schedule'
 import { useScheduleFilters } from './hooks/useScheduleFilters'
 import { scheduleData } from './utils/scheduleParser'
 import 'react-tooltip/dist/react-tooltip.css'
-import './App.css'
+import { useAppStyles } from './App.styles'
 
 function App() {
+  const { classes } = useAppStyles()
   // Use the filtering hook
   const {
     activeLocation,
@@ -44,6 +45,7 @@ function App() {
     handleToggleSessionSelection,
     handleCopySelectedSessions,
     handleImportValidatedSessions,
+    handleClearAllFilters,
   } = useScheduleFilters(scheduleData)
 
   // Calculate total and filtered session and track counts
@@ -145,7 +147,7 @@ function App() {
 
   return (
     <>
-      <div className="app-container">
+      <div className={classes.appContainer}>
         <h1>Full Schedule (All Talks)</h1>
 
         <Filters
@@ -183,6 +185,7 @@ function App() {
           filteredSessions={filteredSessions}
           onCopySelectedSessions={handleCopySelectedSessions}
           onImportValidatedSessions={handleImportValidatedSessions}
+          onClearAllFilters={handleClearAllFilters}
           scheduleData={scheduleData}
         />
 

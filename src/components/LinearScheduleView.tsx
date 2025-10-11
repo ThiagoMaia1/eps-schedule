@@ -1,10 +1,10 @@
 import React from 'react'
-import { type ScheduleData, type ScheduleEntry } from '../types/schedule'
+import { type ScheduleData } from '../types/schedule'
 import SessionCard from './SessionCard'
-import GeneralEventCard from './GeneralEventCard'
 import TimeGuideColumn from './TimeGuideColumn'
 import DayContainer from './DayContainer'
 import { type SessionWithLocationExtended } from '../hooks/useScheduleTableFilters'
+import { useScheduleTableStyles } from './ScheduleTable.styles'
 
 interface LinearScheduleViewProps {
   dayData: ScheduleData
@@ -26,7 +26,6 @@ interface LinearScheduleViewProps {
     session: SessionWithLocationExtended,
     allSessions: SessionWithLocationExtended[]
   ) => { left: string; width: string }
-  isEntryVisible: (entry: ScheduleEntry, dayData?: ScheduleData) => boolean
 }
 
 const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
@@ -41,11 +40,12 @@ const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
   searchText,
   onTimeMarkerClick,
   calculateSessionLayout,
-  isEntryVisible,
 }) => {
+  const { classes, cx } = useScheduleTableStyles({})
+
   return (
     <DayContainer dayTitle={dayData.day}>
-      <div className="calendar-container linear-view">
+      <div className={classes.calendarContainer}>
         {/* Time guide column */}
         <TimeGuideColumn
           timeMarkers={timeMarkers}
@@ -57,17 +57,17 @@ const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
         />
 
         {/* Single timeline column for all sessions */}
-        <div className="location-column linear-column">
-          <div className="calendar-header">Selected Sessions</div>
+        <div className={cx(classes.locationColumn, classes.linearColumn)}>
+          <div className={classes.calendarHeader}>Selected Sessions</div>
           <div
-            className="sessions-container"
+            className={classes.sessionsContainer}
             style={{ height: calendarHeight }}
           >
             {/* Hour grid lines */}
             {timeMarkers.map((time, idx) => (
               <div
                 key={`grid-${idx}`}
-                className="hour-grid-line"
+                className={classes.hourGridLine}
                 style={{ top: (time - minTime) * pixelsPerMinute }}
               />
             ))}
@@ -91,7 +91,8 @@ const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
               return (
                 <div
                   key={`session-${idx}`}
-                  className="session-wrapper linear-session"
+                  className={cx(classes.sessionWrapper, classes.linearSession)}
+                  data-session-wrapper
                   style={{
                     position: 'absolute',
                     top: `${top}px`,
@@ -105,7 +106,7 @@ const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
                   }}
                 >
                   {showVenueChangeWarning && (
-                    <div className="venue-change-warning">
+                    <div className={classes.venueChangeWarning}>
                       Venue change required
                     </div>
                   )}
@@ -123,33 +124,6 @@ const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
           </div>
         </div>
       </div>
-
-      {/* General Events and Plenary/Presidential sessions (full-width) */}
-      {dayData.timeSlots.map((slot, slotIndex) => {
-        const allEntries = Object.values(slot.sessions).flat()
-        const generalEvent = allEntries.find(
-          (entry) => entry.isGeneralEvent && isEntryVisible(entry, dayData)
-        )
-
-        if (generalEvent) {
-          const duration = generalEvent.endMinutes - generalEvent.startMinutes
-          const top = (generalEvent.startMinutes - minTime) * pixelsPerMinute
-          const height = duration * pixelsPerMinute
-
-          return (
-            <GeneralEventCard
-              key={`general-${slotIndex}`}
-              entry={generalEvent}
-              searchText={searchText}
-              top={top}
-              height={height}
-              visibleColumnsCount={2}
-            />
-          )
-        }
-
-        return null
-      })}
     </DayContainer>
   )
 }

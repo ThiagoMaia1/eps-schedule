@@ -244,7 +244,11 @@ export const useScheduleTableFilters = (
           const visibleLocations = dayData.locations.filter((location) => {
             if (!isLocationVisible(location)) return false
             const sessions = getAllSessions(dayData, location)
-            // Only count if there's at least one non-general/special event
+            // If showing only general events, count general events
+            // Otherwise, only count if there's at least one non-general/special event
+            if (showOnlyGeneralEvents) {
+              return sessions.some((session) => session.isGeneralEvent)
+            }
             return sessions.some(
               (session) => !session.isGeneralEvent && !session.isSpecialEvent
             )
@@ -253,7 +257,12 @@ export const useScheduleTableFilters = (
         }
       })
     },
-    [getAllSessionsWithLocations, isLocationVisible, getAllSessions]
+    [
+      getAllSessionsWithLocations,
+      isLocationVisible,
+      getAllSessions,
+      showOnlyGeneralEvents,
+    ]
   )
 
   return {

@@ -293,10 +293,7 @@ export const generalEvents: GeneralEvent[] = [
     eventType: 'Tutku Tours Luncheon',
     theme:
       '"Paul\'s Cilician Journeys: Routes and Roads around Tarsus" with Dr. Mark Wilson and Dr. Glen Thompson',
-    speakers: [
-      { name: 'Mark Wilson', affiliation: 'Dr.' },
-      { name: 'Glen Thompson', affiliation: 'Dr.' },
-    ],
+    speakers: [{ name: 'Mark Wilson' }, { name: 'Glen Thompson' }],
     location: {
       hotel: 'Sheraton',
       floor: '3rd',

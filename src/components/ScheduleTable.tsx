@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { type ScheduleData } from '../types/schedule'
 import { useScheduleZoom } from '../hooks/useScheduleZoom'
 import AllSessionsInTimePopup from './AllSessionsInTimePopup'
@@ -10,7 +10,7 @@ import {
   type SessionWithLocation,
 } from '../hooks/useScheduleTableFilters'
 import { getTimeRange, generateTimeMarkers } from '../utils/scheduleTableUtils'
-import './ScheduleTable.css'
+import { useScheduleTableStyles } from './ScheduleTable.styles'
 
 interface ScheduleTableProps {
   scheduleData: ScheduleData[]
@@ -51,8 +51,14 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   onToggleSelection,
   onLocationChange,
 }) => {
+  const { classes } = useScheduleTableStyles({})
+
   // Zoom functionality
   const { pixelsPerMinute, scrollerRef } = useScheduleZoom()
+
+  // Floating scrollbar refs
+  const floatingScrollRef = useRef<HTMLDivElement>(null)
+  const floatingScrollContentRef = useRef<HTMLDivElement>(null)
 
   // Use filtering hook
   const {
@@ -160,8 +166,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
       const hasSessionsOnAnyDay = scheduleData.some((dayData) => {
         const sessions = getAllSessions(dayData, location)
 
-        // If showing general events in columns, include locations with any sessions
-        if (showGeneralEventsInColumns) {
+        // If showing general events in columns or filtering by general events only, include locations with any sessions
+        if (showGeneralEventsInColumns || showOnlyGeneralEvents) {
           return sessions.length > 0
         }
 
@@ -200,14 +206,60 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     isLocationVisible,
     getAllSessions,
     showGeneralEventsInColumns,
+    showOnlyGeneralEvents,
   ])
 
   // Check if there are any visible sessions across all days
   const hasVisibleSessions = hasAnyVisibleSessions(scheduleData, linearView)
 
+  // Sync scroll between main scroller and floating scrollbar
+  useEffect(() => {
+    const mainScroller = scrollerRef.current
+    const floatingScroll = floatingScrollRef.current
+    const floatingScrollContent = floatingScrollContentRef.current
+
+    if (!mainScroller || !floatingScroll || !floatingScrollContent) return
+
+    // Update floating scrollbar width to match main content width
+    const updateFloatingScrollWidth = () => {
+      floatingScrollContent.style.width = `${mainScroller.scrollWidth}px`
+    }
+
+    // Initial update
+    updateFloatingScrollWidth()
+
+    // Update on resize
+    const resizeObserver = new ResizeObserver(updateFloatingScrollWidth)
+    resizeObserver.observe(mainScroller)
+
+    // Sync scroll from main to floating
+    const handleMainScroll = () => {
+      if (floatingScroll.scrollLeft !== mainScroller.scrollLeft) {
+        floatingScroll.scrollLeft = mainScroller.scrollLeft
+      }
+    }
+
+    // Sync scroll from floating to main
+    const handleFloatingScroll = () => {
+      if (mainScroller.scrollLeft !== floatingScroll.scrollLeft) {
+        mainScroller.scrollLeft = floatingScroll.scrollLeft
+      }
+    }
+
+    mainScroller.addEventListener('scroll', handleMainScroll)
+    floatingScroll.addEventListener('scroll', handleFloatingScroll)
+
+    return () => {
+      resizeObserver.disconnect()
+      mainScroller.removeEventListener('scroll', handleMainScroll)
+      floatingScroll.removeEventListener('scroll', handleFloatingScroll)
+    }
+  }, [scrollerRef, hasVisibleSessions])
+
   return (
     <>
       <AllSessionsInTimePopup
+        key={popupState.time}
         isOpen={popupState.isOpen}
         onClose={closePopup}
         time={popupState.time}
@@ -216,7 +268,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
         onToggleSelection={onToggleSelection}
         searchText={searchText}
       />
-      <div className="scroller" ref={scrollerRef}>
+      <div className={classes.scroller} ref={scrollerRef}>
         {!hasVisibleSessions && (
           <EmptyState
             searchText={searchText}
@@ -250,21 +302,32 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
                 searchText={searchText}
                 onTimeMarkerClick={handleTimeMarkerClick}
                 calculateSessionLayout={calculateSessionLayout}
-                isEntryVisible={isEntryVisible}
               />
             )
           }
 
           // Regular view rendering
           // Use the unified visible locations for consistent columns across all days
-          if (unifiedVisibleLocations.length === 0) return null
+          // Allow rendering even without location columns if we have general events to show as full-width banners
+          const hasGeneralEventsToShow =
+            !showGeneralEventsInColumns &&
+            dayData.timeSlots.some((slot) => {
+              const allEntries = Object.values(slot.sessions).flat()
+              return allEntries.some(
+                (entry) => entry.isGeneralEvent && isEntryVisible(entry)
+              )
+            })
+
+          if (unifiedVisibleLocations.length === 0 && !hasGeneralEventsToShow) {
+            return null
+          }
 
           // Check if this specific day has any visible sessions
-          const dayHasVisibleSessions = unifiedVisibleLocations.some(
-            (location) => {
+          const dayHasVisibleSessions =
+            hasGeneralEventsToShow ||
+            unifiedVisibleLocations.some((location) => {
               return getAllSessions(dayData, location).length > 0
-            }
-          )
+            })
 
           // Skip this day if it has no visible sessions
           if (!dayHasVisibleSessions) return null

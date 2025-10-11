@@ -1,5 +1,5 @@
 import React from 'react'
-import './EmptyState.css'
+import { useEmptyStateStyles } from './EmptyState.styles'
 
 interface EmptyStateProps {
   searchText: string
@@ -10,11 +10,13 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   searchText,
   showOnlySelected,
 }) => {
+  const { classes } = useEmptyStateStyles()
+
   return (
-    <div className="empty-state">
-      <div className="empty-state-icon">🔍</div>
-      <h3 className="empty-state-title">No sessions found</h3>
-      <p className="empty-state-message">
+    <div className={classes.emptyState}>
+      <div className={classes.emptyStateIcon}>🔍</div>
+      <h3 className={classes.emptyStateTitle}>No sessions found</h3>
+      <p className={classes.emptyStateMessage}>
         {searchText.trim()
           ? `No sessions match your search "${searchText}"`
           : showOnlySelected
@@ -26,4 +28,3 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 }
 
 export default EmptyState
-

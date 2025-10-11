@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { AiOutlineGithub, AiFillLinkedin } from 'react-icons/ai'
 import { FaCode } from 'react-icons/fa'
-import './Footer.css'
+import { useFooterStyles } from './Footer.styles'
 
 const fullName = 'Thiago Pereira Maia'
 const gitHubUrl = 'https://github.com/ThiagoMaia1'
@@ -22,6 +22,7 @@ const links: Link[] = [
 ]
 
 function Footer() {
+  const { classes } = useFooterStyles()
   const [lastUpdated, setLastUpdated] = useState<string | null>(null)
 
   useEffect(() => {
@@ -53,36 +54,38 @@ function Footer() {
   }, [])
 
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <div className="disclaimer-section">
-          <p className="disclaimer">
+    <footer className={classes.footer}>
+      <div className={classes.footerContent}>
+        <div className={classes.disclaimerSection}>
+          <p className={classes.disclaimer}>
             ⚠️ This is an <strong>unofficial</strong> website. For official
             information, please visit{' '}
             <a
               href={officialSourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="source-link"
+              className={classes.sourceLink}
             >
               the official ETS Annual Meeting page
             </a>
             .
           </p>
           {lastUpdated && (
-            <p className="last-updated">Data last updated: {lastUpdated}</p>
+            <p className={classes.lastUpdated}>
+              Data last updated: {lastUpdated}
+            </p>
           )}
         </div>
-        <div className="developer-section">
-          <span className="developed-by">Developed by {fullName}</span>
-          <div className="footer-links">
+        <div className={classes.developerSection}>
+          <span className={classes.developedBy}>Developed by {fullName}</span>
+          <div className={classes.footerLinks}>
             {links.map(({ logo: Logo, name, url }) => (
               <a
                 key={url}
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="footer-link"
+                className={classes.footerLink}
                 title={name}
               >
                 <Logo size={24} />
@@ -90,9 +93,12 @@ function Footer() {
               </a>
             ))}
           </div>
-          <p className="feedback-text">
+          <p className={classes.feedbackText}>
             For any feedback or corrections, e-mail me at:{' '}
-            <a href="mailto:tthiagopmaia@gmail.com" className="email-link">
+            <a
+              href="mailto:tthiagopmaia@gmail.com"
+              className={classes.emailLink}
+            >
               tthiagopmaia@gmail.com
             </a>
           </p>

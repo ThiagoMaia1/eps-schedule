@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ClearButton from './ClearButton'
-import './SearchInput.css'
+import { useSearchInputStyles } from './SearchInput.styles'
 
 interface SearchInputProps {
   label: string
@@ -17,6 +17,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   placeholder = 'Type to search...',
   debounceMs = 300,
 }) => {
+  const { classes } = useSearchInputStyles()
   const [localValue, setLocalValue] = useState(value)
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -59,13 +60,13 @@ const SearchInput: React.FC<SearchInputProps> = ({
   }, [])
 
   return (
-    <div className="search-input-container">
-      <label className="search-input-label" htmlFor={`search-${label}`}>
+    <div className={classes.searchInputContainer}>
+      <label className={classes.searchInputLabel} htmlFor={`search-${label}`}>
         {label}
       </label>
-      <div className="search-input-wrapper">
+      <div className={classes.searchInputWrapper}>
         <svg
-          className="search-input-icon"
+          className={classes.searchInputIcon}
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
@@ -82,13 +83,13 @@ const SearchInput: React.FC<SearchInputProps> = ({
         <input
           id={`search-${label}`}
           type="text"
-          className="search-input-field"
+          className={classes.searchInputField}
           value={localValue}
           onChange={handleChange}
           placeholder={placeholder}
         />
         {localValue && (
-          <div className="search-input-clear">
+          <div className={classes.searchInputClear}>
             <ClearButton onClick={handleClear} ariaLabel="Clear search" />
           </div>
         )}
