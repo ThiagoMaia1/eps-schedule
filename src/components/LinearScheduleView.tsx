@@ -3,6 +3,7 @@ import { type ScheduleData } from '../types/schedule'
 import SessionCard from './SessionCard'
 import TimeGuideColumn from './TimeGuideColumn'
 import DayContainer from './DayContainer'
+import HourGridLine from './HourGridLine'
 import { type SessionWithLocationExtended } from '../hooks/useScheduleTableFilters'
 import { useScheduleTableStyles } from './ScheduleTable.styles'
 
@@ -64,13 +65,12 @@ const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
             style={{ height: calendarHeight }}
           >
             {/* Hour grid lines */}
-            {timeMarkers.map((time, idx) => (
-              <div
-                key={`grid-${idx}`}
-                className={classes.hourGridLine}
-                style={{ top: (time - minTime) * pixelsPerMinute }}
-              />
-            ))}
+            <HourGridLine
+              timeMarkers={timeMarkers}
+              minTime={minTime}
+              pixelsPerMinute={pixelsPerMinute}
+              skipFirstLine
+            />
 
             {/* All sessions with overlap handling */}
             {allSessions.map((sessionWithLoc, idx) => {

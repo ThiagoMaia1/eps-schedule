@@ -124,6 +124,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
           <span className={cx(classes.sessionTag, classes.moderatorTag)}>
             Moderator
           </span>
+          <span> </span>
           {highlightText(moderator.name, searchText)}
         </div>
       )}

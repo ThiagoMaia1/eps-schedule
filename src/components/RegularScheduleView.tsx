@@ -9,6 +9,7 @@ import TrackCard from './TrackCard'
 import GeneralEventCard from './GeneralEventCard'
 import TimeGuideColumn from './TimeGuideColumn'
 import DayContainer from './DayContainer'
+import HourGridLine from './HourGridLine'
 import { useScheduleTableStyles } from './ScheduleTable.styles'
 
 interface RegularScheduleViewProps {
@@ -112,15 +113,11 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                 style={{ height: calendarHeight }}
               >
                 {/* Hour grid lines */}
-                {timeMarkers.map((time, idx) => (
-                  <div
-                    key={`grid-${idx}`}
-                    className={baseClasses.hourGridLine}
-                    style={{
-                      top: (time - minTime) * pixelsPerMinute,
-                    }}
-                  />
-                ))}
+                <HourGridLine
+                  timeMarkers={timeMarkers}
+                  minTime={minTime}
+                  pixelsPerMinute={pixelsPerMinute}
+                />
 
                 {/* Show general events in this column if the option is enabled */}
                 {showGeneralEventsInColumns &&
