@@ -18,7 +18,7 @@ export const useSlideshowStyles = makeStyles()((theme) => ({
     padding: '0 4.5rem',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-      padding: '0 3rem',
+      padding: '0',
     },
   },
 
@@ -26,6 +26,8 @@ export const useSlideshowStyles = makeStyles()((theme) => ({
     position: 'relative',
     width: '100%',
     overflow: 'hidden',
+    touchAction: 'pan-y pinch-zoom',
+    userSelect: 'none',
   },
 
   slideshowSlide: {
@@ -115,27 +117,16 @@ export const useSlideshowStyles = makeStyles()((theme) => ({
     },
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-      fontSize: '1.5rem',
-      padding: '0.375rem 0.5rem',
-      minWidth: '40px',
-      minHeight: '40px',
+      display: 'none',
     },
   },
 
   slideshowArrowLeft: {
     left: '0.5rem',
-
-    [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-      left: '0.25rem',
-    },
   },
 
   slideshowArrowRight: {
     right: '0.5rem',
-
-    [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-      right: '0.25rem',
-    },
   },
 
   slideshowDots: {

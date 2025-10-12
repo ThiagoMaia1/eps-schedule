@@ -16,9 +16,14 @@ const Slideshow: React.FC<SlideshowProps> = ({
   const [previousSlide, setPreviousSlide] = useState<number | null>(null)
   const [direction, setDirection] = useState<'left' | 'right'>('right')
   const [visitedSlides, setVisitedSlides] = useState<Set<number>>(new Set([0]))
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
   const { classes, cx } = useSlideshowStyles()
   const totalSlides = React.Children.count(children)
+
+  // Minimum swipe distance (in px) to trigger slide change
+  const minSwipeDistance = 50
 
   // Clear previous slide after animation completes
   useEffect(() => {
@@ -72,6 +77,32 @@ const Slideshow: React.FC<SlideshowProps> = ({
     }
   }, [onNextSlideCallback, goToNext])
 
+  // Handle touch start
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  // Handle touch move
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  // Handle touch end
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+
+    if (isLeftSwipe) {
+      goToNext()
+    } else if (isRightSwipe) {
+      goToPrevious()
+    }
+  }
+
   if (totalSlides === 0) {
     return null
   }
@@ -87,7 +118,12 @@ const Slideshow: React.FC<SlideshowProps> = ({
           ‹
         </button>
 
-        <div className={classes.slideshowSlides}>
+        <div
+          className={classes.slideshowSlides}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {React.Children.map(children, (child, index) => {
             const isActive = index === currentSlide
             const isPrevious = index === previousSlide
