@@ -157,7 +157,7 @@ function App() {
   return (
     <>
       <div className={classes.appContainer}>
-        <h1>Full Schedule (All Talks)</h1>
+        <h1>ETS 2025 Theological Conference Schedule - Boston</h1>
 
         <Filters
           activeLocation={activeLocation}
