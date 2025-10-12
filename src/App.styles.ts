@@ -6,7 +6,7 @@ export const useAppStyles = makeStyles()((theme) => ({
     fontFamily:
       'system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif',
     margin: 0,
-    padding: '24px',
+    padding: '16px',
     paddingBottom: 0,
     lineHeight: 1.35,
     display: 'flex',
@@ -21,6 +21,7 @@ export const useAppStyles = makeStyles()((theme) => ({
     '& h1': {
       margin: '0 0 8px 0',
       flexShrink: 0,
+      fontSize: '1.75rem',
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
         fontSize: '1.5rem',

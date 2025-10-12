@@ -9,13 +9,12 @@ export const useEmptyStateStyles = makeStyles()((theme) => ({
     padding: '80px 40px',
     textAlign: 'center',
     background: '#f9fafb',
-    borderRadius: '12px',
-    margin: '40px 20px',
+    borderRadius: theme.borderRadius.xl,
+    marginTop: theme.spacing.lg,
     border: '2px dashed #d1d5db',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
       padding: '40px 20px',
-      margin: '20px 10px',
     },
   },
 

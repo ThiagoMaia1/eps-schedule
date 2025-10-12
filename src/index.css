@@ -25,6 +25,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
+  font-size: 14px; /* Base font size reduced for better scaling on larger screens */
 }
 
 html,

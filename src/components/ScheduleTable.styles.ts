@@ -147,7 +147,6 @@ export const useScheduleTableStyles = makeStyles<ScheduleTableStylesProps>()(
         minWidth: theme.dimensions.colWidthMobile,
         maxWidth: theme.dimensions.colWidthMobile,
         scrollSnapAlign: 'start',
-        scrollSnapStop: 'always',
       },
     },
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useSlideshowStyles } from './Slideshow.styles'
 
 interface SlideshowProps {
@@ -13,51 +13,33 @@ const Slideshow: React.FC<SlideshowProps> = ({
   onNextSlideCallback,
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [previousSlide, setPreviousSlide] = useState<number | null>(null)
-  const [direction, setDirection] = useState<'left' | 'right'>('right')
   const [visitedSlides, setVisitedSlides] = useState<Set<number>>(new Set([0]))
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragOffset, setDragOffset] = useState(0)
 
-  const { classes, cx } = useSlideshowStyles()
+  const { classes, cx } = useSlideshowStyles({ isDragging })
   const totalSlides = React.Children.count(children)
 
   // Minimum swipe distance (in px) to trigger slide change
   const minSwipeDistance = 50
 
-  // Clear previous slide after animation completes
-  useEffect(() => {
-    if (previousSlide !== null) {
-      const timer = setTimeout(() => {
-        setPreviousSlide(null)
-      }, 400) // Match animation duration
-      return () => clearTimeout(timer)
-    }
-  }, [previousSlide, currentSlide])
+  const goToSlide = useCallback(
+    (index: number) => {
+      if (index === currentSlide) return
+      setCurrentSlide(index)
+    },
+    [currentSlide]
+  )
 
-  const goToSlide = (index: number) => {
-    if (index === currentSlide) return
+  const goToPrevious = useCallback(() => {
+    setCurrentSlide((prev) => Math.max(0, prev - 1))
+  }, [])
 
-    setPreviousSlide(currentSlide)
-    if (index > currentSlide) {
-      setDirection('right')
-    } else if (index < currentSlide) {
-      setDirection('left')
-    }
-    setCurrentSlide(index)
-  }
-
-  const goToPrevious = () => {
-    setPreviousSlide(currentSlide)
-    setDirection('left')
-    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1))
-  }
-
-  const goToNext = () => {
-    setPreviousSlide(currentSlide)
-    setDirection('right')
-    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1))
-  }
+  const goToNext = useCallback(() => {
+    setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1))
+  }, [totalSlides])
 
   // Track visited slides and notify parent when all have been visited
   useEffect(() => {
@@ -68,7 +50,7 @@ const Slideshow: React.FC<SlideshowProps> = ({
       const allVisited = updatedVisitedSlides.size === totalSlides
       onAllSlidesVisited(allVisited)
     }
-  }, [currentSlide, totalSlides, onAllSlidesVisited])
+  }, [currentSlide, totalSlides, onAllSlidesVisited, visitedSlides])
 
   // Provide the goToNext function to the parent
   useEffect(() => {
@@ -81,30 +63,68 @@ const Slideshow: React.FC<SlideshowProps> = ({
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null)
     setTouchStart(e.targetTouches[0].clientX)
+    setIsDragging(true)
+    setDragOffset(0)
   }
 
   // Handle touch move
   const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX)
+    if (!touchStart) return
+
+    const currentTouch = e.targetTouches[0].clientX
+    const diff = currentTouch - touchStart
+
+    setTouchEnd(currentTouch)
+    setDragOffset(diff)
   }
 
   // Handle touch end
   const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return
+    setIsDragging(false)
+
+    if (!touchStart || !touchEnd) {
+      setDragOffset(0)
+      return
+    }
 
     const distance = touchStart - touchEnd
     const isLeftSwipe = distance > minSwipeDistance
     const isRightSwipe = distance < -minSwipeDistance
 
-    if (isLeftSwipe) {
+    // Only swipe if not at the edges
+    if (isLeftSwipe && currentSlide < totalSlides - 1) {
       goToNext()
-    } else if (isRightSwipe) {
+    } else if (isRightSwipe && currentSlide > 0) {
       goToPrevious()
     }
+
+    // Reset drag offset after determining swipe direction
+    setDragOffset(0)
   }
 
   if (totalSlides === 0) {
     return null
+  }
+
+  // Calculate the effective transform, preventing drag beyond boundaries
+  const getTransform = () => {
+    // Calculate what the slide position would be with the current drag
+    // We need to estimate the container width for clamping
+    // Since we're using percentage-based positioning, we need to be careful
+    // A simple approach: clamp dragOffset based on current position
+    let effectiveDragOffset = dragOffset
+
+    // At first slide, don't allow positive drag (dragging right)
+    if (currentSlide === 0 && dragOffset > 0) {
+      effectiveDragOffset = dragOffset * 0.3 // rubber band effect
+    }
+
+    // At last slide, don't allow negative drag (dragging left)
+    if (currentSlide === totalSlides - 1 && dragOffset < 0) {
+      effectiveDragOffset = dragOffset * 0.3 // rubber band effect
+    }
+
+    return `translateX(calc(-${currentSlide * 100}% + ${effectiveDragOffset}px))`
   }
 
   return (
@@ -124,29 +144,18 @@ const Slideshow: React.FC<SlideshowProps> = ({
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          {React.Children.map(children, (child, index) => {
-            const isActive = index === currentSlide
-            const isPrevious = index === previousSlide
-            const shouldRender = isActive || isPrevious
-
-            return (
-              <div
-                className={cx(
-                  classes.slideshowSlide,
-                  isActive && classes.slideActive,
-                  isPrevious && classes.slidePrevious,
-                  isActive && direction === 'right' && classes.slideInRight,
-                  isPrevious && direction === 'right' && classes.slideOutLeft,
-                  isActive && direction === 'left' && classes.slideInLeft,
-                  isPrevious && direction === 'left' && classes.slideOutRight
-                )}
-                key={index}
-                style={{ display: shouldRender ? 'block' : 'none' }}
-              >
+          <div
+            className={classes.slideshowSlidesInner}
+            style={{
+              transform: getTransform(),
+            }}
+          >
+            {React.Children.map(children, (child, index) => (
+              <div className={classes.slideshowSlide} key={index}>
                 {child}
               </div>
-            )
-          })}
+            ))}
+          </div>
         </div>
 
         <button

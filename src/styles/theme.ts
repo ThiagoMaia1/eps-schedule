@@ -128,11 +128,11 @@ export const theme = {
   },
 
   dimensions: {
-    colWidth: '350px',
+    colWidth: '280px',
     colWidthMobile: 'min(320px, calc(100vw - 70px))',
-    timeColWidth: '80px',
+    timeColWidth: '65px',
     timeColWidthMobile: '50px',
-    linearColWidth: '800px',
+    linearColWidth: '640px',
   },
 
   fontSizes: {

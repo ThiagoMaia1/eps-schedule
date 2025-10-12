@@ -6,6 +6,7 @@ export const useDropdownStyles = makeStyles()((theme) => ({
     flexDirection: 'column',
     gap: '0.5rem',
     width: '100%',
+    height: '100%',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
       flexDirection: 'row',
@@ -15,8 +16,9 @@ export const useDropdownStyles = makeStyles()((theme) => ({
   },
 
   dropdownLabel: {
+    display: 'none',
     fontWeight: theme.fontWeights.semibold,
-    fontSize: '0.875rem',
+    fontSize: '0.6875rem',
     color: theme.colors.textSecondary,
     textTransform: 'uppercase',
     letterSpacing: '0.025em',
@@ -31,10 +33,20 @@ export const useDropdownStyles = makeStyles()((theme) => ({
   dropdownWrapper: {
     position: 'relative',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'stretch',
+    height: '100%',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
       flex: 1,
+    },
+
+    '& .react-select-container': {
+      height: '100%',
+    },
+
+    '& .react-select__control': {
+      height: '100%',
+      minHeight: 'unset !important',
     },
   },
 }))

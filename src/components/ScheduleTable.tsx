@@ -58,7 +58,19 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   const { classes } = useScheduleTableStyles({})
 
   // Zoom functionality
-  const { pixelsPerMinute, scrollerRef } = useScheduleZoom()
+  const { pixelsPerMinute, scrollerRef: zoomScrollerRef } = useScheduleZoom()
+
+  // Local ref to track the scroller element for other purposes
+  const localScrollerRef = useRef<HTMLDivElement>(null)
+
+  // Combined callback ref that calls both the zoom callback and updates our local ref
+  const scrollerRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      zoomScrollerRef(node)
+      localScrollerRef.current = node
+    },
+    [zoomScrollerRef]
+  )
 
   // Floating scrollbar refs
   const floatingScrollRef = useRef<HTMLDivElement>(null)
@@ -220,7 +232,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
 
   // Sync scroll between main scroller and floating scrollbar
   useEffect(() => {
-    const mainScroller = scrollerRef.current
+    const mainScroller = localScrollerRef.current
     const floatingScroll = floatingScrollRef.current
     const floatingScrollContent = floatingScrollContentRef.current
 
@@ -260,7 +272,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
       mainScroller.removeEventListener('scroll', handleMainScroll)
       floatingScroll.removeEventListener('scroll', handleFloatingScroll)
     }
-  }, [scrollerRef, hasVisibleSessions])
+  }, [hasVisibleSessions])
 
   return (
     <>
@@ -274,29 +286,82 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
         onToggleSelection={onToggleSelection}
         searchText={searchText}
       />
-      <div className={classes.scroller} ref={scrollerRef}>
-        {!hasVisibleSessions && (
-          <EmptyState
-            searchText={searchText}
-            showOnlySelected={showOnlySelected}
-            activeLocation={activeLocation}
-            activeTrack={activeTrack}
-            showOnlyEPS={showOnlyEPS}
-            showOnlyETS={showOnlyETS}
-            showOnlyCopleyPlace={showOnlyCopleyPlace}
-            showOnlySheraton={showOnlySheraton}
-            showOnlyGeneralEvents={showOnlyGeneralEvents}
-            hideGeneralEvents={hideGeneralEvents}
-            hideSpecialEvents={hideSpecialEvents}
-            showOnlyPanelQA={showOnlyPanelQA}
-          />
-        )}
-        {scheduleData.map((dayData, dayIndex) => {
-          // Linear view rendering
-          if (linearView) {
-            const allSessions = getAllSessionsWithLocations(dayData)
+      {!hasVisibleSessions ? (
+        <EmptyState
+          searchText={searchText}
+          showOnlySelected={showOnlySelected}
+          activeLocation={activeLocation}
+          activeTrack={activeTrack}
+          showOnlyEPS={showOnlyEPS}
+          showOnlyETS={showOnlyETS}
+          showOnlyCopleyPlace={showOnlyCopleyPlace}
+          showOnlySheraton={showOnlySheraton}
+          showOnlyGeneralEvents={showOnlyGeneralEvents}
+          hideGeneralEvents={hideGeneralEvents}
+          hideSpecialEvents={hideSpecialEvents}
+          showOnlyPanelQA={showOnlyPanelQA}
+        />
+      ) : (
+        <div className={classes.scroller} ref={scrollerRef}>
+          {scheduleData.map((dayData, dayIndex) => {
+            // Linear view rendering
+            if (linearView) {
+              const allSessions = getAllSessionsWithLocations(dayData)
 
-            if (allSessions.length === 0) return null
+              if (allSessions.length === 0) return null
+
+              const { minTime, maxTime } = getTimeRange(dayData, isEntryVisible)
+              const timeMarkers = generateTimeMarkers(minTime, maxTime)
+              const totalMinutes = maxTime - minTime
+              const calendarHeight = totalMinutes * pixelsPerMinute
+
+              return (
+                <LinearScheduleView
+                  key={dayIndex}
+                  dayData={dayData}
+                  allSessions={allSessions}
+                  minTime={minTime}
+                  maxTime={maxTime}
+                  timeMarkers={timeMarkers}
+                  pixelsPerMinute={pixelsPerMinute}
+                  calendarHeight={calendarHeight}
+                  selectedSessions={selectedSessions}
+                  onToggleSelection={onToggleSelection}
+                  searchText={searchText}
+                  onTimeMarkerClick={handleTimeMarkerClick}
+                  calculateSessionLayout={calculateSessionLayout}
+                />
+              )
+            }
+
+            // Regular view rendering
+            // Use the unified visible locations for consistent columns across all days
+            // Allow rendering even without location columns if we have general events to show as full-width banners
+            const hasGeneralEventsToShow =
+              !showGeneralEventsInColumns &&
+              dayData.timeSlots.some((slot) => {
+                const allEntries = Object.values(slot.sessions).flat()
+                return allEntries.some(
+                  (entry) => entry.isGeneralEvent && isEntryVisible(entry)
+                )
+              })
+
+            if (
+              unifiedVisibleLocations.length === 0 &&
+              !hasGeneralEventsToShow
+            ) {
+              return null
+            }
+
+            // Check if this specific day has any visible sessions
+            const dayHasVisibleSessions =
+              hasGeneralEventsToShow ||
+              unifiedVisibleLocations.some((location) => {
+                return getAllSessions(dayData, location).length > 0
+              })
+
+            // Skip this day if it has no visible sessions
+            if (!dayHasVisibleSessions) return null
 
             const { minTime, maxTime } = getTimeRange(dayData, isEntryVisible)
             const timeMarkers = generateTimeMarkers(minTime, maxTime)
@@ -304,10 +369,10 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
             const calendarHeight = totalMinutes * pixelsPerMinute
 
             return (
-              <LinearScheduleView
+              <RegularScheduleView
                 key={dayIndex}
                 dayData={dayData}
-                allSessions={allSessions}
+                visibleLocations={unifiedVisibleLocations}
                 minTime={minTime}
                 maxTime={maxTime}
                 timeMarkers={timeMarkers}
@@ -316,67 +381,18 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
                 selectedSessions={selectedSessions}
                 onToggleSelection={onToggleSelection}
                 searchText={searchText}
+                showOnlySelected={showOnlySelected}
+                activeLocation={activeLocation}
+                onLocationChange={onLocationChange}
                 onTimeMarkerClick={handleTimeMarkerClick}
-                calculateSessionLayout={calculateSessionLayout}
+                getAllSessions={getAllSessions}
+                isEntryVisible={isEntryVisible}
+                showGeneralEventsInColumns={showGeneralEventsInColumns}
               />
             )
-          }
-
-          // Regular view rendering
-          // Use the unified visible locations for consistent columns across all days
-          // Allow rendering even without location columns if we have general events to show as full-width banners
-          const hasGeneralEventsToShow =
-            !showGeneralEventsInColumns &&
-            dayData.timeSlots.some((slot) => {
-              const allEntries = Object.values(slot.sessions).flat()
-              return allEntries.some(
-                (entry) => entry.isGeneralEvent && isEntryVisible(entry)
-              )
-            })
-
-          if (unifiedVisibleLocations.length === 0 && !hasGeneralEventsToShow) {
-            return null
-          }
-
-          // Check if this specific day has any visible sessions
-          const dayHasVisibleSessions =
-            hasGeneralEventsToShow ||
-            unifiedVisibleLocations.some((location) => {
-              return getAllSessions(dayData, location).length > 0
-            })
-
-          // Skip this day if it has no visible sessions
-          if (!dayHasVisibleSessions) return null
-
-          const { minTime, maxTime } = getTimeRange(dayData, isEntryVisible)
-          const timeMarkers = generateTimeMarkers(minTime, maxTime)
-          const totalMinutes = maxTime - minTime
-          const calendarHeight = totalMinutes * pixelsPerMinute
-
-          return (
-            <RegularScheduleView
-              key={dayIndex}
-              dayData={dayData}
-              visibleLocations={unifiedVisibleLocations}
-              minTime={minTime}
-              maxTime={maxTime}
-              timeMarkers={timeMarkers}
-              pixelsPerMinute={pixelsPerMinute}
-              calendarHeight={calendarHeight}
-              selectedSessions={selectedSessions}
-              onToggleSelection={onToggleSelection}
-              searchText={searchText}
-              showOnlySelected={showOnlySelected}
-              activeLocation={activeLocation}
-              onLocationChange={onLocationChange}
-              onTimeMarkerClick={handleTimeMarkerClick}
-              getAllSessions={getAllSessions}
-              isEntryVisible={isEntryVisible}
-              showGeneralEventsInColumns={showGeneralEventsInColumns}
-            />
-          )
-        })}
-      </div>
+          })}
+        </div>
+      )}
     </>
   )
 }

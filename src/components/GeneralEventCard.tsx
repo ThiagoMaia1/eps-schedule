@@ -11,6 +11,7 @@ interface GeneralEventCardProps {
   top: number
   height: number
   visibleColumnsCount: number
+  pixelsPerMinute?: number
   isInPopup?: boolean
 }
 
@@ -20,11 +21,14 @@ const GeneralEventCard: React.FC<GeneralEventCardProps> = ({
   top,
   height,
   visibleColumnsCount,
+  pixelsPerMinute = 4,
   isInPopup = false,
 }) => {
   const { classes } = useGeneralEventCardStyles({
     isSpecialEvent: entry.isSpecialEvent ?? false,
     isPopupMode: isInPopup,
+    pixelsPerMinute,
+    height,
   })
   const isMobile = useIsMobile()
 

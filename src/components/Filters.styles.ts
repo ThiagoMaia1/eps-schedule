@@ -107,8 +107,8 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
       display: 'grid',
       gridTemplateColumns: '2fr 1fr',
       gap: '1rem',
-      margin: '1rem 0',
-      alignItems: 'end',
+      margin: '0 0 1rem 0',
+      alignItems: 'stretch',
 
       '&:has(> .dropdown-container:only-child)': {
         gridTemplateColumns: '1fr',
@@ -117,7 +117,7 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
         gridTemplateColumns: '1fr',
         gap: '0.75rem',
-        marginBottom: 0,
+        marginBottom: '1rem',
       },
     },
 

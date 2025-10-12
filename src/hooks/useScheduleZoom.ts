@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 interface UseScheduleZoomOptions {
   minZoom?: number
@@ -23,8 +23,17 @@ export const useScheduleZoom = (options: UseScheduleZoomOptions = {}) => {
   })
 
   const scrollerRef = useRef<HTMLDivElement>(null)
+  const [scrollerElement, setScrollerElement] = useState<HTMLDivElement | null>(
+    null
+  )
   const lastTouchDistance = useRef<number | null>(null)
   const lastPinchCenter = useRef<{ x: number; y: number } | null>(null)
+
+  // Callback ref to track when the scroller element is mounted
+  const callbackRef = useCallback((node: HTMLDivElement | null) => {
+    scrollerRef.current = node
+    setScrollerElement(node)
+  }, [])
 
   // Save zoom level to localStorage
   useEffect(() => {
@@ -33,19 +42,18 @@ export const useScheduleZoom = (options: UseScheduleZoomOptions = {}) => {
 
   // Handle desktop zoom (Ctrl/Cmd + Mouse Wheel)
   useEffect(() => {
+    if (!scrollerElement) return
+
     const handleWheel = (e: WheelEvent) => {
       if (e.ctrlKey || e.metaKey) {
         e.preventDefault()
 
-        const scroller = scrollerRef.current
-        if (!scroller) return
-
         // Get mouse position relative to the scroller
-        const rect = scroller.getBoundingClientRect()
+        const rect = scrollerElement.getBoundingClientRect()
         const mouseY = e.clientY - rect.top
 
         // Calculate the content position under the mouse before zoom
-        const scrollTop = scroller.scrollTop
+        const scrollTop = scrollerElement.scrollTop
         const contentY = scrollTop + mouseY
 
         setPixelsPerMinute((prev) => {
@@ -60,9 +68,7 @@ export const useScheduleZoom = (options: UseScheduleZoomOptions = {}) => {
 
           // Apply the new scroll position after state updates
           requestAnimationFrame(() => {
-            if (scroller) {
-              scroller.scrollTop = newScrollTop
-            }
+            scrollerElement.scrollTop = newScrollTop
           })
 
           return newZoom
@@ -70,15 +76,14 @@ export const useScheduleZoom = (options: UseScheduleZoomOptions = {}) => {
       }
     }
 
-    const scroller = scrollerRef.current
-    if (scroller) {
-      scroller.addEventListener('wheel', handleWheel, { passive: false })
-      return () => scroller.removeEventListener('wheel', handleWheel)
-    }
-  }, [minZoom, maxZoom, zoomStep])
+    scrollerElement.addEventListener('wheel', handleWheel, { passive: false })
+    return () => scrollerElement.removeEventListener('wheel', handleWheel)
+  }, [scrollerElement, minZoom, maxZoom, zoomStep])
 
   // Handle mobile pinch-to-zoom
   useEffect(() => {
+    if (!scrollerElement) return
+
     const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 2) {
         const distance = Math.hypot(
@@ -87,18 +92,15 @@ export const useScheduleZoom = (options: UseScheduleZoomOptions = {}) => {
         )
         lastTouchDistance.current = distance
 
-        const scroller = scrollerRef.current
-        if (scroller) {
-          const rect = scroller.getBoundingClientRect()
-          // Calculate pinch center (midpoint between two fingers)
-          const centerX =
-            (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left
-          const centerY =
-            (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top
+        const rect = scrollerElement.getBoundingClientRect()
+        // Calculate pinch center (midpoint between two fingers)
+        const centerX =
+          (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left
+        const centerY =
+          (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top
 
-          // Store the pinch center for this gesture
-          lastPinchCenter.current = { x: centerX, y: centerY }
-        }
+        // Store the pinch center for this gesture
+        lastPinchCenter.current = { x: centerX, y: centerY }
       }
     }
 
@@ -110,10 +112,7 @@ export const useScheduleZoom = (options: UseScheduleZoomOptions = {}) => {
       ) {
         e.preventDefault()
 
-        const scroller = scrollerRef.current
-        if (!scroller) return
-
-        const rect = scroller.getBoundingClientRect()
+        const rect = scrollerElement.getBoundingClientRect()
 
         // Calculate current pinch center
         const currentCenterX =
@@ -131,7 +130,8 @@ export const useScheduleZoom = (options: UseScheduleZoomOptions = {}) => {
         const distanceRatio = distance / lastTouchDistance.current
 
         // Get the content position at the OLD pinch center (before any changes)
-        const contentAtPinchY = scroller.scrollTop + lastPinchCenter.current.y
+        const contentAtPinchY =
+          scrollerElement.scrollTop + lastPinchCenter.current.y
 
         setPixelsPerMinute((prev) => {
           // Calculate new zoom level
@@ -149,9 +149,7 @@ export const useScheduleZoom = (options: UseScheduleZoomOptions = {}) => {
 
           // Apply the new scroll position
           requestAnimationFrame(() => {
-            if (scroller) {
-              scroller.scrollTop = newScrollTop
-            }
+            scrollerElement.scrollTop = newScrollTop
           })
 
           return newZoom
@@ -176,26 +174,23 @@ export const useScheduleZoom = (options: UseScheduleZoomOptions = {}) => {
       lastPinchCenter.current = null
     }
 
-    const scroller = scrollerRef.current
-    if (scroller) {
-      scroller.addEventListener('touchstart', handleTouchStart)
-      scroller.addEventListener('touchmove', handleTouchMove, {
-        passive: false,
-      })
-      scroller.addEventListener('touchend', handleTouchEnd)
-      scroller.addEventListener('touchcancel', handleTouchCancel)
+    scrollerElement.addEventListener('touchstart', handleTouchStart)
+    scrollerElement.addEventListener('touchmove', handleTouchMove, {
+      passive: false,
+    })
+    scrollerElement.addEventListener('touchend', handleTouchEnd)
+    scrollerElement.addEventListener('touchcancel', handleTouchCancel)
 
-      return () => {
-        scroller.removeEventListener('touchstart', handleTouchStart)
-        scroller.removeEventListener('touchmove', handleTouchMove)
-        scroller.removeEventListener('touchend', handleTouchEnd)
-        scroller.removeEventListener('touchcancel', handleTouchCancel)
-      }
+    return () => {
+      scrollerElement.removeEventListener('touchstart', handleTouchStart)
+      scrollerElement.removeEventListener('touchmove', handleTouchMove)
+      scrollerElement.removeEventListener('touchend', handleTouchEnd)
+      scrollerElement.removeEventListener('touchcancel', handleTouchCancel)
     }
-  }, [minZoom, maxZoom])
+  }, [scrollerElement, minZoom, maxZoom])
 
   return {
     pixelsPerMinute,
-    scrollerRef,
+    scrollerRef: callbackRef,
   }
 }

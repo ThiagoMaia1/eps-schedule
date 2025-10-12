@@ -3,17 +3,33 @@ import { makeStyles } from '../styles/makeStyles'
 interface GeneralEventCardStylesProps {
   isSpecialEvent: boolean
   isPopupMode: boolean
+  pixelsPerMinute: number
+  height: number
 }
 
 export const useGeneralEventCardStyles =
-  makeStyles<GeneralEventCardStylesProps>()(
-    (theme, { isSpecialEvent, isPopupMode }) => ({
+  makeStyles<GeneralEventCardStylesProps>()((
+    theme,
+    { isSpecialEvent, isPopupMode, pixelsPerMinute, height }
+  ) => {
+    // Calculate scale factor based on zoom level and available height
+    // Low zoom (2.5-3.5) = small scale, High zoom (7+) = full scale
+    const zoomScale = Math.max(0.5, Math.min(1, (pixelsPerMinute - 2.5) / 4.5))
+
+    // For very small heights, scale content even more aggressively
+    const heightScale = height < 50 ? Math.max(0.4, height / 50) : 1
+    const combinedScale = Math.min(zoomScale, heightScale)
+
+    // Time is optional and only hides when space is really tight
+    const showTime = height >= 40 || pixelsPerMinute >= 3
+
+    return {
       generalEventBanner: {
         background: isSpecialEvent
           ? theme.colors.specialEventBg
           : theme.colors.generalEventBg,
-        borderLeft: `6px solid ${isSpecialEvent ? theme.colors.specialEventBorder : theme.colors.generalEventBorder}`,
-        padding: '12px 20px',
+        borderLeft: `${Math.max(3, 6 * combinedScale)}px solid ${isSpecialEvent ? theme.colors.specialEventBorder : theme.colors.generalEventBorder}`,
+        padding: `${Math.max(4, 10 * combinedScale)}px ${Math.max(8, 16 * combinedScale)}px`,
         margin: 0,
         boxShadow: `4px 0px 8px rgba(0, 0, 0, 0.4)`,
         left: theme.dimensions.timeColWidth,
@@ -36,7 +52,7 @@ export const useGeneralEventCardStyles =
       generalEventContent: {
         display: 'flex',
         flexDirection: 'column',
-        gap: theme.spacing.md,
+        gap: `${Math.max(4, 8 * combinedScale)}px`,
         height: '100%',
       },
 
@@ -48,26 +64,44 @@ export const useGeneralEventCardStyles =
       },
 
       eventTimeLabel: {
-        fontSize: '12px',
+        display: showTime ? 'block' : 'none',
+        fontSize: '0.75rem',
         color: theme.colors.textLight,
         fontWeight: theme.fontWeights.medium,
         textTransform: 'uppercase',
         letterSpacing: '0.5px',
+        whiteSpace: 'nowrap',
+
+        [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+          display: pixelsPerMinute <= 3 ? 'none' : showTime ? 'block' : 'none',
+          fontSize: `${Math.max(0.75, 0.85 * combinedScale)}rem`,
+        },
       },
 
       eventLocationLabel: {
-        fontSize: '12px',
+        fontSize: '0.75rem',
         color: theme.colors.textGreen,
         fontWeight: theme.fontWeights.semibold,
         textTransform: 'uppercase',
         letterSpacing: '0.5px',
         paddingLeft: theme.spacing.md,
         borderLeft: '2px solid rgba(255, 255, 255, 0.3)',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+
+        [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+          fontSize: `${Math.max(0.75, 0.85 * combinedScale)}rem`,
+          borderLeft:
+            pixelsPerMinute <= 3
+              ? 'none'
+              : '2px solid rgba(255, 255, 255, 0.3)',
+          paddingLeft: pixelsPerMinute <= 3 ? '0' : theme.spacing.md,
+        },
       },
 
       generalEventTextContainer: {
         flex: 1,
-        overflow: 'visible',
         display: 'flex',
         alignItems: 'center',
       },
@@ -75,13 +109,17 @@ export const useGeneralEventCardStyles =
       generalEventHierarchy: {
         display: 'flex',
         flexDirection: 'column',
-        gap: theme.spacing.md,
-        position: 'sticky',
-        left: '180px',
+        gap: `${Math.max(4, 8 * combinedScale)}px`,
+        position: isPopupMode ? 'static' : 'sticky',
+        left: isPopupMode ? 'auto' : '180px',
         width: 'fit-content',
         maxWidth: '100%',
-        paddingLeft: theme.spacing.xxxl,
-        paddingRight: '40px',
+        paddingLeft: isPopupMode
+          ? '0'
+          : `${Math.max(10, 20 * combinedScale)}px`,
+        paddingRight: isPopupMode
+          ? '0'
+          : `${Math.max(20, 40 * combinedScale)}px`,
 
         '& mark': {
           backgroundColor: theme.colors.highlightYellow,
@@ -92,14 +130,20 @@ export const useGeneralEventCardStyles =
         },
 
         [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-          left: '80px',
+          left: '70px',
           maxWidth: 'calc(100vw - 80px)',
           wordWrap: 'break-word',
+          paddingLeft: isPopupMode
+            ? '0'
+            : `${Math.max(5, 10 * combinedScale)}px`,
+          paddingRight: isPopupMode
+            ? '0'
+            : `${Math.max(10, 20 * combinedScale)}px`,
         },
       },
 
       eventType: {
-        fontSize: '24px',
+        fontSize: '1.25rem',
         fontWeight: theme.fontWeights.extrabold,
         color: theme.colors.textWhite,
         textTransform: 'uppercase',
@@ -109,34 +153,39 @@ export const useGeneralEventCardStyles =
         marginBottom: '2px',
 
         [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-          fontSize: '18px',
+          fontSize: `${Math.max(1, 1.6 * combinedScale)}rem`,
         },
       },
 
       eventDetails: {
         display: 'flex',
         flexDirection: 'column',
-        gap: theme.spacing.md,
-        paddingLeft: theme.spacing.xl,
-        borderLeft: '4px solid rgba(255, 255, 255, 0.5)',
+        gap: `${Math.max(4, 8 * combinedScale)}px`,
+        paddingLeft: `${Math.max(6, 12 * combinedScale)}px`,
+        borderLeft: `${Math.max(2, 4 * combinedScale)}px solid rgba(255, 255, 255, 0.5)`,
       },
 
       eventTheme: {
-        fontSize: '18px',
+        fontSize: `${Math.max(0.65, 1 * combinedScale)}rem`,
         fontWeight: theme.fontWeights.semibold,
         color: theme.colors.textGreen,
         letterSpacing: '0.5px',
         lineHeight: 1.3,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        display: '-webkit-box',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
 
         [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-          fontSize: '14px',
+          fontSize: `${Math.max(0.8, 1.1 * combinedScale)}rem`,
         },
       },
 
       eventSpeakers: {
         display: 'flex',
         flexDirection: 'column',
-        gap: theme.spacing.sm,
+        gap: `${Math.max(3, 6 * combinedScale)}px`,
       },
 
       speakerItem: {
@@ -146,7 +195,7 @@ export const useGeneralEventCardStyles =
       },
 
       speakerName: {
-        fontSize: '16px',
+        fontSize: `${Math.max(0.6, 0.9375 * combinedScale)}rem`,
         fontWeight: theme.fontWeights.semibold,
         color: theme.colors.textGreen,
         display: 'flex',
@@ -154,9 +203,12 @@ export const useGeneralEventCardStyles =
         gap: theme.spacing.md,
         flexWrap: 'wrap',
         lineHeight: 1.4,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
 
         [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-          fontSize: '14px',
+          fontSize: `${Math.max(0.75, 1 * combinedScale)}rem`,
         },
       },
 
@@ -164,25 +216,33 @@ export const useGeneralEventCardStyles =
         display: 'inline-block',
         backgroundColor: 'rgba(255, 193, 7, 0.95)',
         color: '#1b5e20',
-        fontSize: '11px',
+        fontSize: `${Math.max(0.5, 0.6875 * combinedScale)}rem`,
         fontWeight: theme.fontWeights.bold,
-        padding: '3px 8px',
+        padding: `${Math.max(2, 3 * combinedScale)}px ${Math.max(4, 8 * combinedScale)}px`,
         borderRadius: theme.borderRadius.sm,
         textTransform: 'uppercase',
         letterSpacing: '0.5px',
+        whiteSpace: 'nowrap',
+
+        [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+          fontSize: `${Math.max(0.6, 0.75 * combinedScale)}rem`,
+        },
       },
 
       speakerAffiliation: {
-        fontSize: '13px',
+        fontSize: `${Math.max(0.55, 0.8125 * combinedScale)}rem`,
         fontWeight: theme.fontWeights.normal,
         color: theme.colors.textGreenLight,
         fontStyle: 'italic',
         paddingLeft: theme.spacing.xs,
         lineHeight: 1.3,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
 
         [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-          fontSize: '12px',
+          fontSize: `${Math.max(0.65, 0.85 * combinedScale)}rem`,
         },
       },
-    })
-  )
+    }
+  })

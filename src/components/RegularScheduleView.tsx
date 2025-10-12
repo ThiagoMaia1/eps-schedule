@@ -259,6 +259,7 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                               top={0}
                               height={height}
                               visibleColumnsCount={1}
+                              pixelsPerMinute={pixelsPerMinute}
                               isInPopup={true}
                             />
                           </div>
@@ -318,6 +319,7 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                 top={top}
                 height={height}
                 visibleColumnsCount={Math.max(visibleLocations.length, 1)}
+                pixelsPerMinute={pixelsPerMinute}
               />
             )
           }

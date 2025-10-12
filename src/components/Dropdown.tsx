@@ -48,9 +48,9 @@ const Dropdown: React.FC<DropdownProps> = ({
     control: (provided, state) => ({
       ...provided,
       padding: 0,
-      fontSize: '0.9375rem',
+      fontSize: '0.8125rem',
       border: state.isFocused ? '2px solid #3b82f6' : '2px solid #e5e7eb',
-      borderRadius: '0.5rem',
+      borderRadius: '0.375rem',
       backgroundColor: '#ffffff',
       color: '#1f2937',
       cursor: 'pointer',
@@ -61,7 +61,8 @@ const Dropdown: React.FC<DropdownProps> = ({
         borderColor: state.isFocused ? '#3b82f6' : '#d1d5db',
         backgroundColor: state.isFocused ? '#ffffff' : '#f9fafb',
       },
-      minHeight: '42px',
+      height: '100%',
+      minHeight: 'unset',
     }),
     menu: (provided) => ({
       ...provided,
@@ -91,7 +92,8 @@ const Dropdown: React.FC<DropdownProps> = ({
           : 'transparent',
       color: state.isSelected ? '#ffffff' : '#1f2937',
       cursor: 'pointer',
-      padding: '0.625rem 0.875rem',
+      padding: '0.5rem 0.75rem',
+      fontSize: '0.8125rem',
       borderRadius: '0.375rem',
       transition: 'all 0.15s ease',
       '&:active': {
@@ -116,7 +118,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     dropdownIndicator: (provided, state) => ({
       ...provided,
       color: '#6b7280',
-      padding: '0.5rem',
+      padding: '0.375rem',
       transition: 'all 0.2s ease',
       transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : 'rotate(0)',
       '&:hover': {

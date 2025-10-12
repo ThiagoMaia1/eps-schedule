@@ -175,6 +175,23 @@ const Filters: React.FC<FiltersProps> = ({
       </button>
 
       <div className={classes.filterContent}>
+        <div className={classes.filterRow}>
+          <SearchInput
+            label="Search"
+            value={searchText}
+            onChange={onSearchChange}
+            placeholder="Search by topic, speaker, or moderator..."
+          />
+          <Dropdown
+            label="Track"
+            value={activeTrack}
+            options={tracks}
+            onChange={onTrackChange}
+            placeholder="All Tracks"
+            showClearButton={true}
+          />
+        </div>
+
         <div className={classes.controlsWrapper}>
           <div className={classes.controls}>
             <div className={classes.onlySelectedContainer}>
@@ -382,22 +399,6 @@ const Filters: React.FC<FiltersProps> = ({
           filteredSessions={filteredSessions}
         />
 
-        <div className={classes.filterRow}>
-          <SearchInput
-            label="Search"
-            value={searchText}
-            onChange={onSearchChange}
-            placeholder="Search by topic, speaker, or moderator..."
-          />
-          <Dropdown
-            label="Track"
-            value={activeTrack}
-            options={tracks}
-            onChange={onTrackChange}
-            placeholder="All Tracks"
-            showClearButton={true}
-          />
-        </div>
         <div className={classes.legend}>
           To select a session, click the session card. Your selections will
           persist if you refresh the page. Sessions under the{' '}

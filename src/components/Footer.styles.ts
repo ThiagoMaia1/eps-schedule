@@ -4,13 +4,13 @@ export const useFooterStyles = makeStyles()((theme) => ({
   footer: {
     backgroundColor: '#000',
     color: theme.colors.textWhite,
-    padding: theme.spacing.xxxxl,
-    marginTop: theme.spacing.xxxxl,
+    padding: theme.spacing.xxl,
+    marginTop: theme.spacing.xxl,
     flexShrink: 0,
     width: '100%',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-      padding: theme.spacing.xxl,
+      padding: theme.spacing.xl,
     },
   },
 
@@ -20,24 +20,24 @@ export const useFooterStyles = makeStyles()((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: theme.spacing.xxxxl,
+    gap: theme.spacing.xxl,
   },
 
   disclaimerSection: {
     textAlign: 'center',
     borderBottom: '1px solid #333',
-    paddingBottom: theme.spacing.xxxl,
+    paddingBottom: theme.spacing.xxl,
     width: '100%',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-      paddingBottom: theme.spacing.xxl,
+      paddingBottom: theme.spacing.xl,
     },
   },
 
   disclaimer: {
-    fontSize: '14px',
+    fontSize: '0.875rem',
     color: '#ffd700',
-    margin: '0 0 8px 0',
+    margin: '0 0 6px 0',
     lineHeight: 1.6,
 
     '& strong': {
@@ -45,7 +45,7 @@ export const useFooterStyles = makeStyles()((theme) => ({
     },
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-      fontSize: '13px',
+      fontSize: '0.8125rem',
     },
   },
 
@@ -60,9 +60,9 @@ export const useFooterStyles = makeStyles()((theme) => ({
   },
 
   lastUpdated: {
-    fontSize: '13px',
+    fontSize: '0.8125rem',
     color: '#aaa',
-    margin: '8px 0 0 0',
+    margin: '6px 0 0 0',
     fontStyle: 'italic',
   },
 
@@ -70,21 +70,21 @@ export const useFooterStyles = makeStyles()((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: theme.spacing.xxl,
+    gap: theme.spacing.xl,
   },
 
   developedBy: {
-    fontSize: '14px',
+    fontSize: '0.875rem',
     color: '#ccc',
   },
 
   footerLinks: {
     display: 'flex',
-    gap: theme.spacing.xxxxl,
+    gap: theme.spacing.xxl,
     alignItems: 'center',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-      gap: theme.spacing.xxl,
+      gap: theme.spacing.xl,
     },
   },
 
@@ -101,7 +101,7 @@ export const useFooterStyles = makeStyles()((theme) => ({
     },
 
     '& span': {
-      fontSize: '14px',
+      fontSize: '0.875rem',
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
         display: 'none',
@@ -110,9 +110,9 @@ export const useFooterStyles = makeStyles()((theme) => ({
   },
 
   feedbackText: {
-    fontSize: '14px',
+    fontSize: '0.875rem',
     color: '#ccc',
-    margin: '8px 0 0 0',
+    margin: '6px 0 0 0',
     textAlign: 'center',
   },
 

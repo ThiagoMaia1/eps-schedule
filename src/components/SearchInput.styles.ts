@@ -6,6 +6,7 @@ export const useSearchInputStyles = makeStyles()((theme) => ({
     flexDirection: 'column',
     gap: '0.5rem',
     width: '100%',
+    height: '100%',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
       flexDirection: 'row',
@@ -15,8 +16,9 @@ export const useSearchInputStyles = makeStyles()((theme) => ({
   },
 
   searchInputLabel: {
+    display: 'none',
     fontWeight: theme.fontWeights.semibold,
-    fontSize: '0.875rem',
+    fontSize: '0.6875rem',
     color: theme.colors.textSecondary,
     textTransform: 'uppercase',
     letterSpacing: '0.025em',
@@ -31,7 +33,8 @@ export const useSearchInputStyles = makeStyles()((theme) => ({
   searchInputWrapper: {
     position: 'relative',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'stretch',
+    height: '100%',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
       flex: 1,
@@ -40,9 +43,12 @@ export const useSearchInputStyles = makeStyles()((theme) => ({
 
   searchInputIcon: {
     position: 'absolute',
-    left: '0.875rem',
+    left: '0.625rem',
+    top: '50%',
+    transform: 'translateY(-50%)',
     color: '#9ca3af',
     pointerEvents: 'none',
+    fontSize: '0.875rem',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
       width: '18px',
@@ -53,10 +59,11 @@ export const useSearchInputStyles = makeStyles()((theme) => ({
 
   searchInputField: {
     width: '100%',
-    padding: '0.625rem 2.75rem 0.625rem 2.75rem',
-    fontSize: '0.9375rem',
+    height: '100%',
+    padding: '0.375rem 2rem 0.375rem 2rem',
+    fontSize: '0.8125rem',
     border: '2px solid #e5e7eb',
-    borderRadius: '0.5rem',
+    borderRadius: '0.375rem',
     backgroundColor: '#ffffff',
     color: '#1f2937',
     outline: 'none',
@@ -85,7 +92,9 @@ export const useSearchInputStyles = makeStyles()((theme) => ({
 
   searchInputClear: {
     position: 'absolute',
-    right: '0.75rem',
+    right: '0.625rem',
+    top: '50%',
+    transform: 'translateY(-50%)',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
       right: '0.625rem',

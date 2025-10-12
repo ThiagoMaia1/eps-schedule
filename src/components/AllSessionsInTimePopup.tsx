@@ -128,8 +128,9 @@ const AllSessionsInTimePopup: React.FC<AllSessionsInTimePopupProps> = ({
                             entry={entry}
                             searchText={effectiveSearchText}
                             top={0}
-                            height={0}
+                            height={150}
                             visibleColumnsCount={1}
+                            pixelsPerMinute={4}
                             isInPopup={true}
                           />
                         </div>
