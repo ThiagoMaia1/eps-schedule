@@ -191,7 +191,10 @@ export const useScheduleTableStyles = makeStyles<ScheduleTableStylesProps>()(
       '&:hover': {
         overflow: 'visible',
         zIndex: theme.zIndex.sessionHover,
-        boxShadow: theme.shadows.xl,
+
+        '& > div': {
+          filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15))',
+        },
       },
 
       '&:not(.general-event-session-wrapper):hover': {

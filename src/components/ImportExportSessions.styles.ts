@@ -4,8 +4,8 @@ interface ImportExportSessionsStylesProps {
   messageType?: 'success' | 'error' | 'warning'
 }
 
-export const useImportExportSessionsStyles = makeStyles<ImportExportSessionsStylesProps>()(
-  (theme, { messageType }) => ({
+export const useImportExportSessionsStyles =
+  makeStyles<ImportExportSessionsStylesProps>()((theme, { messageType }) => ({
     importExportSection: {
       marginBottom: '1.5rem',
     },
@@ -239,6 +239,4 @@ export const useImportExportSessionsStyles = makeStyles<ImportExportSessionsStyl
         fontWeight: theme.fontWeights.semibold,
       },
     },
-  })
-)
-
+  }))

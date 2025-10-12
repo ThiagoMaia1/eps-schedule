@@ -94,4 +94,3 @@ export const useAllSessionsInTimePopupStyles = makeStyles()((theme) => ({
     borderRadius: theme.borderRadius.round,
   },
 }))
-

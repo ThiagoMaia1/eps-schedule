@@ -44,19 +44,29 @@ const SessionCard: React.FC<SessionCardProps> = ({
       </div>
       {(entry.isPanelDiscussion || entry.isQAndA || isResponse) && (
         <div className={classes.speaker}>
-          {entry.isPanelDiscussion && (
+          {entry.isPanelDiscussion && entry.isQAndA ? (
             <span
               className={cx(classes.sessionTag, classes.panelDiscussionTag)}
             >
-              Panel Discussion
+              Panel Discussion & Q&A
             </span>
-          )}
-          {entry.isQAndA && (
-            <span
-              className={cx(classes.sessionTag, classes.panelDiscussionTag)}
-            >
-              Q&A
-            </span>
+          ) : (
+            <>
+              {entry.isPanelDiscussion && (
+                <span
+                  className={cx(classes.sessionTag, classes.panelDiscussionTag)}
+                >
+                  Panel Discussion
+                </span>
+              )}
+              {entry.isQAndA && (
+                <span
+                  className={cx(classes.sessionTag, classes.panelDiscussionTag)}
+                >
+                  Q&A
+                </span>
+              )}
+            </>
           )}
           {isResponse && (
             <span

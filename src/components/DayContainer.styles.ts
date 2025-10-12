@@ -35,4 +35,3 @@ export const useDayContainerStyles = makeStyles()((theme) => ({
     background: '#f8f8f8',
   },
 }))
-

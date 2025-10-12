@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { type ScheduleData, type ScheduleEntry } from '../types/schedule'
 import { getHotelFromLocation } from '../utils/scheduleTableUtils'
+import { roomOrder, sortLocationsByRoomOrder } from '../utils/roomOrder'
 
 export interface SessionWithLocation {
   entry: ScheduleEntry
@@ -25,8 +26,16 @@ interface UseScheduleTableFiltersProps {
   showOnlyGeneralEvents: boolean
   hideGeneralEvents: boolean
   hideSpecialEvents: boolean
+  showOnlyPanelQA: boolean
+  showOnlyInvitedGuest: boolean
   selectedSessions: Set<string>
 }
+
+// Check if two sessions overlap
+const sessionsOverlap = (
+  s1: SessionWithLocationExtended,
+  s2: SessionWithLocationExtended
+): boolean => s1.startMinutes < s2.endMinutes && s2.startMinutes < s1.endMinutes
 
 export const useScheduleTableFilters = (
   props: UseScheduleTableFiltersProps
@@ -43,6 +52,8 @@ export const useScheduleTableFilters = (
     showOnlyGeneralEvents,
     hideGeneralEvents,
     hideSpecialEvents,
+    showOnlyPanelQA,
+    showOnlyInvitedGuest,
     selectedSessions,
   } = props
 
@@ -79,6 +90,8 @@ export const useScheduleTableFilters = (
       if (showOnlyEPS && !entry.isEPS && !entry.isGeneralEvent) return false
       if (showOnlyETS && entry.isEPS && !entry.isGeneralEvent) return false
       if (activeTrack && entry.track !== activeTrack) return false
+      if (showOnlyPanelQA && !entry.isPanelOrQA) return false
+      if (showOnlyInvitedGuest && !entry.isInvitedGuest) return false
 
       // Filter by search text
       if (searchText.trim()) {
@@ -88,6 +101,7 @@ export const useScheduleTableFilters = (
           entry.speaker,
           entry.affiliation,
           entry.track,
+          entry.eventType, // For general events
           getModeratorName(entry),
         ]
 
@@ -111,6 +125,8 @@ export const useScheduleTableFilters = (
       showOnlyEPS,
       showOnlyETS,
       activeTrack,
+      showOnlyPanelQA,
+      showOnlyInvitedGuest,
       searchText,
       selectedSessions,
     ]
@@ -158,102 +174,140 @@ export const useScheduleTableFilters = (
       })
 
       // Sort by start time
-      const sortedSessions = sessions.sort(
-        (a, b) => a.startMinutes - b.startMinutes
-      )
-
-      // Check for hotel changes between consecutive sessions
-      for (let i = 0; i < sortedSessions.length - 1; i++) {
-        const current = sortedSessions[i]
-        const next = sortedSessions[i + 1]
-
-        const currentHotel = getHotelFromLocation(current.location)
-        const nextHotel = getHotelFromLocation(next.location)
-
-        // If both sessions have hotel information and they're at different hotels
-        // Only mark as needing hotel change if next session starts AFTER current session ends
-        if (
-          currentHotel &&
-          nextHotel &&
-          currentHotel !== nextHotel &&
-          next.startMinutes > current.endMinutes
-        ) {
-          // Mark the current session as needing hotel change
-          current.needsHotelChange = true
-        }
-      }
-
-      return sortedSessions
+      return sessions.sort((a, b) => a.startMinutes - b.startMinutes)
     },
     [isLocationVisible, isEntryVisible, selectedSessions]
-  )
-
-  // Check if two sessions overlap
-  const sessionsOverlap = useCallback(
-    (
-      s1: SessionWithLocationExtended,
-      s2: SessionWithLocationExtended
-    ): boolean => {
-      return s1.startMinutes < s2.endMinutes && s2.startMinutes < s1.endMinutes
-    },
-    []
   )
 
   // Calculate layout for overlapping sessions
   const calculateSessionLayout = useCallback(
     (
       session: SessionWithLocationExtended,
-      allSessionsAtTime: SessionWithLocationExtended[]
-    ): { left: string; width: string } => {
+      allSessions: SessionWithLocationExtended[]
+    ): { left: string; width: string; needsHotelChange?: boolean } => {
       // Find all sessions that overlap with this one
-      const overlapping = allSessionsAtTime.filter((s) =>
-        sessionsOverlap(s, session)
-      )
+      const overlapping = allSessions.filter((s) => sessionsOverlap(s, session))
 
-      if (overlapping.length <= 1) {
-        return { left: '0%', width: '100%' }
+      // Check for hotel change: if this session's hotel differs from any previous session
+      const currentHotel = getHotelFromLocation(session.location)
+      let needsHotelChange = false
+
+      if (currentHotel) {
+        // Find all sessions that start before this one
+        const previousSessions = allSessions.filter(
+          (s) => s.startMinutes < session.startMinutes
+        )
+
+        // Check if any previous session is at a different hotel
+        needsHotelChange = previousSessions.some((prevSession) => {
+          const prevHotel = getHotelFromLocation(prevSession.location)
+          return prevHotel && prevHotel !== currentHotel
+        })
       }
 
-      // Sort by start time to get consistent ordering
-      overlapping.sort(
-        (a, b) => a.startMinutes - b.startMinutes || a.endMinutes - b.endMinutes
-      )
+      if (overlapping.length <= 1) {
+        return { left: '0%', width: '100%', needsHotelChange }
+      }
 
-      // Find the index of the current session
-      const index = overlapping.findIndex(
-        (s) => s.entry.id === session.entry.id
-      )
-      const totalOverlapping = overlapping.length
+      // Calculate the maximum number of simultaneous overlapping sessions
+      // by checking how many sessions are active at each time point
+      const timePoints: number[] = []
+      overlapping.forEach((s) => {
+        timePoints.push(s.startMinutes, s.endMinutes)
+      })
+      const uniqueTimePoints = [...new Set(timePoints)].sort((a, b) => a - b)
 
-      const width = 100 / totalOverlapping
-      const left = width * index
+      let maxSimultaneous = 0
+      uniqueTimePoints.forEach((time) => {
+        const activeCount = overlapping.filter(
+          (s) => s.startMinutes <= time && time < s.endMinutes
+        ).length
+        maxSimultaneous = Math.max(maxSimultaneous, activeCount)
+      })
 
-      return { left: `${left}%`, width: `${width}%` }
+      // Get all unique locations from overlapping sessions
+      const locations = [...new Set(overlapping.map((s) => s.location))]
+
+      // Sort locations by room order
+      const sortedLocations = sortLocationsByRoomOrder(locations, roomOrder)
+
+      // Assign each location to a column based on conflicts
+      // A location gets the lowest column number that doesn't conflict with
+      // any location it overlaps with in time
+      const locationToColumn = new Map<string, number>()
+
+      for (const location of sortedLocations) {
+        // Find all sessions at this location
+        const sessionsAtLocation = overlapping.filter(
+          (s) => s.location === location
+        )
+
+        // Find all locations that have sessions overlapping with any session at this location
+        const conflictingLocations = new Set<string>()
+        sessionsAtLocation.forEach((sessionAtLoc) => {
+          overlapping.forEach((otherSession) => {
+            if (
+              otherSession.location !== location &&
+              sessionsOverlap(sessionAtLoc, otherSession)
+            ) {
+              conflictingLocations.add(otherSession.location)
+            }
+          })
+        })
+
+        // Find the lowest column number not used by conflicting locations
+        const usedColumns = new Set<number>()
+        conflictingLocations.forEach((conflictLoc) => {
+          const col = locationToColumn.get(conflictLoc)
+          if (col !== undefined) {
+            usedColumns.add(col)
+          }
+        })
+
+        // Assign the lowest available column
+        let column = 0
+        while (usedColumns.has(column)) {
+          column++
+        }
+        locationToColumn.set(location, column)
+      }
+
+      // Get the column for the current session's location
+      const column = locationToColumn.get(session.location) ?? 0
+
+      const width = 100 / maxSimultaneous
+      const left = width * column
+
+      return { left: `${left}%`, width: `${width}%`, needsHotelChange }
     },
-    [sessionsOverlap]
+    []
   )
 
   // Check if there are any visible sessions across all days
-  // For regular view, only count locations that have non-general/special events
   const hasAnyVisibleSessions = useCallback(
     (scheduleData: ScheduleData[], linearView: boolean): boolean => {
       return scheduleData.some((dayData) => {
         if (linearView) {
           return getAllSessionsWithLocations(dayData).length > 0
         } else {
-          const visibleLocations = dayData.locations.filter((location) => {
-            if (!isLocationVisible(location)) return false
-            const sessions = getAllSessions(dayData, location)
-            // If showing only general events, count general events
-            // Otherwise, only count if there's at least one non-general/special event
-            if (showOnlyGeneralEvents) {
-              return sessions.some((session) => session.isGeneralEvent)
+          // Check if there are any visible sessions in location columns
+          const hasVisibleLocationSessions = dayData.locations.some(
+            (location) => {
+              if (!isLocationVisible(location)) return false
+              const sessions = getAllSessions(dayData, location)
+              return sessions.length > 0
             }
-            return sessions.some(
-              (session) => !session.isGeneralEvent && !session.isSpecialEvent
+          )
+
+          // Also check if there are any visible general/special events that would be rendered as full-width banners
+          const hasVisibleGeneralEvents = dayData.timeSlots.some((slot) => {
+            const allEntries = Object.values(slot.sessions).flat()
+            return allEntries.some(
+              (entry) => entry.isGeneralEvent && isEntryVisible(entry)
             )
           })
-          return visibleLocations.length > 0
+
+          return hasVisibleLocationSessions || hasVisibleGeneralEvents
         }
       })
     },
@@ -261,7 +315,7 @@ export const useScheduleTableFilters = (
       getAllSessionsWithLocations,
       isLocationVisible,
       getAllSessions,
-      showOnlyGeneralEvents,
+      isEntryVisible,
     ]
   )
 

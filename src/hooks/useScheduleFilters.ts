@@ -53,6 +53,8 @@ interface FilterQueryParams extends Record<string, string> {
   hideSpecial: string
   linear: string
   generalInColumns: string
+  panelQA: string
+  invitedGuest: string
 }
 
 export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
@@ -102,6 +104,8 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
   const showGeneralEventsInColumns = stringToBoolean(
     queryParams.generalInColumns
   )
+  const showOnlyPanelQA = stringToBoolean(queryParams.panelQA)
+  const showOnlyInvitedGuest = stringToBoolean(queryParams.invitedGuest)
 
   // Load selected sessions from localStorage on mount and clean up invalid ones
   useEffect(() => {
@@ -266,10 +270,12 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
   }, [showOnlySheraton, setQueryParams])
 
   const handleToggleGeneralEvents = useCallback(() => {
+    const newValue = !showOnlyGeneralEvents
     setQueryParams((prev) => {
       const newParams = { ...prev }
-      if (!showOnlyGeneralEvents) {
+      if (newValue) {
         newParams.general = 'true'
+        delete newParams.hideGeneral // If enabling "Only General Events", disable "Hide General Events"
       } else {
         delete newParams.general
       }
@@ -278,10 +284,12 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
   }, [showOnlyGeneralEvents, setQueryParams])
 
   const handleToggleHideGeneralEvents = useCallback(() => {
+    const newValue = !hideGeneralEvents
     setQueryParams((prev) => {
       const newParams = { ...prev }
-      if (!hideGeneralEvents) {
+      if (newValue) {
         newParams.hideGeneral = 'true'
+        delete newParams.general // If enabling "Hide General Events", disable "Only General Events"
       } else {
         delete newParams.hideGeneral
       }
@@ -326,6 +334,30 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
       return newParams
     })
   }, [showGeneralEventsInColumns, setQueryParams])
+
+  const handleTogglePanelQA = useCallback(() => {
+    setQueryParams((prev) => {
+      const newParams = { ...prev }
+      if (!showOnlyPanelQA) {
+        newParams.panelQA = 'true'
+      } else {
+        delete newParams.panelQA
+      }
+      return newParams
+    })
+  }, [showOnlyPanelQA, setQueryParams])
+
+  const handleToggleInvitedGuest = useCallback(() => {
+    setQueryParams((prev) => {
+      const newParams = { ...prev }
+      if (!showOnlyInvitedGuest) {
+        newParams.invitedGuest = 'true'
+      } else {
+        delete newParams.invitedGuest
+      }
+      return newParams
+    })
+  }, [showOnlyInvitedGuest, setQueryParams])
 
   const handleToggleSessionSelection = useCallback(
     (sessionId: string) => {
@@ -486,6 +518,8 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     hideSpecialEvents,
     linearView,
     showGeneralEventsInColumns,
+    showOnlyPanelQA,
+    showOnlyInvitedGuest,
     selectedSessions,
     isSessionsLoaded,
 
@@ -509,6 +543,8 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     handleToggleHideSpecialEvents,
     handleToggleLinearView,
     handleToggleGeneralEventsInColumns,
+    handleTogglePanelQA,
+    handleToggleInvitedGuest,
     handleToggleSessionSelection,
 
     // Import/Export handlers

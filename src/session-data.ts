@@ -10539,7 +10539,7 @@ export const Tracks: TrackGroup[] = [
             date: 'November 18th',
             dayOfWeek: 'Tuesday',
             startTime: '10:40 AM',
-            endTime: '12:10 AM',
+            endTime: '11:20 AM',
             speaker: {
               name: 'John Peckham & RT Mullins & Kimberley Kroll & Tyler McNabb & Elijah Hess',
               affiliation:

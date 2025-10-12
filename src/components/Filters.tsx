@@ -30,6 +30,10 @@ interface FiltersProps {
   onToggleHideGeneralEvents: () => void
   hideSpecialEvents: boolean
   onToggleHideSpecialEvents: () => void
+  showOnlyPanelQA: boolean
+  onTogglePanelQA: () => void
+  showOnlyInvitedGuest: boolean
+  onToggleInvitedGuest: () => void
   linearView: boolean
   onToggleLinearView: () => void
   showGeneralEventsInColumns: boolean
@@ -72,6 +76,10 @@ const Filters: React.FC<FiltersProps> = ({
   onToggleHideGeneralEvents,
   hideSpecialEvents,
   onToggleHideSpecialEvents,
+  showOnlyPanelQA,
+  onTogglePanelQA,
+  showOnlyInvitedGuest,
+  onToggleInvitedGuest,
   linearView,
   onToggleLinearView,
   showGeneralEventsInColumns,
@@ -98,6 +106,7 @@ const Filters: React.FC<FiltersProps> = ({
   })
   const [isImportExportOpen, setIsImportExportOpen] = useState(false)
   const [showLegendTooltip, setShowLegendTooltip] = useState(false)
+  const [showMoreFilters, setShowMoreFilters] = useState(false)
 
   const { classes, cx } = useFiltersStyles({ isPanelCollapsed })
 
@@ -129,6 +138,8 @@ const Filters: React.FC<FiltersProps> = ({
     if (showOnlySheraton) count++
     if (showOnlyGeneralEvents) count++
     if (hideGeneralEvents) count++
+    if (showOnlyPanelQA) count++
+    if (showOnlyInvitedGuest) count++
     if (searchText) count++
     if (activeLocation) count++
     if (activeTrack) count++
@@ -249,15 +260,6 @@ const Filters: React.FC<FiltersProps> = ({
             <span
               className={cx(
                 classes.btn,
-                showOnlyGeneralEvents && classes.btnActive
-              )}
-              onClick={onToggleGeneralEvents}
-            >
-              Only General Events
-            </span>
-            <span
-              className={cx(
-                classes.btn,
                 hideGeneralEvents && classes.btnActive
               )}
               onClick={onToggleHideGeneralEvents}
@@ -273,6 +275,44 @@ const Filters: React.FC<FiltersProps> = ({
             >
               Hide Special Events
             </span>
+            <span
+              className={cx(classes.btn)}
+              onClick={() => setShowMoreFilters(!showMoreFilters)}
+              style={{ cursor: 'pointer' }}
+            >
+              {showMoreFilters ? '− Less filters' : '+ More filters'}
+            </span>
+            {showMoreFilters && (
+              <>
+                <span
+                  className={cx(
+                    classes.btn,
+                    showOnlyGeneralEvents && classes.btnActive
+                  )}
+                  onClick={onToggleGeneralEvents}
+                >
+                  Only General Events
+                </span>
+                <span
+                  className={cx(
+                    classes.btn,
+                    showOnlyPanelQA && classes.btnActive
+                  )}
+                  onClick={onTogglePanelQA}
+                >
+                  Only Panel/Q&A
+                </span>
+                <span
+                  className={cx(
+                    classes.btn,
+                    showOnlyInvitedGuest && classes.btnActive
+                  )}
+                  onClick={onToggleInvitedGuest}
+                >
+                  Only Invited Guest
+                </span>
+              </>
+            )}
             <span
               style={{ display: 'none' }}
               className={cx(

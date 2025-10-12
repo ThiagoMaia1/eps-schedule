@@ -25,6 +25,8 @@ interface ScheduleTableProps {
   showOnlyGeneralEvents: boolean
   hideGeneralEvents: boolean
   hideSpecialEvents: boolean
+  showOnlyPanelQA: boolean
+  showOnlyInvitedGuest: boolean
   linearView: boolean
   showGeneralEventsInColumns: boolean
   selectedSessions: Set<string>
@@ -45,6 +47,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   showOnlyGeneralEvents,
   hideGeneralEvents,
   hideSpecialEvents,
+  showOnlyPanelQA,
+  showOnlyInvitedGuest,
   linearView,
   showGeneralEventsInColumns,
   selectedSessions,
@@ -80,6 +84,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     showOnlyGeneralEvents,
     hideGeneralEvents,
     hideSpecialEvents,
+    showOnlyPanelQA,
+    showOnlyInvitedGuest,
     selectedSessions,
   })
 
@@ -273,6 +279,16 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
           <EmptyState
             searchText={searchText}
             showOnlySelected={showOnlySelected}
+            activeLocation={activeLocation}
+            activeTrack={activeTrack}
+            showOnlyEPS={showOnlyEPS}
+            showOnlyETS={showOnlyETS}
+            showOnlyCopleyPlace={showOnlyCopleyPlace}
+            showOnlySheraton={showOnlySheraton}
+            showOnlyGeneralEvents={showOnlyGeneralEvents}
+            hideGeneralEvents={hideGeneralEvents}
+            hideSpecialEvents={hideSpecialEvents}
+            showOnlyPanelQA={showOnlyPanelQA}
           />
         )}
         {scheduleData.map((dayData, dayIndex) => {

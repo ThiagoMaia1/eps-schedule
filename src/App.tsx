@@ -24,6 +24,8 @@ function App() {
     showOnlyGeneralEvents,
     hideGeneralEvents,
     hideSpecialEvents,
+    showOnlyPanelQA,
+    showOnlyInvitedGuest,
     linearView,
     showGeneralEventsInColumns,
     selectedSessions,
@@ -40,6 +42,8 @@ function App() {
     handleToggleGeneralEvents,
     handleToggleHideGeneralEvents,
     handleToggleHideSpecialEvents,
+    handleTogglePanelQA,
+    handleToggleInvitedGuest,
     handleToggleLinearView,
     handleToggleGeneralEventsInColumns,
     handleToggleSessionSelection,
@@ -81,6 +85,8 @@ function App() {
       if (showOnlyEPS && !entry.isEPS && !entry.isGeneralEvent) return false
       if (showOnlyETS && entry.isEPS && !entry.isGeneralEvent) return false
       if (activeTrack && entry.track !== activeTrack) return false
+      if (showOnlyPanelQA && !entry.isPanelOrQA) return false
+      if (showOnlyInvitedGuest && !entry.isInvitedGuest) return false
 
       // Filter by search text
       if (searchText.trim()) {
@@ -90,6 +96,7 @@ function App() {
           entry.speaker,
           entry.affiliation,
           entry.track,
+          entry.eventType, // For general events
           getModeratorName(entry),
         ]
 
@@ -142,6 +149,8 @@ function App() {
     showOnlyGeneralEvents,
     hideGeneralEvents,
     hideSpecialEvents,
+    showOnlyPanelQA,
+    showOnlyInvitedGuest,
     selectedSessions,
   ])
 
@@ -170,6 +179,10 @@ function App() {
           onToggleHideGeneralEvents={handleToggleHideGeneralEvents}
           hideSpecialEvents={hideSpecialEvents}
           onToggleHideSpecialEvents={handleToggleHideSpecialEvents}
+          showOnlyPanelQA={showOnlyPanelQA}
+          onTogglePanelQA={handleTogglePanelQA}
+          showOnlyInvitedGuest={showOnlyInvitedGuest}
+          onToggleInvitedGuest={handleToggleInvitedGuest}
           linearView={linearView}
           onToggleLinearView={handleToggleLinearView}
           showGeneralEventsInColumns={showGeneralEventsInColumns}
@@ -202,6 +215,8 @@ function App() {
           showOnlyGeneralEvents={showOnlyGeneralEvents}
           hideGeneralEvents={hideGeneralEvents}
           hideSpecialEvents={hideSpecialEvents}
+          showOnlyPanelQA={showOnlyPanelQA}
+          showOnlyInvitedGuest={showOnlyInvitedGuest}
           linearView={linearView}
           showGeneralEventsInColumns={showGeneralEventsInColumns}
           selectedSessions={selectedSessions}

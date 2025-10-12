@@ -4,7 +4,7 @@ import Select, {
   components,
   type ClearIndicatorProps,
 } from 'react-select'
-import { IoClose } from 'react-icons/io5'
+import ClearButton from './ClearButton'
 import { useDropdownStyles } from './Dropdown.styles'
 
 interface DropdownProps {
@@ -125,24 +125,15 @@ const Dropdown: React.FC<DropdownProps> = ({
     }),
     clearIndicator: (provided) => ({
       ...provided,
-      color: '#6b7280',
-      padding: '0.5rem',
-      cursor: 'pointer',
-      '&:hover': {
-        color: '#374151',
-      },
+      padding: '0.25rem 0.5rem',
     }),
   }
 
-  // Custom clear indicator to use the existing ClearButton style
+  // Custom clear indicator to use the existing ClearButton component
   const ClearIndicator = (props: ClearIndicatorProps<OptionType, false>) => {
     return (
       <components.ClearIndicator {...props}>
-        <div
-          style={{ display: 'flex', alignItems: 'center', padding: '0 4px' }}
-        >
-          <IoClose size={18} color="#6b7280" />
-        </div>
+        <ClearButton onClick={props.clearValue} ariaLabel={`Clear ${label}`} />
       </components.ClearIndicator>
     )
   }

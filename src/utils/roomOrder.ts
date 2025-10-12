@@ -6,8 +6,8 @@ export interface RoomOrder {
 
 export const roomOrder = {
   'Copley Place': {
-    First: ['Boylston', 'Tremont'],
-    Third: [
+    '1st': ['Boylston', 'Tremont'],
+    '3rd': [
       'Boston University',
       'Brandeis',
       'Harvard',
@@ -20,7 +20,7 @@ export const roomOrder = {
       'Tufts',
       'Wellesley',
     ],
-    Fourth: [
+    '4th': [
       'Falmouth',
       'Grand Ballroom Salon A',
       'Grand Ballroom Salon B',
@@ -38,16 +38,16 @@ export const roomOrder = {
       'Vineyard',
       'Yarmouth',
     ],
-    Fifth: ['Maine', 'Massachusetts', 'New Hampshire', 'Vermont'],
+    '5th': ['Maine', 'Massachusetts', 'New Hampshire', 'Vermont'],
   },
   Sheraton: {
-    Second: [
+    '2nd': [
       'Back Bay Ballroom A',
       'Back Bay Ballroom B',
       'Back Bay Ballroom C',
       'Back Bay Ballroom D',
     ],
-    Third: ['Commonwealth', 'Fairfax A'],
+    '3rd': ['Commonwealth', 'Fairfax A'],
   },
 }
 
@@ -61,7 +61,7 @@ export const sortLocationsByRoomOrder = (
 
   // Iterate through hotels in order (Copley Place first, then Sheraton)
   const hotels = ['Copley Place', 'Sheraton']
-  const floors = ['First', 'Second', 'Third', 'Fourth', 'Fifth']
+  const floors = ['1st', '2nd', '3rd', '4th', '5th']
 
   for (const hotel of hotels) {
     const hotelData = roomOrder[hotel]

@@ -261,6 +261,7 @@ const transformSessionDataToScheduleData = (
   })
   const unsortedAllLocations = Array.from(allLocationsSet)
   const allLocations = sortLocationsByRoomOrder(unsortedAllLocations, roomOrder)
+  console.log(allLocations)
 
   // Transform each date group into ScheduleData
   const scheduleDataArray: ScheduleData[] = []
@@ -310,11 +311,31 @@ const transformSessionDataToScheduleData = (
           // This ensures highlighting persists even if schedule changes
           const speakerStr = row.speakers
             ? row.speakers.map((s) => s.name).join('-')
-            : row.speaker || 'empty'
-          const sessionId =
-            `${speakerStr}-${row.theme || 'empty'}-${row.affiliation || 'empty'}`
+            : row.speaker || ''
+          const themeStr = row.theme || ''
+          const affiliationStr = row.affiliation || ''
+
+          // For panel discussions/QA with no speaker/theme/affiliation, use track/subtheme
+          let sessionId: string
+          const isPanelOrQA = row.is_panel_or_qa === true
+          const hasNoComponents = !speakerStr && !themeStr && !affiliationStr
+
+          if (isPanelOrQA && hasNoComponents) {
+            // Get shift info for track/subtheme
+            const shift = row.shift_id
+              ? dayShifts.find((s) => s.id === row.shift_id)
+              : undefined
+            const trackStr = row.track || shift?.track || 'empty'
+            const subthemeStr = shift?.subtheme || 'empty'
+            sessionId = `${trackStr}-${subthemeStr}`
               .replace(/\s+/g, '-')
               .toLowerCase()
+          } else {
+            sessionId =
+              `${speakerStr || 'empty'}-${themeStr || 'empty'}-${affiliationStr || 'empty'}`
+                .replace(/\s+/g, '-')
+                .toLowerCase()
+          }
 
           // Get moderator info if this session has a shift
           const shift = row.shift_id

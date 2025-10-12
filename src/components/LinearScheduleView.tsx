@@ -26,7 +26,7 @@ interface LinearScheduleViewProps {
   calculateSessionLayout: (
     session: SessionWithLocationExtended,
     allSessions: SessionWithLocationExtended[]
-  ) => { left: string; width: string }
+  ) => { left: string; width: string; needsHotelChange?: boolean }
 }
 
 const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
@@ -59,7 +59,12 @@ const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
 
         {/* Single timeline column for all sessions */}
         <div className={cx(classes.locationColumn, classes.linearColumn)}>
-          <div className={classes.calendarHeader}>Selected Sessions</div>
+          <div
+            className={classes.calendarHeader}
+            style={{ pointerEvents: 'none' }}
+          >
+            Selected Sessions (left to right based on location order)
+          </div>
           <div
             className={classes.sessionsContainer}
             style={{ height: calendarHeight }}
@@ -80,13 +85,9 @@ const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
               const top = (startMinutes - minTime) * pixelsPerMinute
               const height = duration * pixelsPerMinute
 
-              // Check if previous session needs hotel change
-              const previousSession = idx > 0 ? allSessions[idx - 1] : null
-              const showVenueChangeWarning =
-                previousSession?.needsHotelChange ?? false
-
-              // Calculate layout for overlapping sessions
+              // Calculate layout for overlapping sessions and check for hotel change
               const layout = calculateSessionLayout(sessionWithLoc, allSessions)
+              const showVenueChangeWarning = layout.needsHotelChange ?? false
 
               return (
                 <div
