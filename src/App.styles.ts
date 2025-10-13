@@ -19,14 +19,45 @@ export const useAppStyles = makeStyles()((theme) => ({
     },
 
     '& h1': {
-      margin: '0 0 8px 0',
+      margin: 0,
       flexShrink: 0,
       fontSize: '1.75rem',
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
         fontSize: '1.5rem',
-        margin: '0 0 6px 0',
       },
+    },
+  },
+
+  titleContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    marginBottom: '8px',
+    flexShrink: 0,
+
+    [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+      gap: '8px',
+      marginBottom: '6px',
+    },
+  },
+
+  officialLink: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    color: theme.colors.primary,
+    fontSize: '1.25rem',
+    textDecoration: 'none',
+    transition: 'all 0.2s ease',
+    opacity: 0.8,
+
+    '&:hover': {
+      opacity: 1,
+      transform: 'translateY(-1px)',
+    },
+
+    [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+      fontSize: '1.1rem',
     },
   },
 

@@ -2,12 +2,15 @@ import { makeStyles } from '../styles/makeStyles'
 
 interface SessionCardStylesProps {
   isSelected: boolean
-  isEPS: boolean
+  classificationColor?: {
+    background: string
+    border: string
+  }
   isPanelOrQA: boolean
 }
 
 export const useSessionCardStyles = makeStyles<SessionCardStylesProps>()(
-  (theme, { isSelected, isEPS }) => ({
+  (theme, { isSelected, classificationColor }) => ({
     cell: {
       textWrap: 'balance',
       display: 'flex',
@@ -16,12 +19,12 @@ export const useSessionCardStyles = makeStyles<SessionCardStylesProps>()(
       padding: theme.spacing.md,
       borderRadius: 'inherit',
       border: `1px solid ${theme.colors.borderSecondary}`,
-      background: isEPS
-        ? theme.colors.eps
+      background: classificationColor
+        ? classificationColor.background
         : isSelected
           ? theme.colors.selected
           : theme.colors.bgWhite,
-      borderColor: `${isSelected ? theme.colors.selectedBorder : isEPS ? theme.colors.epsBorder : theme.colors.borderSecondary} !important`,
+      borderColor: `${isSelected ? theme.colors.selectedBorder : classificationColor ? classificationColor.border : theme.colors.borderSecondary} !important`,
       boxShadow: isSelected ? theme.shadows.insetSelected : 'none',
       height: '100%',
       boxSizing: 'border-box',

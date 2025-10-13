@@ -17,60 +17,34 @@ export interface SessionWithLocationExtended extends SessionWithLocation {
 }
 
 interface UseScheduleTableFiltersProps {
+  selectedSessions: Set<string>
   activeLocation: string | null
-  activeTrack: string | null
-  searchText: string
   showOnlySelected: boolean
-  showOnlyEPS: boolean
-  showOnlyETS: boolean
-  showOnlyCopleyPlace: boolean
-  showOnlySheraton: boolean
+  activeVenue: string | null
+  activeClassification: string | null
   showOnlyGeneralEvents: boolean
   hideGeneralEvents: boolean
   hideSpecialEvents: boolean
   showOnlyPanelQA: boolean
   showOnlyInvitedGuest: boolean
-  selectedSessions: Set<string>
+  searchText: string
+  activeTrack: string | null
 }
 
-export const useScheduleTableFilters = (
-  props: UseScheduleTableFiltersProps
-) => {
-  const {
-    activeLocation,
-    activeTrack,
-    searchText,
-    showOnlySelected,
-    showOnlyEPS,
-    showOnlyETS,
-    showOnlyCopleyPlace,
-    showOnlySheraton,
-    showOnlyGeneralEvents,
-    hideGeneralEvents,
-    hideSpecialEvents,
-    showOnlyPanelQA,
-    showOnlyInvitedGuest,
-    selectedSessions,
-  } = props
-
-  const isLocationVisible = useCallback(
-    (location: string): boolean => {
-      if (activeLocation && location !== activeLocation) {
-        return false
-      }
-      // Filter by Copley Place
-      if (showOnlyCopleyPlace && !location.includes('Copley Place')) {
-        return false
-      }
-      // Filter by Sheraton
-      if (showOnlySheraton && !location.includes('Sheraton')) {
-        return false
-      }
-      return true
-    },
-    [activeLocation, showOnlyCopleyPlace, showOnlySheraton]
-  )
-
+export const useScheduleTableFilters = ({
+  selectedSessions,
+  activeLocation,
+  showOnlySelected,
+  activeVenue,
+  activeClassification,
+  showOnlyGeneralEvents,
+  hideGeneralEvents,
+  hideSpecialEvents,
+  showOnlyPanelQA,
+  showOnlyInvitedGuest,
+  searchText,
+  activeTrack,
+}: UseScheduleTableFiltersProps) => {
   // Helper function to get moderator name for a session
   const getModeratorName = (entry: ScheduleEntry): string | undefined => {
     return entry.moderator?.name
@@ -83,8 +57,14 @@ export const useScheduleTableFilters = (
       // Hide filters
       if (entry.isGeneralEvent && hideGeneralEvents) return false
       if (entry.isSpecialEvent && hideSpecialEvents) return false
-      if (showOnlyEPS && !entry.isEPS && !entry.isGeneralEvent) return false
-      if (showOnlyETS && entry.isEPS && !entry.isGeneralEvent) return false
+      // Filter by venue
+      if (activeVenue && entry.location?.hotel !== activeVenue) return false
+      // Filter by classification
+      if (
+        activeClassification &&
+        entry.primaryClassification !== activeClassification
+      )
+        return false
       if (activeTrack && entry.track !== activeTrack) return false
       if (showOnlyPanelQA && !entry.isPanelOrQA) return false
       if (showOnlyInvitedGuest && !entry.isInvitedGuest) return false
@@ -114,18 +94,32 @@ export const useScheduleTableFilters = (
       return true
     },
     [
+      selectedSessions,
       showOnlySelected,
+      activeVenue,
+      activeClassification,
       showOnlyGeneralEvents,
       hideGeneralEvents,
       hideSpecialEvents,
-      showOnlyEPS,
-      showOnlyETS,
-      activeTrack,
       showOnlyPanelQA,
       showOnlyInvitedGuest,
       searchText,
-      selectedSessions,
+      activeTrack,
     ]
+  )
+
+  const isLocationVisible = useCallback(
+    (location: string): boolean => {
+      if (activeLocation && location !== activeLocation) {
+        return false
+      }
+      // Filter by venue
+      if (activeVenue && !location.includes(activeVenue)) {
+        return false
+      }
+      return true
+    },
+    [activeLocation, activeVenue]
   )
 
   // Collect all sessions from all time slots

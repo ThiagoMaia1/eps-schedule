@@ -33,6 +33,40 @@ const getAllTracks = (scheduleData: ScheduleData[]): string[] => {
   return Array.from(tracksSet).sort()
 }
 
+// Extract all unique venues from the schedule data (from hotel field in locations)
+const getAllVenues = (scheduleData: ScheduleData[]): string[] => {
+  const venuesSet = new Set<string>()
+  scheduleData.forEach((day) => {
+    day.timeSlots.forEach((timeSlot) => {
+      Object.values(timeSlot.sessions).forEach((sessions) => {
+        sessions.forEach((session) => {
+          if (session.location?.hotel) {
+            venuesSet.add(session.location.hotel)
+          }
+        })
+      })
+    })
+  })
+  return Array.from(venuesSet).sort()
+}
+
+// Extract all unique special classifications from the schedule data
+const getAllClassifications = (scheduleData: ScheduleData[]): string[] => {
+  const classificationsSet = new Set<string>()
+  scheduleData.forEach((day) => {
+    day.timeSlots.forEach((timeSlot) => {
+      Object.values(timeSlot.sessions).forEach((sessions) => {
+        sessions.forEach((session) => {
+          if (session.primaryClassification) {
+            classificationsSet.add(session.primaryClassification)
+          }
+        })
+      })
+    })
+  })
+  return Array.from(classificationsSet).sort()
+}
+
 // Helper to convert string to boolean
 const stringToBoolean = (value: string | undefined): boolean => {
   return value === 'true'
@@ -44,10 +78,8 @@ interface FilterQueryParams extends Record<string, string> {
   track: string
   search: string
   selected: string
-  eps: string
-  ets: string
-  copley: string
-  sheraton: string
+  venue: string
+  classification: string
   general: string
   hideGeneral: string
   hideSpecial: string
@@ -57,7 +89,10 @@ interface FilterQueryParams extends Record<string, string> {
   invitedGuest: string
 }
 
-export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
+export const useScheduleFilters = (
+  scheduleData: ScheduleData[],
+  config?: { hideSpecialEventsByDefault?: boolean }
+) => {
   // Query params state
   const [queryParams, setQueryParams] = useQueryParams<FilterQueryParams>()
 
@@ -92,14 +127,18 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
   const activeTrack = queryParams.track || null
   const searchText = queryParams.search || ''
   const showOnlySelected = stringToBoolean(queryParams.selected)
-  const showOnlyEPS = stringToBoolean(queryParams.eps)
-  const showOnlyETS = stringToBoolean(queryParams.ets)
-  const showOnlyCopleyPlace = stringToBoolean(queryParams.copley)
-  const showOnlySheraton = stringToBoolean(queryParams.sheraton)
+  const activeVenue = queryParams.venue || null
+  const activeClassification = queryParams.classification || null
   const showOnlyGeneralEvents = stringToBoolean(queryParams.general)
   const hideGeneralEvents = stringToBoolean(queryParams.hideGeneral)
-  // hideSpecialEvents defaults to true when not set, only false when explicitly set to 'false'
-  const hideSpecialEvents = queryParams.hideSpecial === 'false' ? false : true
+  // hideSpecialEvents defaults based on event config, can be overridden by query param
+  const defaultHideSpecial = config?.hideSpecialEventsByDefault ?? true
+  const hideSpecialEvents =
+    queryParams.hideSpecial === 'false'
+      ? false
+      : queryParams.hideSpecial === 'true'
+        ? true
+        : defaultHideSpecial
   const linearView = stringToBoolean(queryParams.linear)
   const showGeneralEventsInColumns = stringToBoolean(
     queryParams.generalInColumns
@@ -146,9 +185,11 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     }
   }, [linearView, showOnlySelected, setQueryParams])
 
-  // Extract locations and tracks from schedule data
+  // Extract locations, tracks, venues, and classifications from schedule data
   const allLocations = getAllLocations(scheduleData)
   const allTracks = getAllTracks(scheduleData)
+  const allVenues = getAllVenues(scheduleData)
+  const allClassifications = getAllClassifications(scheduleData)
 
   // Setters that update query params
   const setActiveLocation = useCallback(
@@ -213,61 +254,35 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     })
   }, [showOnlySelected, setQueryParams])
 
-  const handleToggleEPS = useCallback(() => {
-    const newValue = !showOnlyEPS
-    setQueryParams((prev) => {
-      const newParams = { ...prev }
-      if (newValue) {
-        newParams.eps = 'true'
-        delete newParams.ets // If enabling EPS, disable ETS
-      } else {
-        delete newParams.eps
-      }
-      return newParams
-    })
-  }, [showOnlyEPS, setQueryParams])
+  const setActiveVenue = useCallback(
+    (venue: string | null) => {
+      setQueryParams((prev) => {
+        const newParams = { ...prev }
+        if (venue) {
+          newParams.venue = venue
+        } else {
+          delete newParams.venue
+        }
+        return newParams
+      })
+    },
+    [setQueryParams]
+  )
 
-  const handleToggleETS = useCallback(() => {
-    const newValue = !showOnlyETS
-    setQueryParams((prev) => {
-      const newParams = { ...prev }
-      if (newValue) {
-        newParams.ets = 'true'
-        delete newParams.eps // If enabling ETS, disable EPS
-      } else {
-        delete newParams.ets
-      }
-      return newParams
-    })
-  }, [showOnlyETS, setQueryParams])
-
-  const handleToggleCopleyPlace = useCallback(() => {
-    const newValue = !showOnlyCopleyPlace
-    setQueryParams((prev) => {
-      const newParams = { ...prev }
-      if (newValue) {
-        newParams.copley = 'true'
-        delete newParams.sheraton // If enabling Copley Place, disable Sheraton
-      } else {
-        delete newParams.copley
-      }
-      return newParams
-    })
-  }, [showOnlyCopleyPlace, setQueryParams])
-
-  const handleToggleSheraton = useCallback(() => {
-    const newValue = !showOnlySheraton
-    setQueryParams((prev) => {
-      const newParams = { ...prev }
-      if (newValue) {
-        newParams.sheraton = 'true'
-        delete newParams.copley // If enabling Sheraton, disable Copley Place
-      } else {
-        delete newParams.sheraton
-      }
-      return newParams
-    })
-  }, [showOnlySheraton, setQueryParams])
+  const setActiveClassification = useCallback(
+    (classification: string | null) => {
+      setQueryParams((prev) => {
+        const newParams = { ...prev }
+        if (classification) {
+          newParams.classification = classification
+        } else {
+          delete newParams.classification
+        }
+        return newParams
+      })
+    },
+    [setQueryParams]
+  )
 
   const handleToggleGeneralEvents = useCallback(() => {
     const newValue = !showOnlyGeneralEvents
@@ -301,15 +316,23 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     setQueryParams((prev) => {
       const newParams = { ...prev }
       if (!hideSpecialEvents) {
-        // Turning on hide (default state) - remove param
-        delete newParams.hideSpecial
+        // Turning on hide - set to 'true' if default is false, otherwise remove param
+        if (!defaultHideSpecial) {
+          newParams.hideSpecial = 'true'
+        } else {
+          delete newParams.hideSpecial
+        }
       } else {
-        // Turning off hide (show special events) - explicitly set to 'false'
-        newParams.hideSpecial = 'false'
+        // Turning off hide - set to 'false' if default is true, otherwise remove param
+        if (defaultHideSpecial) {
+          newParams.hideSpecial = 'false'
+        } else {
+          delete newParams.hideSpecial
+        }
       }
       return newParams
     })
-  }, [hideSpecialEvents, setQueryParams])
+  }, [hideSpecialEvents, defaultHideSpecial, setQueryParams])
 
   const handleToggleLinearView = useCallback(() => {
     setQueryParams((prev) => {
@@ -509,10 +532,8 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     activeTrack,
     searchText,
     showOnlySelected,
-    showOnlyEPS,
-    showOnlyETS,
-    showOnlyCopleyPlace,
-    showOnlySheraton,
+    activeVenue,
+    activeClassification,
     showOnlyGeneralEvents,
     hideGeneralEvents,
     hideSpecialEvents,
@@ -527,17 +548,17 @@ export const useScheduleFilters = (scheduleData: ScheduleData[]) => {
     setActiveLocation,
     setActiveTrack,
     setSearchText,
+    setActiveVenue,
+    setActiveClassification,
 
     // Computed values
     allLocations,
     allTracks,
+    allVenues,
+    allClassifications,
 
     // Toggle handlers
     handleToggleSelected,
-    handleToggleEPS,
-    handleToggleETS,
-    handleToggleCopleyPlace,
-    handleToggleSheraton,
     handleToggleGeneralEvents,
     handleToggleHideGeneralEvents,
     handleToggleHideSpecialEvents,

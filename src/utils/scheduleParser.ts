@@ -50,7 +50,8 @@ interface SessionDataRow {
   is_special_event?: boolean
   is_moderator?: boolean
   has_room_conflict?: boolean
-  is_evangelical_philosophical_society?: boolean
+  special_classifications?: string[]
+  primary_classification?: string
   is_panel_or_qa?: boolean
   is_panel_discussion?: boolean
   is_q_and_a?: boolean
@@ -100,8 +101,8 @@ const flattenTracks = (tracks: TrackGroup[]): ParsedData => {
       shifts.push({
         id: shiftId,
         moderator: {
-          name: shift.moderator.name,
-          affiliation: shift.moderator.affiliation,
+          name: shift.moderator?.name || '',
+          affiliation: shift.moderator?.affiliation,
         },
         startTime: earliestTime,
         endTime: latestTime,
@@ -134,6 +135,26 @@ const flattenTracks = (tracks: TrackGroup[]): ParsedData => {
           themeText = session.theme
         }
 
+        // Determine highest priority classification (priority: session > track-shift > track)
+        // Note: sessions don't have their own classification in the current structure,
+        // so we check shift then track, taking the first classification from the array
+        let primaryClassification: string | undefined
+        let allClassifications: string[] | undefined
+
+        if (
+          shift.specialClassifications &&
+          shift.specialClassifications.length > 0
+        ) {
+          allClassifications = shift.specialClassifications
+          primaryClassification = shift.specialClassifications[0]
+        } else if (
+          trackGroup.specialClassifications &&
+          trackGroup.specialClassifications.length > 0
+        ) {
+          allClassifications = trackGroup.specialClassifications
+          primaryClassification = trackGroup.specialClassifications[0]
+        }
+
         const sessionData: SessionDataRow = {
           date: session.date,
           day_of_week: session.dayOfWeek,
@@ -145,8 +166,8 @@ const flattenTracks = (tracks: TrackGroup[]): ParsedData => {
           speakers: hasSpeakers ? session.speakers : undefined,
           theme: themeText,
           track: trackGroup.track || undefined,
-          is_evangelical_philosophical_society:
-            trackGroup.isEvangelicalPhilosophicalSociety || false,
+          special_classifications: allClassifications,
+          primary_classification: primaryClassification,
           is_general_event: false,
           is_panel_or_qa: isPanelOrQA,
           is_panel_discussion: isPanelDiscussion,
@@ -191,7 +212,8 @@ export const parseScheduleData = (path?: string): ScheduleData[] => {
         track: undefined,
         is_general_event: true,
         is_special_event: event.isSpecialEvent === true,
-        is_evangelical_philosophical_society: false,
+        special_classifications: event.specialClassifications,
+        primary_classification: event.specialClassifications?.[0],
         is_panel_or_qa: false,
         has_room_conflict: false,
         is_invited_guest: event.speaker?.isInvitedGuest,
@@ -354,7 +376,8 @@ const transformSessionDataToScheduleData = (
             endTime: row.end_time,
             startMinutes: parseTimeToMinutes(row.start_time),
             endMinutes: parseTimeToMinutes(row.end_time),
-            isEPS: row.is_evangelical_philosophical_society === true,
+            specialClassifications: row.special_classifications,
+            primaryClassification: row.primary_classification,
             track: row.track || undefined,
             hasRoomConflict: row.has_room_conflict === true,
             isGeneralEvent: isGeneralEvent,

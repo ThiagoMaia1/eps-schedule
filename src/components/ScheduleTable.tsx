@@ -18,10 +18,8 @@ interface ScheduleTableProps {
   activeTrack: string | null
   searchText: string
   showOnlySelected: boolean
-  showOnlyEPS: boolean
-  showOnlyETS: boolean
-  showOnlyCopleyPlace: boolean
-  showOnlySheraton: boolean
+  activeVenue: string | null
+  activeClassification: string | null
   showOnlyGeneralEvents: boolean
   hideGeneralEvents: boolean
   hideSpecialEvents: boolean
@@ -40,10 +38,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   activeTrack,
   searchText,
   showOnlySelected,
-  showOnlyEPS,
-  showOnlyETS,
-  showOnlyCopleyPlace,
-  showOnlySheraton,
+  activeVenue,
+  activeClassification,
   showOnlyGeneralEvents,
   hideGeneralEvents,
   hideSpecialEvents,
@@ -85,20 +81,18 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     calculateSessionLayout,
     hasAnyVisibleSessions,
   } = useScheduleTableFilters({
+    selectedSessions,
     activeLocation,
-    activeTrack,
-    searchText,
     showOnlySelected,
-    showOnlyEPS,
-    showOnlyETS,
-    showOnlyCopleyPlace,
-    showOnlySheraton,
+    activeVenue,
+    activeClassification,
     showOnlyGeneralEvents,
     hideGeneralEvents,
     hideSpecialEvents,
     showOnlyPanelQA,
     showOnlyInvitedGuest,
-    selectedSessions,
+    searchText,
+    activeTrack,
   })
 
   // Popup state
@@ -122,10 +116,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     activeTrack !== null ||
     searchText.trim() !== '' ||
     showOnlySelected ||
-    showOnlyEPS ||
-    showOnlyETS ||
-    showOnlyCopleyPlace ||
-    showOnlySheraton ||
+    activeVenue !== null ||
+    activeClassification !== null ||
     showOnlyGeneralEvents ||
     hideGeneralEvents ||
     hideSpecialEvents ||
@@ -316,10 +308,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
           showOnlySelected={showOnlySelected}
           activeLocation={activeLocation}
           activeTrack={activeTrack}
-          showOnlyEPS={showOnlyEPS}
-          showOnlyETS={showOnlyETS}
-          showOnlyCopleyPlace={showOnlyCopleyPlace}
-          showOnlySheraton={showOnlySheraton}
+          activeVenue={activeVenue}
+          activeClassification={activeClassification}
           showOnlyGeneralEvents={showOnlyGeneralEvents}
           hideGeneralEvents={hideGeneralEvents}
           hideSpecialEvents={hideSpecialEvents}

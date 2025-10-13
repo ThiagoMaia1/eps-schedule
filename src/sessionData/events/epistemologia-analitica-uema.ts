@@ -150,82 +150,123 @@ export const generalEvents: GeneralEvent[] = [
       room: 'General',
     },
   },
+  // Keynotes
+  {
+    date: 'October 20th',
+    dayOfWeek: 'Monday',
+    startTime: '2:15 PM',
+    endTime: '3:30 PM',
+    eventType: 'Keynote',
+    isSpecialEvent: true,
+    speaker: {
+      name: 'Florência Rimoldi',
+    },
+    theme:
+      'La dimensión colectiva de la reparación epistémica como conversación',
+    location: {
+      hotel: 'Prédio da Arquitetura',
+      floor: '1st',
+      room: 'Main Hall',
+    },
+  },
+  {
+    date: 'October 20th',
+    dayOfWeek: 'Monday',
+    startTime: '6:30 PM',
+    endTime: '7:30 PM',
+    eventType: 'Keynote',
+    isSpecialEvent: true,
+    speaker: {
+      name: 'Carlos Augusto Sartori',
+    },
+    theme: 'S pode ser salvo se acreditar que a Terra é plana?',
+    location: {
+      hotel: 'Prédio da Arquitetura',
+      floor: '1st',
+      room: 'Main Hall',
+    },
+  },
+  {
+    date: 'October 21st',
+    dayOfWeek: 'Tuesday',
+    startTime: '2:00 PM',
+    endTime: '3:15 PM',
+    eventType: 'Keynote',
+    isSpecialEvent: true,
+    speaker: {
+      name: 'André Abath',
+    },
+    theme: 'O que está acontecendo? Desinformação, Entendimento e Ignorância',
+    location: {
+      hotel: 'Prédio da Arquitetura',
+      floor: '1st',
+      room: 'Main Hall',
+    },
+  },
+  {
+    date: 'October 22nd',
+    dayOfWeek: 'Wednesday',
+    startTime: '2:00 PM',
+    endTime: '3:15 PM',
+    eventType: 'Keynote',
+    isSpecialEvent: true,
+    speaker: {
+      name: 'Henrique Antunes',
+    },
+    theme: 'Sobre lógicas livres de primeira ordem',
+    location: {
+      hotel: 'Prédio da Arquitetura',
+      floor: '1st',
+      room: 'Main Hall',
+    },
+  },
+  {
+    date: 'October 23rd',
+    dayOfWeek: 'Thursday',
+    startTime: '2:00 PM',
+    endTime: '3:15 PM',
+    eventType: 'Keynote',
+    isSpecialEvent: true,
+    speaker: {
+      name: 'Tiegue Rodrigues Vieira',
+    },
+    theme: 'Less is More: On How Reasoning Increases Epistemic Status',
+    location: {
+      hotel: 'Prédio da Arquitetura',
+      floor: '1st',
+      room: 'Main Hall',
+    },
+  },
+  {
+    date: 'October 24th',
+    dayOfWeek: 'Friday',
+    startTime: '4:30 PM',
+    endTime: '5:45 PM',
+    eventType: 'Keynote',
+    isSpecialEvent: true,
+    speaker: {
+      name: 'Luiz Paulo da Cas Cichoski',
+    },
+    theme: 'Epistemologia Coletiva e a Tese da Mente de Grupo',
+    location: {
+      hotel: 'Prédio da Arquitetura',
+      floor: '1st',
+      room: 'Main Hall',
+    },
+  },
 ]
 
 export const Tracks: TrackGroup[] = [
-  // Monday, October 20 - Keynote
-  {
-    track: 'Keynote',
-    isEvangelicalPhilosophicalSociety: false,
-    shifts: [
-      {
-        dayOfWeek: 'Monday',
-        shift: 'PM',
-        startWindow: '2:15 PM',
-        endWindow: '3:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
-        location: {
-          hotel: 'Prédio da Arquitetura',
-          floor: '1st',
-          room: 'Main Hall',
-        },
-        sessions: [
-          {
-            date: 'October 20th',
-            dayOfWeek: 'Monday',
-            startTime: '2:15 PM',
-            endTime: '3:30 PM',
-            speaker: {
-              name: 'Florência Rimoldi',
-            },
-            theme:
-              'La dimensión colectiva de la reparación epistémica como conversación',
-          },
-        ],
-      },
-      {
-        dayOfWeek: 'Monday',
-        shift: 'Evening',
-        startWindow: '6:30 PM',
-        endWindow: '7:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
-        location: {
-          hotel: 'Prédio da Arquitetura',
-          floor: '1st',
-          room: 'Main Hall',
-        },
-        sessions: [
-          {
-            date: 'October 20th',
-            dayOfWeek: 'Monday',
-            startTime: '6:30 PM',
-            endTime: '7:30 PM',
-            speaker: {
-              name: 'Carlos Augusto Sartori',
-            },
-            theme: 'S pode ser salvo se acreditar que a Terra é plana?',
-          },
-        ],
-      },
-    ],
-  },
   // Monday, October 20 - Parallel Sessions Room 1
   {
     track: 'Parallel Sessions - Room 1',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Monday',
         shift: 'PM',
         startWindow: '3:45 PM',
         endWindow: '5:45 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -261,16 +302,13 @@ export const Tracks: TrackGroup[] = [
   // Monday, October 20 - Parallel Sessions Room 2
   {
     track: 'Parallel Sessions - Room 2',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Monday',
         shift: 'PM',
         startWindow: '3:45 PM',
         endWindow: '5:45 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -316,16 +354,13 @@ export const Tracks: TrackGroup[] = [
   // Monday, October 20 - Parallel Sessions Room 3
   {
     track: 'Parallel Sessions - Room 3',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Monday',
         shift: 'PM',
         startWindow: '3:45 PM',
         endWindow: '5:45 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -383,16 +418,13 @@ export const Tracks: TrackGroup[] = [
   // Monday, October 20 - Parallel Sessions Room 4
   {
     track: 'Parallel Sessions - Room 4',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Monday',
         shift: 'PM',
         startWindow: '3:45 PM',
         endWindow: '5:45 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -443,142 +475,16 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Tuesday, October 21 - Workshops
-  {
-    track: 'Workshop',
-    isEvangelicalPhilosophicalSociety: false,
-    shifts: [
-      {
-        dayOfWeek: 'Tuesday',
-        shift: 'AM',
-        startWindow: '10:00 AM',
-        endWindow: '12:00 PM',
-        moderator: {
-          name: 'Verônica Campos',
-        },
-        location: {
-          hotel: 'Prédio da Música',
-          floor: '1st',
-          room: 'Sala A',
-        },
-        subtheme: 'Ideias para escrita filosófica',
-        sessions: [
-          {
-            date: 'October 21st',
-            dayOfWeek: 'Tuesday',
-            startTime: '10:00 AM',
-            endTime: '12:00 PM',
-            speaker: {
-              name: 'Verônica Campos',
-            },
-            theme: 'Minicurso: Ideias para escrita filosófica',
-          },
-        ],
-      },
-      {
-        dayOfWeek: 'Tuesday',
-        shift: 'AM',
-        startWindow: '10:00 AM',
-        endWindow: '12:00 PM',
-        moderator: {
-          name: 'Pedro Bravo',
-        },
-        location: {
-          hotel: 'Prédio da Música',
-          floor: '1st',
-          room: 'Sala B',
-        },
-        subtheme: 'Ciência cidadã',
-        sessions: [
-          {
-            date: 'October 21st',
-            dayOfWeek: 'Tuesday',
-            startTime: '10:00 AM',
-            endTime: '12:00 PM',
-            speaker: {
-              name: 'Pedro Bravo',
-            },
-            theme:
-              'Minicurso: Ciência cidadã: fundamentos e formulação de projetos',
-          },
-        ],
-      },
-      {
-        dayOfWeek: 'Tuesday',
-        shift: 'Evening',
-        startWindow: '6:00 PM',
-        endWindow: '7:30 PM',
-        moderator: {
-          name: 'Alexandre Meyer Luz',
-        },
-        location: {
-          hotel: 'Prédio da Arquitetura',
-          floor: '1st',
-          room: 'Main Hall',
-        },
-        subtheme: 'Filosofia da Violência',
-        sessions: [
-          {
-            date: 'October 21st',
-            dayOfWeek: 'Tuesday',
-            startTime: '6:00 PM',
-            endTime: '7:30 PM',
-            speaker: {
-              name: 'Alexandre Meyer Luz',
-            },
-            theme: 'Minicurso: Filosofia da Violência',
-          },
-        ],
-      },
-    ],
-  },
-  // Tuesday, October 21 - Keynote
-  {
-    track: 'Keynote',
-    isEvangelicalPhilosophicalSociety: false,
-    shifts: [
-      {
-        dayOfWeek: 'Tuesday',
-        shift: 'PM',
-        startWindow: '2:00 PM',
-        endWindow: '3:15 PM',
-        moderator: {
-          name: 'TBA',
-        },
-        location: {
-          hotel: 'Prédio da Arquitetura',
-          floor: '1st',
-          room: 'Main Hall',
-        },
-        sessions: [
-          {
-            date: 'October 21st',
-            dayOfWeek: 'Tuesday',
-            startTime: '2:00 PM',
-            endTime: '3:15 PM',
-            speaker: {
-              name: 'André Abath',
-            },
-            theme:
-              'O que está acontecendo? Desinformação, Entendimento e Ignorância',
-          },
-        ],
-      },
-    ],
-  },
   // Tuesday, October 21 - Parallel Sessions Room 1
   {
     track: 'Parallel Sessions - Room 1',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Tuesday',
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -625,16 +531,13 @@ export const Tracks: TrackGroup[] = [
   // Tuesday, October 21 - Parallel Sessions Room 2
   {
     track: 'Parallel Sessions - Room 2',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Tuesday',
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -680,16 +583,13 @@ export const Tracks: TrackGroup[] = [
   // Tuesday, October 21 - Parallel Sessions Room 3
   {
     track: 'Parallel Sessions - Room 3',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Tuesday',
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -732,141 +632,16 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Wednesday, October 22 - Workshops
-  {
-    track: 'Workshop',
-    isEvangelicalPhilosophicalSociety: false,
-    shifts: [
-      {
-        dayOfWeek: 'Wednesday',
-        shift: 'AM',
-        startWindow: '10:00 AM',
-        endWindow: '12:00 PM',
-        moderator: {
-          name: 'Verônica Campos',
-        },
-        location: {
-          hotel: 'Prédio da Música',
-          floor: '1st',
-          room: 'Sala A',
-        },
-        subtheme: 'Ideias para escrita filosófica',
-        sessions: [
-          {
-            date: 'October 22nd',
-            dayOfWeek: 'Wednesday',
-            startTime: '10:00 AM',
-            endTime: '12:00 PM',
-            speaker: {
-              name: 'Verônica Campos',
-            },
-            theme: 'Minicurso: Ideias para escrita filosófica',
-          },
-        ],
-      },
-      {
-        dayOfWeek: 'Wednesday',
-        shift: 'AM',
-        startWindow: '10:00 AM',
-        endWindow: '12:00 PM',
-        moderator: {
-          name: 'Pedro Bravo',
-        },
-        location: {
-          hotel: 'Prédio da Música',
-          floor: '1st',
-          room: 'Sala B',
-        },
-        subtheme: 'Ciência cidadã',
-        sessions: [
-          {
-            date: 'October 22nd',
-            dayOfWeek: 'Wednesday',
-            startTime: '10:00 AM',
-            endTime: '12:00 PM',
-            speaker: {
-              name: 'Pedro Bravo',
-            },
-            theme:
-              'Minicurso: Ciência cidadã: fundamentos e formulação de projetos',
-          },
-        ],
-      },
-      {
-        dayOfWeek: 'Wednesday',
-        shift: 'Evening',
-        startWindow: '6:00 PM',
-        endWindow: '7:30 PM',
-        moderator: {
-          name: 'Alexandre Meyer Luz',
-        },
-        location: {
-          hotel: 'Prédio da Arquitetura',
-          floor: '1st',
-          room: 'Main Hall',
-        },
-        subtheme: 'Filosofia da Violência',
-        sessions: [
-          {
-            date: 'October 22nd',
-            dayOfWeek: 'Wednesday',
-            startTime: '6:00 PM',
-            endTime: '7:30 PM',
-            speaker: {
-              name: 'Alexandre Meyer Luz',
-            },
-            theme: 'Minicurso: Filosofia da Violência',
-          },
-        ],
-      },
-    ],
-  },
-  // Wednesday, October 22 - Keynote
-  {
-    track: 'Keynote',
-    isEvangelicalPhilosophicalSociety: false,
-    shifts: [
-      {
-        dayOfWeek: 'Wednesday',
-        shift: 'PM',
-        startWindow: '2:00 PM',
-        endWindow: '3:15 PM',
-        moderator: {
-          name: 'TBA',
-        },
-        location: {
-          hotel: 'Prédio da Arquitetura',
-          floor: '1st',
-          room: 'Main Hall',
-        },
-        sessions: [
-          {
-            date: 'October 22nd',
-            dayOfWeek: 'Wednesday',
-            startTime: '2:00 PM',
-            endTime: '3:15 PM',
-            speaker: {
-              name: 'Henrique Antunes',
-            },
-            theme: 'Sobre lógicas livres de primeira ordem',
-          },
-        ],
-      },
-    ],
-  },
   // Wednesday, October 22 - Parallel Sessions Room 1
   {
     track: 'Parallel Sessions - Room 1',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Wednesday',
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -918,16 +693,13 @@ export const Tracks: TrackGroup[] = [
   // Wednesday, October 22 - Parallel Sessions Room 2
   {
     track: 'Parallel Sessions - Room 2',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Wednesday',
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -983,16 +755,13 @@ export const Tracks: TrackGroup[] = [
   // Wednesday, October 22 - Parallel Sessions Room 3
   {
     track: 'Parallel Sessions - Room 3',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Wednesday',
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1048,113 +817,16 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Thursday, October 23 - Workshop
-  {
-    track: 'Workshop',
-    isEvangelicalPhilosophicalSociety: false,
-    shifts: [
-      {
-        dayOfWeek: 'Thursday',
-        shift: 'AM',
-        startWindow: '10:00 AM',
-        endWindow: '12:00 PM',
-        moderator: {
-          name: 'Verônica Campos',
-        },
-        location: {
-          hotel: 'Prédio da Música',
-          floor: '1st',
-          room: 'Sala A',
-        },
-        subtheme: 'Ideias para escrita filosófica',
-        sessions: [
-          {
-            date: 'October 23rd',
-            dayOfWeek: 'Thursday',
-            startTime: '10:00 AM',
-            endTime: '12:00 PM',
-            speaker: {
-              name: 'Verônica Campos',
-            },
-            theme: 'Minicurso: Ideias para escrita filosófica',
-          },
-        ],
-      },
-      {
-        dayOfWeek: 'Thursday',
-        shift: 'Evening',
-        startWindow: '6:00 PM',
-        endWindow: '7:30 PM',
-        moderator: {
-          name: 'Alexandre Meyer Luz',
-        },
-        location: {
-          hotel: 'Prédio da Arquitetura',
-          floor: '1st',
-          room: 'Main Hall',
-        },
-        subtheme: 'Filosofia da Violência',
-        sessions: [
-          {
-            date: 'October 23rd',
-            dayOfWeek: 'Thursday',
-            startTime: '6:00 PM',
-            endTime: '7:30 PM',
-            speaker: {
-              name: 'Alexandre Meyer Luz',
-            },
-            theme: 'Minicurso: Filosofia da Violência',
-          },
-        ],
-      },
-    ],
-  },
-  // Thursday, October 23 - Keynote
-  {
-    track: 'Keynote',
-    isEvangelicalPhilosophicalSociety: false,
-    shifts: [
-      {
-        dayOfWeek: 'Thursday',
-        shift: 'PM',
-        startWindow: '2:00 PM',
-        endWindow: '3:15 PM',
-        moderator: {
-          name: 'TBA',
-        },
-        location: {
-          hotel: 'Prédio da Arquitetura',
-          floor: '1st',
-          room: 'Main Hall',
-        },
-        sessions: [
-          {
-            date: 'October 23rd',
-            dayOfWeek: 'Thursday',
-            startTime: '2:00 PM',
-            endTime: '3:15 PM',
-            speaker: {
-              name: 'Tiegue Rodrigues Vieira',
-            },
-            theme: 'Less is More: On How Reasoning Increases Epistemic Status',
-          },
-        ],
-      },
-    ],
-  },
   // Thursday, October 23 - Parallel Sessions Room 1
   {
     track: 'Parallel Sessions - Room 1',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Thursday',
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1210,16 +882,13 @@ export const Tracks: TrackGroup[] = [
   // Thursday, October 23 - Parallel Sessions Room 2
   {
     track: 'Parallel Sessions - Room 2',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Thursday',
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1275,16 +944,13 @@ export const Tracks: TrackGroup[] = [
   // Thursday, October 23 - Parallel Sessions Room 3
   {
     track: 'Parallel Sessions - Room 3',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Thursday',
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1340,53 +1006,16 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Friday, October 24 - Workshop
-  {
-    track: 'Workshop',
-    isEvangelicalPhilosophicalSociety: false,
-    shifts: [
-      {
-        dayOfWeek: 'Friday',
-        shift: 'AM',
-        startWindow: '10:00 AM',
-        endWindow: '12:00 PM',
-        moderator: {
-          name: 'Verônica Campos',
-        },
-        location: {
-          hotel: 'Prédio da Música',
-          floor: '1st',
-          room: 'Sala A',
-        },
-        subtheme: 'Ideias para escrita filosófica',
-        sessions: [
-          {
-            date: 'October 24th',
-            dayOfWeek: 'Friday',
-            startTime: '10:00 AM',
-            endTime: '12:00 PM',
-            speaker: {
-              name: 'Verônica Campos',
-            },
-            theme: 'Minicurso: Ideias para escrita filosófica',
-          },
-        ],
-      },
-    ],
-  },
   // Friday, October 24 - Parallel Sessions Room 1
   {
     track: 'Parallel Sessions - Room 1',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Friday',
         shift: 'PM',
         startWindow: '2:00 PM',
         endWindow: '4:00 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1424,16 +1053,13 @@ export const Tracks: TrackGroup[] = [
   // Friday, October 24 - Parallel Sessions Room 2
   {
     track: 'Parallel Sessions - Room 2',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Friday',
         shift: 'PM',
         startWindow: '2:00 PM',
         endWindow: '4:00 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1477,16 +1103,13 @@ export const Tracks: TrackGroup[] = [
   // Friday, October 24 - Parallel Sessions Room 3
   {
     track: 'Parallel Sessions - Room 3',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Friday',
         shift: 'PM',
         startWindow: '2:00 PM',
         endWindow: '4:00 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1542,16 +1165,13 @@ export const Tracks: TrackGroup[] = [
   // Friday, October 24 - Parallel Sessions Room 4
   {
     track: 'Parallel Sessions - Room 4',
-    isEvangelicalPhilosophicalSociety: false,
     shifts: [
       {
         dayOfWeek: 'Friday',
         shift: 'PM',
         startWindow: '2:00 PM',
         endWindow: '4:00 PM',
-        moderator: {
-          name: 'TBA',
-        },
+
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1604,19 +1224,177 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Friday, October 24 - Final Keynote
+  // Minicurso - Sala A (Verônica Campos)
   {
-    track: 'Keynote',
-    isEvangelicalPhilosophicalSociety: false,
+    track: 'Minicurso - Sala A',
+    specialClassifications: ['Minicurso'],
     shifts: [
       {
-        dayOfWeek: 'Friday',
-        shift: 'PM',
-        startWindow: '4:30 PM',
-        endWindow: '5:45 PM',
-        moderator: {
-          name: 'TBA',
+        dayOfWeek: 'Tuesday',
+        shift: 'AM',
+        startWindow: '10:00 AM',
+        endWindow: '12:00 PM',
+        specialClassifications: ['Minicurso'],
+        location: {
+          hotel: 'Prédio da Música',
+          floor: '1st',
+          room: 'Sala A',
         },
+        sessions: [
+          {
+            date: 'October 21st',
+            dayOfWeek: 'Tuesday',
+            startTime: '10:00 AM',
+            endTime: '12:00 PM',
+            speaker: {
+              name: 'Verônica Campos',
+            },
+            theme: 'Minicurso: Ideias para escrita filosófica',
+          },
+        ],
+      },
+      {
+        dayOfWeek: 'Wednesday',
+        shift: 'AM',
+        startWindow: '10:00 AM',
+        endWindow: '12:00 PM',
+        specialClassifications: ['Minicurso'],
+        location: {
+          hotel: 'Prédio da Música',
+          floor: '1st',
+          room: 'Sala A',
+        },
+        sessions: [
+          {
+            date: 'October 22nd',
+            dayOfWeek: 'Wednesday',
+            startTime: '10:00 AM',
+            endTime: '12:00 PM',
+            speaker: {
+              name: 'Verônica Campos',
+            },
+            theme: 'Minicurso: Ideias para escrita filosófica',
+          },
+        ],
+      },
+      {
+        dayOfWeek: 'Thursday',
+        shift: 'AM',
+        startWindow: '10:00 AM',
+        endWindow: '12:00 PM',
+        specialClassifications: ['Minicurso'],
+        location: {
+          hotel: 'Prédio da Música',
+          floor: '1st',
+          room: 'Sala A',
+        },
+        sessions: [
+          {
+            date: 'October 23rd',
+            dayOfWeek: 'Thursday',
+            startTime: '10:00 AM',
+            endTime: '12:00 PM',
+            speaker: {
+              name: 'Verônica Campos',
+            },
+            theme: 'Minicurso: Ideias para escrita filosófica',
+          },
+        ],
+      },
+      {
+        dayOfWeek: 'Friday',
+        shift: 'AM',
+        startWindow: '10:00 AM',
+        endWindow: '12:00 PM',
+        specialClassifications: ['Minicurso'],
+        location: {
+          hotel: 'Prédio da Música',
+          floor: '1st',
+          room: 'Sala A',
+        },
+        sessions: [
+          {
+            date: 'October 24th',
+            dayOfWeek: 'Friday',
+            startTime: '10:00 AM',
+            endTime: '12:00 PM',
+            speaker: {
+              name: 'Verônica Campos',
+            },
+            theme: 'Minicurso: Ideias para escrita filosófica',
+          },
+        ],
+      },
+    ],
+  },
+  // Minicurso - Sala B (Pedro Bravo)
+  {
+    track: 'Minicurso - Sala B',
+    specialClassifications: ['Minicurso'],
+    shifts: [
+      {
+        dayOfWeek: 'Tuesday',
+        shift: 'AM',
+        startWindow: '10:00 AM',
+        endWindow: '12:00 PM',
+        specialClassifications: ['Minicurso'],
+        location: {
+          hotel: 'Prédio da Música',
+          floor: '1st',
+          room: 'Sala B',
+        },
+        sessions: [
+          {
+            date: 'October 21st',
+            dayOfWeek: 'Tuesday',
+            startTime: '10:00 AM',
+            endTime: '12:00 PM',
+            speaker: {
+              name: 'Pedro Bravo',
+            },
+            theme:
+              'Minicurso: Ciência cidadã: fundamentos e formulação de projetos',
+          },
+        ],
+      },
+      {
+        dayOfWeek: 'Wednesday',
+        shift: 'AM',
+        startWindow: '10:00 AM',
+        endWindow: '12:00 PM',
+        specialClassifications: ['Minicurso'],
+        location: {
+          hotel: 'Prédio da Música',
+          floor: '1st',
+          room: 'Sala B',
+        },
+        sessions: [
+          {
+            date: 'October 22nd',
+            dayOfWeek: 'Wednesday',
+            startTime: '10:00 AM',
+            endTime: '12:00 PM',
+            speaker: {
+              name: 'Pedro Bravo',
+            },
+            theme:
+              'Minicurso: Ciência cidadã: fundamentos e formulação de projetos',
+          },
+        ],
+      },
+    ],
+  },
+  // Minicurso - Main Hall (Alexandre Meyer Luz)
+  {
+    track: 'Minicurso - Main Hall',
+    specialClassifications: ['Minicurso'],
+    shifts: [
+      {
+        dayOfWeek: 'Tuesday',
+        shift: 'PM',
+        startWindow: '6:00 PM',
+        endWindow: '7:30 PM',
+        specialClassifications: ['Minicurso'],
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1624,14 +1402,62 @@ export const Tracks: TrackGroup[] = [
         },
         sessions: [
           {
-            date: 'October 24th',
-            dayOfWeek: 'Friday',
-            startTime: '4:30 PM',
-            endTime: '5:45 PM',
+            date: 'October 21st',
+            dayOfWeek: 'Tuesday',
+            startTime: '6:00 PM',
+            endTime: '7:30 PM',
             speaker: {
-              name: 'Luiz Paulo da Cas Cichoski',
+              name: 'Alexandre Meyer Luz',
             },
-            theme: 'Epistemologia Coletiva e a Tese da Mente de Grupo',
+            theme: 'Minicurso: Filosofia da Violência',
+          },
+        ],
+      },
+      {
+        dayOfWeek: 'Wednesday',
+        shift: 'PM',
+        startWindow: '6:00 PM',
+        endWindow: '7:30 PM',
+        specialClassifications: ['Minicurso'],
+        location: {
+          hotel: 'Prédio da Arquitetura',
+          floor: '1st',
+          room: 'Main Hall',
+        },
+        sessions: [
+          {
+            date: 'October 22nd',
+            dayOfWeek: 'Wednesday',
+            startTime: '6:00 PM',
+            endTime: '7:30 PM',
+            speaker: {
+              name: 'Alexandre Meyer Luz',
+            },
+            theme: 'Minicurso: Filosofia da Violência',
+          },
+        ],
+      },
+      {
+        dayOfWeek: 'Thursday',
+        shift: 'PM',
+        startWindow: '6:00 PM',
+        endWindow: '7:30 PM',
+        specialClassifications: ['Minicurso'],
+        location: {
+          hotel: 'Prédio da Arquitetura',
+          floor: '1st',
+          room: 'Main Hall',
+        },
+        sessions: [
+          {
+            date: 'October 23rd',
+            dayOfWeek: 'Thursday',
+            startTime: '6:00 PM',
+            endTime: '7:30 PM',
+            speaker: {
+              name: 'Alexandre Meyer Luz',
+            },
+            theme: 'Minicurso: Filosofia da Violência',
           },
         ],
       },
@@ -1642,6 +1468,20 @@ export const Tracks: TrackGroup[] = [
 const eventData: EventData = {
   generalEvents,
   Tracks,
+  venues: ['Prédio da Arquitetura'],
+  classificationColors: {
+    Minicurso: {
+      background: '#E8F5E9',
+      border: '#4CAF50',
+    },
+  },
+  hideSpecialEventsByDefault: false,
+  name: 'Epistemologia Analítica - São Luís 2025',
+  footerConfig: {
+    officialSourceUrl: 'https://sites.google.com/ufma.br/epistemologia/',
+    officialSourceName: 'the official event page at UFMA',
+    lastUpdated: 'October 13, 2025',
+  },
 }
 
 export default eventData

@@ -10,11 +10,13 @@ export type {
   TrackGroup,
   GeneralEvent,
   EventData,
+  FooterConfig,
 } from './types'
 
 // Export event router functions
 export {
   getEventData,
+  getEventConfig,
   getAvailableEventPaths,
   getEventName,
 } from './eventRouter'

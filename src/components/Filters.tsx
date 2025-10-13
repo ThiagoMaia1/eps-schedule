@@ -16,14 +16,10 @@ interface FiltersProps {
   showOnlySelected: boolean
   onToggleSelected: () => void
   selectedCount: number
-  showOnlyEPS: boolean
-  onToggleEPS: () => void
-  showOnlyETS: boolean
-  onToggleETS: () => void
-  showOnlyCopleyPlace: boolean
-  onToggleCopleyPlace: () => void
-  showOnlySheraton: boolean
-  onToggleSheraton: () => void
+  activeVenue: string | null
+  onVenueChange: (venue: string | null) => void
+  activeClassification: string | null
+  onClassificationChange: (classification: string | null) => void
   showOnlyGeneralEvents: boolean
   onToggleGeneralEvents: () => void
   hideGeneralEvents: boolean
@@ -45,6 +41,8 @@ interface FiltersProps {
   onLocationChange: (location: string | null) => void
   searchText: string
   onSearchChange: (text: string) => void
+  allVenues: string[]
+  allClassifications: string[]
   totalTracks: number
   totalSessions: number
   filteredTracks: number
@@ -62,14 +60,10 @@ const Filters: React.FC<FiltersProps> = ({
   showOnlySelected,
   onToggleSelected,
   selectedCount,
-  showOnlyEPS,
-  onToggleEPS,
-  showOnlyETS,
-  onToggleETS,
-  showOnlyCopleyPlace,
-  onToggleCopleyPlace,
-  showOnlySheraton,
-  onToggleSheraton,
+  activeVenue,
+  onVenueChange,
+  activeClassification,
+  onClassificationChange,
   showOnlyGeneralEvents,
   onToggleGeneralEvents,
   hideGeneralEvents,
@@ -91,6 +85,8 @@ const Filters: React.FC<FiltersProps> = ({
   onLocationChange,
   searchText,
   onSearchChange,
+  allVenues,
+  allClassifications,
   totalTracks,
   totalSessions,
   filteredTracks,
@@ -132,10 +128,8 @@ const Filters: React.FC<FiltersProps> = ({
   const countActiveFilters = () => {
     let count = 0
     if (showOnlySelected) count++
-    if (showOnlyEPS) count++
-    if (showOnlyETS) count++
-    if (showOnlyCopleyPlace) count++
-    if (showOnlySheraton) count++
+    if (activeVenue) count++
+    if (activeClassification) count++
     if (showOnlyGeneralEvents) count++
     if (hideGeneralEvents) count++
     if (showOnlyPanelQA) count++
@@ -247,33 +241,40 @@ const Filters: React.FC<FiltersProps> = ({
                 Linear View
               </span>
             )}
-            <span
-              className={cx(classes.btn, showOnlyETS && classes.btnActive)}
-              onClick={onToggleETS}
-            >
-              Only ETS sessions
-            </span>
-            <span
-              className={cx(classes.btn, showOnlyEPS && classes.btnActive)}
-              onClick={onToggleEPS}
-            >
-              Only EPS sessions
-            </span>
-            <span
-              className={cx(
-                classes.btn,
-                showOnlyCopleyPlace && classes.btnActive
-              )}
-              onClick={onToggleCopleyPlace}
-            >
-              Only Copley Place
-            </span>
-            <span
-              className={cx(classes.btn, showOnlySheraton && classes.btnActive)}
-              onClick={onToggleSheraton}
-            >
-              Only Sheraton
-            </span>
+            {/* Dynamic classification pills */}
+            {allClassifications.map((classification) => (
+              <span
+                key={classification}
+                className={cx(
+                  classes.btn,
+                  activeClassification === classification && classes.btnActive
+                )}
+                onClick={() =>
+                  onClassificationChange(
+                    activeClassification === classification
+                      ? null
+                      : classification
+                  )
+                }
+              >
+                Only {classification}
+              </span>
+            ))}
+            {/* Dynamic venue pills */}
+            {allVenues.map((venue) => (
+              <span
+                key={venue}
+                className={cx(
+                  classes.btn,
+                  activeVenue === venue && classes.btnActive
+                )}
+                onClick={() =>
+                  onVenueChange(activeVenue === venue ? null : venue)
+                }
+              >
+                Only {venue}
+              </span>
+            ))}
             <span
               className={cx(
                 classes.btn,

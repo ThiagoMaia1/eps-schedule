@@ -1,4 +1,6 @@
 import { useMemo } from 'react'
+import { FiExternalLink } from 'react-icons/fi'
+import { Tooltip } from 'react-tooltip'
 import Filters from './components/Filters'
 import ScheduleTable from './components/ScheduleTable'
 import Footer from './components/Footer'
@@ -7,7 +9,7 @@ import { type ScheduleEntry } from './types/schedule'
 import { useScheduleFilters } from './hooks/useScheduleFilters'
 import { useCurrentPath } from './hooks/useCurrentPath'
 import { getScheduleData } from './utils/scheduleParser'
-import { getEventName } from './sessionData'
+import { getEventName, getEventConfig, getEventData } from './sessionData'
 import 'react-tooltip/dist/react-tooltip.css'
 import { useAppStyles } from './App.styles'
 
@@ -21,16 +23,17 @@ function App() {
     [currentPath]
   )
   const eventName = getEventName(currentPath)
+  const eventConfig = useMemo(() => getEventConfig(currentPath), [currentPath])
+  const eventData = useMemo(() => getEventData(currentPath), [currentPath])
+  const officialSourceUrl = eventData.footerConfig?.officialSourceUrl
   // Use the filtering hook
   const {
     activeLocation,
     activeTrack,
     searchText,
     showOnlySelected,
-    showOnlyEPS,
-    showOnlyETS,
-    showOnlyCopleyPlace,
-    showOnlySheraton,
+    activeVenue,
+    activeClassification,
     showOnlyGeneralEvents,
     hideGeneralEvents,
     hideSpecialEvents,
@@ -43,12 +46,12 @@ function App() {
     setActiveLocation,
     setActiveTrack,
     setSearchText,
+    setActiveVenue,
+    setActiveClassification,
     allTracks,
+    allVenues,
+    allClassifications,
     handleToggleSelected,
-    handleToggleEPS,
-    handleToggleETS,
-    handleToggleCopleyPlace,
-    handleToggleSheraton,
     handleToggleGeneralEvents,
     handleToggleHideGeneralEvents,
     handleToggleHideSpecialEvents,
@@ -60,7 +63,7 @@ function App() {
     handleCopySelectedSessions,
     handleImportValidatedSessions,
     handleClearAllFilters,
-  } = useScheduleFilters(scheduleData)
+  } = useScheduleFilters(scheduleData, eventConfig)
 
   // Calculate total and filtered session and track counts
   // Excludes general sessions from the count
@@ -82,9 +85,7 @@ function App() {
     ): boolean => {
       // Location filters
       if (activeLocation && location !== activeLocation) return false
-      if (showOnlyCopleyPlace && !location.includes('Copley Place'))
-        return false
-      if (showOnlySheraton && !location.includes('Sheraton')) return false
+      if (activeVenue && !location.includes(activeVenue)) return false
 
       // Other filters
       if (showOnlySelected && !selectedSessions.has(entry.id)) return false
@@ -92,8 +93,14 @@ function App() {
       // Hide filters
       if (entry.isGeneralEvent && hideGeneralEvents) return false
       if (entry.isSpecialEvent && hideSpecialEvents) return false
-      if (showOnlyEPS && !entry.isEPS && !entry.isGeneralEvent) return false
-      if (showOnlyETS && entry.isEPS && !entry.isGeneralEvent) return false
+      // Filter by venue
+      if (activeVenue && entry.location?.hotel !== activeVenue) return false
+      // Filter by classification
+      if (
+        activeClassification &&
+        entry.primaryClassification !== activeClassification
+      )
+        return false
       if (activeTrack && entry.track !== activeTrack) return false
       if (showOnlyPanelQA && !entry.isPanelOrQA) return false
       if (showOnlyInvitedGuest && !entry.isInvitedGuest) return false
@@ -148,27 +155,41 @@ function App() {
       filteredTracks: filteredTrackSet.size,
     }
   }, [
+    scheduleData,
+    selectedSessions,
     activeLocation,
-    activeTrack,
-    searchText,
     showOnlySelected,
-    showOnlyEPS,
-    showOnlyETS,
-    showOnlyCopleyPlace,
-    showOnlySheraton,
+    activeVenue,
+    activeClassification,
     showOnlyGeneralEvents,
     hideGeneralEvents,
     hideSpecialEvents,
     showOnlyPanelQA,
     showOnlyInvitedGuest,
-    selectedSessions,
-    scheduleData,
+    searchText,
+    activeTrack,
   ])
 
   return (
     <>
       <div className={classes.appContainer}>
-        <h1>{eventName}</h1>
+        <div className={classes.titleContainer}>
+          <h1>{eventName}</h1>
+          {officialSourceUrl && (
+            <>
+              <a
+                href={officialSourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.officialLink}
+                data-tooltip-id="official-source-tooltip"
+              >
+                <FiExternalLink />
+              </a>
+              <Tooltip id="official-source-tooltip" content="Official source" />
+            </>
+          )}
+        </div>
 
         <Filters
           activeLocation={activeLocation}
@@ -176,14 +197,10 @@ function App() {
           showOnlySelected={showOnlySelected}
           onToggleSelected={handleToggleSelected}
           selectedCount={selectedSessions.size}
-          showOnlyEPS={showOnlyEPS}
-          onToggleEPS={handleToggleEPS}
-          showOnlyETS={showOnlyETS}
-          onToggleETS={handleToggleETS}
-          showOnlyCopleyPlace={showOnlyCopleyPlace}
-          onToggleCopleyPlace={handleToggleCopleyPlace}
-          showOnlySheraton={showOnlySheraton}
-          onToggleSheraton={handleToggleSheraton}
+          activeVenue={activeVenue}
+          onVenueChange={setActiveVenue}
+          activeClassification={activeClassification}
+          onClassificationChange={setActiveClassification}
           showOnlyGeneralEvents={showOnlyGeneralEvents}
           onToggleGeneralEvents={handleToggleGeneralEvents}
           hideGeneralEvents={hideGeneralEvents}
@@ -203,6 +220,8 @@ function App() {
           onTrackChange={setActiveTrack}
           searchText={searchText}
           onSearchChange={setSearchText}
+          allVenues={allVenues}
+          allClassifications={allClassifications}
           totalTracks={allTracks.length}
           totalSessions={totalSessions}
           filteredTracks={filteredTracks}
@@ -219,10 +238,8 @@ function App() {
           activeTrack={activeTrack}
           searchText={searchText}
           showOnlySelected={showOnlySelected}
-          showOnlyEPS={showOnlyEPS}
-          showOnlyETS={showOnlyETS}
-          showOnlyCopleyPlace={showOnlyCopleyPlace}
-          showOnlySheraton={showOnlySheraton}
+          activeVenue={activeVenue}
+          activeClassification={activeClassification}
           showOnlyGeneralEvents={showOnlyGeneralEvents}
           hideGeneralEvents={hideGeneralEvents}
           hideSpecialEvents={hideSpecialEvents}

@@ -30,4 +30,3 @@ export function useCurrentPath(): string {
 
   return currentPath
 }
-

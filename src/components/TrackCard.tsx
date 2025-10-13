@@ -51,11 +51,13 @@ const TrackCard: React.FC<TrackCardProps> = ({
                   </span>
                 )}
               </div>
-              <IoInformationCircleOutline
-                className={classes.trackInfoIcon}
-                data-tooltip-id={tooltipId}
-                data-tooltip-place="left"
-              />
+              {shift.moderator && shift.moderator.name && (
+                <IoInformationCircleOutline
+                  className={classes.trackInfoIcon}
+                  data-tooltip-id={tooltipId}
+                  data-tooltip-place="left"
+                />
+              )}
             </div>
           </div>
         )}
@@ -63,38 +65,40 @@ const TrackCard: React.FC<TrackCardProps> = ({
         {children}
       </div>
 
-      <Tooltip
-        id={tooltipId}
-        className="moderator-tooltip"
-        border="1px solid #ffd700"
-        style={{
-          backgroundColor: '#1a1a1a',
-          color: '#fff',
-          padding: '12px',
-          borderRadius: '8px',
-          maxWidth: '400px',
-          width: 'max-content',
-          whiteSpace: 'normal',
-          wordWrap: 'break-word',
-          zIndex: 1000,
-        }}
-      >
-        <div className={classes.moderatorTooltipContent}>
-          <div className={classes.tooltipTrackTitle}>
-            {shift.track}
-            {shift.subtheme && ` - ${shift.subtheme}`}
-          </div>
-          <div className={classes.tooltipLabel}>Moderator:</div>
-          <div className={classes.tooltipModeratorName}>
-            {shift.moderator.name}
-          </div>
-          {shift.moderator.affiliation && (
-            <div className={classes.tooltipModeratorAffiliation}>
-              {shift.moderator.affiliation}
+      {shift.moderator && shift.moderator.name && (
+        <Tooltip
+          id={tooltipId}
+          className="moderator-tooltip"
+          border="1px solid #ffd700"
+          style={{
+            backgroundColor: '#1a1a1a',
+            color: '#fff',
+            padding: '12px',
+            borderRadius: '8px',
+            maxWidth: '400px',
+            width: 'max-content',
+            whiteSpace: 'normal',
+            wordWrap: 'break-word',
+            zIndex: 1000,
+          }}
+        >
+          <div className={classes.moderatorTooltipContent}>
+            <div className={classes.tooltipTrackTitle}>
+              {shift.track}
+              {shift.subtheme && ` - ${shift.subtheme}`}
             </div>
-          )}
-        </div>
-      </Tooltip>
+            <div className={classes.tooltipLabel}>Moderator:</div>
+            <div className={classes.tooltipModeratorName}>
+              {shift.moderator.name}
+            </div>
+            {shift.moderator.affiliation && (
+              <div className={classes.tooltipModeratorAffiliation}>
+                {shift.moderator.affiliation}
+              </div>
+            )}
+          </div>
+        </Tooltip>
+      )}
     </>
   )
 }

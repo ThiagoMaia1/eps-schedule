@@ -29,6 +29,36 @@ The `types.ts` file contains all the type definitions used across events:
 - `TrackGroup`: Collection of track shifts
 - `GeneralEvent`: Events like lunch, coffee breaks, plenary sessions
 - `EventData`: Main interface containing general events and tracks
+- `ClassificationColors`: Background and border colors for special classifications
+
+## Classification System
+
+Sessions can be assigned special classifications (e.g., "Evangelical Philosophical Society") that affect their visual appearance and filtering options.
+
+### Classification Hierarchy
+
+Classifications can be defined at three levels, with priority given to the most specific:
+
+1. **Session level** (highest priority) - Currently not implemented in data structure, but reserved for future use
+2. **Track-Shift level** - Applied to all sessions within a specific shift
+3. **Track level** (lowest priority) - Applied to all sessions in the entire track
+
+The `primaryClassification` field in `ScheduleEntry` automatically contains the highest priority classification available for each session.
+
+### Defining Classification Colors
+
+In your event data file, define colors for each classification:
+
+```typescript
+classificationColors: {
+  'Evangelical Philosophical Society': {
+    background: '#ebf5ff',  // Light blue background
+    border: '#93c5fd',       // Blue border
+  },
+}
+```
+
+Sessions with a `primaryClassification` will use these colors instead of the default white background.
 
 ## Event Router
 
@@ -81,7 +111,7 @@ export const Tracks: TrackGroup[] = [
   // Define tracks with shifts and sessions
   {
     track: 'Track Name',
-    isEvangelicalPhilosophicalSociety: false,
+    specialClassifications: ['Evangelical Theological Society'], // Optional: Add classifications like 'Evangelical Philosophical Society'
     shifts: [
       {
         dayOfWeek: 'Monday',
@@ -121,6 +151,18 @@ export const Tracks: TrackGroup[] = [
 const eventData: EventData = {
   generalEvents,
   Tracks,
+  venues: ['Venue Name 1', 'Venue Name 2'], // List all venues (hotels) for this event
+  classificationColors: {
+    // Optional: Define custom background/border colors for special classifications
+    'Evangelical Philosophical Society': {
+      background: '#ebf5ff',
+      border: '#93c5fd',
+    },
+    'Other Classification': {
+      background: '#f0fdf4',
+      border: '#86efac',
+    },
+  },
 }
 
 export default eventData

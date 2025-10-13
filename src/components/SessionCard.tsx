@@ -2,6 +2,7 @@ import React from 'react'
 import { type ScheduleEntry } from '../types/schedule'
 import { highlightText } from '../utils/textHighlight'
 import { useSessionCardStyles } from './SessionCard.styles'
+import { getEventData } from '../sessionData'
 
 interface SessionCardProps {
   entry: ScheduleEntry
@@ -25,9 +26,15 @@ const SessionCard: React.FC<SessionCardProps> = ({
   shouldShowTrack = true,
   moderator,
 }) => {
+  // Get classification color from event data
+  const eventData = getEventData()
+  const classificationColor = entry.primaryClassification
+    ? eventData.classificationColors?.[entry.primaryClassification]
+    : undefined
+
   const { classes, cx } = useSessionCardStyles({
     isSelected,
-    isEPS: entry.isEPS || false,
+    classificationColor,
     isPanelOrQA: entry.isPanelOrQA || false,
   })
 

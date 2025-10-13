@@ -1,13 +1,21 @@
-import { useState, useEffect } from 'react'
 import { AiOutlineGithub, AiFillLinkedin } from 'react-icons/ai'
 import { FaCode } from 'react-icons/fa'
 import { useFooterStyles } from './Footer.styles'
+import { getEventData } from '../sessionData'
 
+// Developer info (always the same)
 const fullName = 'Thiago Pereira Maia'
 const gitHubUrl = 'https://github.com/ThiagoMaia1'
 const linkedinUrl = 'https://www.linkedin.com/in/thiago-pereira-maia-75b825199/'
 const projectRepoUrl = 'https://github.com/ThiagoMaia1/eps-schedule'
-const officialSourceUrl = 'https://etsjets.org/annual-meeting-overview/'
+const developerEmail = 'tthiagopmaia@gmail.com'
+
+// Default footer configuration (for EPS 2025)
+const defaultFooterConfig = {
+  officialSourceUrl: 'https://etsjets.org/annual-meeting-overview/',
+  officialSourceName: 'the official ETS Annual Meeting page',
+  lastUpdated: 'January 15, 2025',
+}
 
 type Link = {
   logo: React.ComponentType<{ size: number }>
@@ -23,35 +31,10 @@ const links: Link[] = [
 
 function Footer() {
   const { classes } = useFooterStyles()
-  const [lastUpdated, setLastUpdated] = useState<string | null>(null)
 
-  useEffect(() => {
-    // Fetch the last commit date for the CSV file from GitHub API
-    const fetchLastUpdated = async () => {
-      try {
-        const response = await fetch(
-          'https://api.github.com/repos/ThiagoMaia1/eps-schedule/commits?path=public/ets_sessions_with_flags.csv&page=1&per_page=1'
-        )
-        if (response.ok) {
-          const data = await response.json()
-          if (data && data.length > 0) {
-            const commitDate = new Date(data[0].commit.author.date)
-            setLastUpdated(
-              commitDate.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })
-            )
-          }
-        }
-      } catch (error) {
-        console.error('Failed to fetch last updated date:', error)
-      }
-    }
-
-    fetchLastUpdated()
-  }, [])
+  // Get footer configuration from current event data
+  const eventData = getEventData()
+  const footerConfig = eventData.footerConfig || defaultFooterConfig
 
   return (
     <footer className={classes.footer}>
@@ -61,18 +44,18 @@ function Footer() {
             ⚠️ This is an <strong>unofficial</strong> website. For official
             information, please visit{' '}
             <a
-              href={officialSourceUrl}
+              href={footerConfig.officialSourceUrl}
               target="_blank"
               rel="noopener noreferrer"
               className={classes.sourceLink}
             >
-              the official ETS Annual Meeting page
+              {footerConfig.officialSourceName}
             </a>
             .
           </p>
-          {lastUpdated && (
+          {footerConfig.lastUpdated && (
             <p className={classes.lastUpdated}>
-              Data last updated: {lastUpdated}
+              Data last updated: {footerConfig.lastUpdated}
             </p>
           )}
         </div>
@@ -95,11 +78,8 @@ function Footer() {
           </div>
           <p className={classes.feedbackText}>
             For any feedback or corrections, e-mail me at:{' '}
-            <a
-              href="mailto:tthiagopmaia@gmail.com"
-              className={classes.emailLink}
-            >
-              tthiagopmaia@gmail.com
+            <a href={`mailto:${developerEmail}`} className={classes.emailLink}>
+              {developerEmail}
             </a>
           </p>
         </div>

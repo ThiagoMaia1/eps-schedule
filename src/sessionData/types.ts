@@ -51,16 +51,17 @@ export type TrackShift = {
   /** Latest end time among sessions in this block */
   endWindow?: string
   sessions: Session[]
-  moderator: Speaker
+  moderator?: Speaker
   location: Location
   subtheme?: string
+  specialClassifications?: string[]
 }
 
 export type TrackGroup = {
   /** Track name; null when a session has no program track */
   track: string | null
   shifts: TrackShift[]
-  isEvangelicalPhilosophicalSociety?: boolean
+  specialClassifications?: string[]
 }
 
 export type GeneralEvent = Event & {
@@ -70,9 +71,26 @@ export type GeneralEvent = Event & {
   speaker?: Speaker
   speakers?: Speaker[]
   isSpecialEvent?: boolean
+  specialClassifications?: string[]
+}
+
+export interface ClassificationColors {
+  background: string
+  border: string
+}
+
+export interface FooterConfig {
+  officialSourceUrl: string
+  officialSourceName: string
+  lastUpdated?: string // Date string for when the event data was last updated (optional)
 }
 
 export interface EventData {
   generalEvents: GeneralEvent[]
   Tracks: TrackGroup[]
+  venues?: string[]
+  classificationColors?: Record<string, ClassificationColors>
+  hideSpecialEventsByDefault?: boolean
+  name: string
+  footerConfig: FooterConfig
 }

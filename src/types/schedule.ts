@@ -21,7 +21,8 @@ export interface ScheduleEntry {
   endTime: string // End time of the session (e.g., "9:40 AM")
   startMinutes: number // Start time in minutes since midnight (parsed once during data load)
   endMinutes: number // End time in minutes since midnight (parsed once during data load)
-  isEPS?: boolean
+  specialClassifications?: string[]
+  primaryClassification?: string // Computed highest priority classification (priority: session > track-shift > track)
   track?: string
   hasRoomConflict?: boolean
   isGeneralEvent?: boolean
@@ -39,7 +40,7 @@ export interface ScheduleEntry {
 
 export interface ShiftBlock {
   id: string
-  moderator: {
+  moderator?: {
     name: string
     affiliation?: string
   }

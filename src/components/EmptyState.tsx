@@ -6,10 +6,8 @@ interface EmptyStateProps {
   showOnlySelected: boolean
   activeLocation?: string | null
   activeTrack?: string | null
-  showOnlyEPS?: boolean
-  showOnlyETS?: boolean
-  showOnlyCopleyPlace?: boolean
-  showOnlySheraton?: boolean
+  activeVenue?: string | null
+  activeClassification?: string | null
   showOnlyGeneralEvents?: boolean
   hideGeneralEvents?: boolean
   hideSpecialEvents?: boolean
@@ -21,10 +19,8 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   showOnlySelected,
   activeLocation,
   activeTrack,
-  showOnlyEPS,
-  showOnlyETS,
-  showOnlyCopleyPlace,
-  showOnlySheraton,
+  activeVenue,
+  activeClassification,
   showOnlyGeneralEvents,
   hideGeneralEvents,
   hideSpecialEvents,
@@ -48,17 +44,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     if (activeTrack) {
       filters.push(`Track: ${activeTrack}`)
     }
-    if (showOnlyEPS) {
-      filters.push('EPS only')
+    if (activeVenue) {
+      filters.push(`Venue: ${activeVenue}`)
     }
-    if (showOnlyETS) {
-      filters.push('ETS only')
-    }
-    if (showOnlyCopleyPlace) {
-      filters.push('Copley Place only')
-    }
-    if (showOnlySheraton) {
-      filters.push('Sheraton only')
+    if (activeClassification) {
+      filters.push(`Classification: ${activeClassification}`)
     }
     if (showOnlyGeneralEvents) {
       filters.push('General events only')
