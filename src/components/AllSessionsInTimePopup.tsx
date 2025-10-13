@@ -16,6 +16,8 @@ interface AllSessionsInTimePopupProps {
   onClose: () => void
   time: string
   sessions: SessionWithLocation[]
+  unfilteredSessions: SessionWithLocation[]
+  hasActiveFilters: boolean
   selectedSessions: Set<string>
   onToggleSelection: (sessionId: string) => void
   searchText: string
@@ -26,13 +28,26 @@ const AllSessionsInTimePopup: React.FC<AllSessionsInTimePopupProps> = ({
   onClose,
   time,
   sessions,
+  unfilteredSessions,
+  hasActiveFilters,
   selectedSessions,
   onToggleSelection,
   searchText,
 }) => {
   const { classes, cx } = useAllSessionsInTimePopupStyles()
   const [popupSearchText, setPopupSearchText] = useState('')
+  const [showUnfiltered, setShowUnfiltered] = useState(false)
   const effectiveSearchText = searchText || popupSearchText
+
+  // Reset showUnfiltered when popup closes or reopens
+  React.useEffect(() => {
+    if (!isOpen) {
+      setShowUnfiltered(false)
+    }
+  }, [isOpen])
+
+  // Determine which sessions to display
+  const displaySessions = showUnfiltered ? unfilteredSessions : sessions
 
   // Filter sessions based on local popup search (only if no global search is active)
   const filterSession = (session: SessionWithLocation) => {
@@ -56,26 +71,45 @@ const AllSessionsInTimePopup: React.FC<AllSessionsInTimePopupProps> = ({
   }
 
   // Group and filter sessions by whether they're general events
-  const generalEvents = sessions
+  const generalEvents = displaySessions
     .filter((s) => s.entry.isGeneralEvent)
     .filter(filterSession)
-  const regularSessions = sessions
+  const regularSessions = displaySessions
     .filter((s) => !s.entry.isGeneralEvent)
     .filter(filterSession)
 
   const totalFilteredSessions = generalEvents.length + regularSessions.length
-  const totalSessions = sessions.length
+  const totalSessions = displaySessions.length
 
   const sessionCountText =
     !searchText && popupSearchText && totalFilteredSessions !== totalSessions
       ? `${totalFilteredSessions} of ${totalSessions} session${totalSessions !== 1 ? 's' : ''}`
       : `${totalSessions} session${totalSessions !== 1 ? 's' : ''}`
 
+  // Show the unfiltered button only if there are filters active and more unfiltered sessions
+  const showUnfilteredButton =
+    hasActiveFilters && unfilteredSessions.length > sessions.length
+
   const popupTitle = (
     <span className={classes.popupTitleWithCount}>
-      Sessions at {time}
-      {sessions.length > 0 && (
-        <span className={classes.sessionCountBadge}>{sessionCountText}</span>
+      <span className={classes.titleText}>
+        Sessions at {time}
+        {displaySessions.length > 0 && (
+          <span className={classes.sessionCountBadge}>{sessionCountText}</span>
+        )}
+      </span>
+      {showUnfilteredButton && (
+        <button
+          className={cx(classes.filterPillButton, {
+            [classes.filterPillButtonActive]: showUnfiltered,
+          })}
+          onClick={(e) => {
+            e.stopPropagation()
+            setShowUnfiltered(!showUnfiltered)
+          }}
+        >
+          Show unfiltered ({unfilteredSessions.length})
+        </button>
       )}
     </span>
   )
@@ -88,7 +122,7 @@ const AllSessionsInTimePopup: React.FC<AllSessionsInTimePopupProps> = ({
       maxWidth="900px"
     >
       <div className={classes.allSessionsPopupContent}>
-        {sessions.length === 0 ? (
+        {sessions.length === 0 && !showUnfilteredButton ? (
           <div className={classes.noSessionsMessage}>
             <p>No sessions at this time.</p>
           </div>

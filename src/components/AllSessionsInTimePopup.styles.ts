@@ -82,7 +82,21 @@ export const useAllSessionsInTimePopupStyles = makeStyles()((theme) => ({
   popupTitleWithCount: {
     display: 'flex',
     alignItems: 'center',
+    gap: '1rem',
+    flexWrap: 'wrap',
+
+    [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+      gap: '0.5rem',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+    },
+  },
+
+  titleText: {
+    display: 'flex',
+    alignItems: 'center',
     gap: '0.75rem',
+    flexWrap: 'wrap',
   },
 
   sessionCountBadge: {
@@ -92,5 +106,34 @@ export const useAllSessionsInTimePopupStyles = makeStyles()((theme) => ({
     padding: '0.25rem 0.75rem',
     backgroundColor: theme.colors.borderLight,
     borderRadius: theme.borderRadius.round,
+  },
+
+  filterPillButton: {
+    display: 'inline-block',
+    background: theme.colors.primaryLight,
+    color: theme.colors.primary,
+    border: `1px solid ${theme.colors.primaryBorder}`,
+    borderRadius: theme.borderRadius.round,
+    padding: '0.375rem 0.75rem',
+    fontSize: '0.8125rem',
+    fontWeight: theme.fontWeights.medium,
+    cursor: 'pointer',
+    userSelect: 'none',
+    fontFamily: 'inherit',
+    transition: `all ${theme.transitions.fast} ease`,
+    whiteSpace: 'nowrap',
+    lineHeight: 1.2,
+
+    '&:hover': {
+      background: theme.colors.primary,
+      color: theme.colors.textWhite,
+      borderColor: theme.colors.primary,
+    },
+  },
+
+  filterPillButtonActive: {
+    background: theme.colors.primary,
+    color: theme.colors.textWhite,
+    borderColor: theme.colors.primary,
   },
 }))

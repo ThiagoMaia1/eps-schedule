@@ -5,12 +5,22 @@ import Footer from './components/Footer'
 import TutorialPopup from './components/TutorialPopup'
 import { type ScheduleEntry } from './types/schedule'
 import { useScheduleFilters } from './hooks/useScheduleFilters'
-import { scheduleData } from './utils/scheduleParser'
+import { useCurrentPath } from './hooks/useCurrentPath'
+import { getScheduleData } from './utils/scheduleParser'
+import { getEventName } from './sessionData'
 import 'react-tooltip/dist/react-tooltip.css'
 import { useAppStyles } from './App.styles'
 
 function App() {
   const { classes } = useAppStyles()
+
+  // Get current path and schedule data dynamically
+  const currentPath = useCurrentPath()
+  const scheduleData = useMemo(
+    () => getScheduleData(currentPath),
+    [currentPath]
+  )
+  const eventName = getEventName(currentPath)
   // Use the filtering hook
   const {
     activeLocation,
@@ -152,12 +162,13 @@ function App() {
     showOnlyPanelQA,
     showOnlyInvitedGuest,
     selectedSessions,
+    scheduleData,
   ])
 
   return (
     <>
       <div className={classes.appContainer}>
-        <h1>ETS 2025 Theological Conference Schedule - Boston</h1>
+        <h1>{eventName}</h1>
 
         <Filters
           activeLocation={activeLocation}

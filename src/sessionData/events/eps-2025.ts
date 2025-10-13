@@ -1,69 +1,6 @@
-export type DayOfWeek = 'Tuesday' | 'Wednesday' | 'Thursday'
-export type Shift = 'AM' | 'PM' | 'Evening' | 'Other'
-export type Speaker = {
-  name: string
-  affiliation?: string
-  isInvitedGuest?: boolean
-}
+import type { TrackGroup, GeneralEvent, EventData } from '../types'
 
 export const RESPONSE = 'Response'
-
-export type Location = {
-  hotel: 'Copley Place' | 'Sheraton'
-  floor: '1st' | '2nd' | '3rd' | '4th' | '5th'
-  room: string
-}
-
-export type Event = {
-  date: string
-  dayOfWeek: DayOfWeek
-  startTime: string
-  endTime: string
-  location?: Location
-}
-
-export type Session = Event &
-  (
-    | {
-        speaker: Speaker
-        theme: string
-      }
-    | {
-        isPanelDiscussion?: boolean
-        isQAndA?: boolean
-        speakers?: Speaker[]
-        theme?: string
-      }
-  )
-
-export type TrackShift = {
-  dayOfWeek: DayOfWeek
-  shift: Shift
-  /** Earliest start time among sessions in this block */
-  startWindow?: string
-  /** Latest end time among sessions in this block */
-  endWindow?: string
-  sessions: Session[]
-  moderator: Speaker
-  location: Location
-  subtheme?: string
-}
-
-export type TrackGroup = {
-  /** Track name; null when a session has no program track */
-  track: string | null
-  shifts: TrackShift[]
-  isEvangelicalPhilosophicalSociety?: boolean
-}
-
-export type GeneralEvent = Event & {
-  location: Location
-  eventType: string // e.g., "Morning Prayer", "Lunch", "ETS Plenary Session I"
-  theme?: string // Optional subtitle/topic
-  speaker?: Speaker
-  speakers?: Speaker[]
-  isSpecialEvent?: boolean
-}
 
 export const generalEvents: GeneralEvent[] = [
   {
@@ -694,11 +631,11 @@ export const Tracks: TrackGroup[] = [
             startTime: '11:00 AM',
             endTime: '11:40 AM',
             speaker: {
-              name: 'Eli Haitov',
-              affiliation: 'Israel College of the Bible',
+              name: 'Eli Haitov & Andrew Ter Ern Loke',
+              affiliation:
+                'Israel College of the Bible & Hong Kong Baptist University',
             },
-            theme:
-              'Andrew Ter Ern Loke (Hong Kong Baptist University) A New Hilbert’s Hotel Argument Against Past-Eternalism ',
+            theme: 'A New Hilbert’s Hotel Argument Against Past-Eternalism ',
           },
         ],
         location: {
@@ -6211,7 +6148,7 @@ export const Tracks: TrackGroup[] = [
         startWindow: '1:00 PM',
         endWindow: '4:10 PM',
         moderator: {
-          name: 'Kur t Anders Richardson',
+          name: 'Kurt Anders Richardson',
           affiliation: 'Institute for Abrahamic Relations',
         },
         sessions: [
@@ -12637,3 +12574,10 @@ export const Tracks: TrackGroup[] = [
     ],
   },
 ]
+
+const eventData: EventData = {
+  generalEvents,
+  Tracks,
+}
+
+export default eventData

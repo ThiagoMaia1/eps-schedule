@@ -106,18 +106,37 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     isOpen: boolean
     time: string
     sessions: SessionWithLocation[]
+    unfilteredSessions: SessionWithLocation[]
     dayData?: ScheduleData
   }>({
     isOpen: false,
     time: '',
     sessions: [],
+    unfilteredSessions: [],
     dayData: undefined,
   })
+
+  // Check if any filters are active
+  const hasActiveFilters =
+    activeLocation !== null ||
+    activeTrack !== null ||
+    searchText.trim() !== '' ||
+    showOnlySelected ||
+    showOnlyEPS ||
+    showOnlyETS ||
+    showOnlyCopleyPlace ||
+    showOnlySheraton ||
+    showOnlyGeneralEvents ||
+    hideGeneralEvents ||
+    hideSpecialEvents ||
+    showOnlyPanelQA ||
+    showOnlyInvitedGuest
 
   // Handler for time marker click
   const handleTimeMarkerClick = useCallback(
     (dayData: ScheduleData, time: string, timeMinutes: number) => {
       const sessionsAtTime: SessionWithLocation[] = []
+      const unfilteredSessionsAtTime: SessionWithLocation[] = []
 
       // Define the hour range (from timeMinutes to timeMinutes + 60)
       const hourStart = timeMinutes
@@ -126,16 +145,17 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
       // Collect all sessions that overlap with this hour
       dayData.timeSlots.forEach((slot) => {
         Object.entries(slot.sessions).forEach(([location, entries]) => {
-          // Skip locations that are not visible
-          if (!isLocationVisible(location)) return
-
           entries.forEach((entry) => {
-            if (!isEntryVisible(entry)) return
-
             // Check if the session overlaps with the hour range
             // Two ranges overlap if: start1 < end2 AND start2 < end1
             if (entry.startMinutes < hourEnd && entry.endMinutes > hourStart) {
-              sessionsAtTime.push({ entry, location })
+              // Add to unfiltered list
+              unfilteredSessionsAtTime.push({ entry, location })
+
+              // Add to filtered list only if it passes filters
+              if (isLocationVisible(location) && isEntryVisible(entry)) {
+                sessionsAtTime.push({ entry, location })
+              }
             }
           })
         })
@@ -145,6 +165,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
         isOpen: true,
         time,
         sessions: sessionsAtTime,
+        unfilteredSessions: unfilteredSessionsAtTime,
         dayData,
       })
     },
@@ -156,6 +177,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
       isOpen: false,
       time: '',
       sessions: [],
+      unfilteredSessions: [],
       dayData: undefined,
     })
   }, [])
@@ -282,6 +304,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
         onClose={closePopup}
         time={popupState.time}
         sessions={popupState.sessions}
+        unfilteredSessions={popupState.unfilteredSessions}
+        hasActiveFilters={hasActiveFilters}
         selectedSessions={selectedSessions}
         onToggleSelection={onToggleSelection}
         searchText={searchText}

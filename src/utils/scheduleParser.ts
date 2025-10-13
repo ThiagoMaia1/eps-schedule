@@ -8,12 +8,8 @@ import {
   type RoomOrder,
   roomOrder,
 } from './roomOrder'
-import {
-  Tracks,
-  generalEvents,
-  type TrackGroup,
-  type Location,
-} from '../session-data'
+import { getEventData } from '../sessionData'
+import type { TrackGroup, Location } from '../sessionData'
 
 // Utility function to parse time string to minutes since midnight
 const parseTimeToMinutes = (timeStr: string): number => {
@@ -169,8 +165,12 @@ const flattenTracks = (tracks: TrackGroup[]): ParsedData => {
   return { sessions, shifts }
 }
 
-export const parseScheduleData = (): ScheduleData[] => {
+export const parseScheduleData = (path?: string): ScheduleData[] => {
   try {
+    // Get event data based on provided path or current path
+    const eventData = getEventData(path)
+    const { Tracks, generalEvents } = eventData
+
     // Flatten the nested tracks structure
     const { sessions, shifts } = flattenTracks(Tracks)
 
@@ -261,7 +261,6 @@ const transformSessionDataToScheduleData = (
   })
   const unsortedAllLocations = Array.from(allLocationsSet)
   const allLocations = sortLocationsByRoomOrder(unsortedAllLocations, roomOrder)
-  console.log(allLocations)
 
   // Transform each date group into ScheduleData
   const scheduleDataArray: ScheduleData[] = []
@@ -403,4 +402,11 @@ const compareTime = (timeA: string, timeB: string): number => {
   return parseTimeToMinutes(timeA) - parseTimeToMinutes(timeB)
 }
 
+// Export a function to get schedule data for a specific path
+export const getScheduleData = (path?: string): ScheduleData[] => {
+  return parseScheduleData(path)
+}
+
+// For backward compatibility, export default schedule data
+// Note: This will use the path at initial module load time
 export const scheduleData = parseScheduleData()
