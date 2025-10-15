@@ -11,17 +11,19 @@ const eventDataMap: Record<string, EventData> = {
 }
 
 const getEventByPath = (path: string): EventData => {
-  const currentPath = '/' + (path || window.location.pathname).split(/[/?]/)[2]
-  return eventDataMap[currentPath]
+  // For hash routing, extract the path from the hash
+  const currentPath = path || '/'
+  return eventDataMap[currentPath] || eps2025Data
 }
 
 /**
- * Get event data based on the current URL path
- * @param path - Optional path override (defaults to window.location.pathname)
+ * Get event data based on the current URL hash path
+ * @param path - Optional path override (defaults to current hash path)
  * @returns Event data for the requested event
  */
 export function getEventData(path?: string): EventData {
-  const currentPath = '/' + (path || window.location.pathname).split(/[/?]/)[2]
+  // Use the path directly (it's already processed by useCurrentPath)
+  const currentPath = path || '/'
 
   // Check for exact match
   if (eventDataMap[currentPath]) {

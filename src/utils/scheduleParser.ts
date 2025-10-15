@@ -100,10 +100,7 @@ const flattenTracks = (tracks: TrackGroup[]): ParsedData => {
       // Add shift block
       shifts.push({
         id: shiftId,
-        moderator: {
-          name: shift.moderator?.name || '',
-          affiliation: shift.moderator?.affiliation,
-        },
+        moderator: shift.moderator,
         startTime: earliestTime,
         endTime: latestTime,
         startMinutes: parseTimeToMinutes(earliestTime),

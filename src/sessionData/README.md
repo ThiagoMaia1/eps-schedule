@@ -73,6 +73,8 @@ Returns event data based on the URL path. If no path is provided, uses `window.l
 - `/` or `/eps-2025` → ETS 2025 Boston
 - `/epistemologia-analitica-uema` → Epistemologia Analítica UEMA
 
+Note: The app uses hash-based routing, so URLs will look like `#/eps-2025` or `#/epistemologia-analitica-uema`.
+
 ### `getAvailableEventPaths(): string[]`
 
 Returns an array of all registered event paths (excluding the root path).
@@ -195,7 +197,7 @@ const eventNames: Record<string, string> = {
 export { default as myEvent2026Data } from './events/my-event-2026'
 ```
 
-4. **Test your event** by navigating to the path (e.g., `http://localhost:5173/my-event-2026`)
+4. **Test your event** by navigating to the path (e.g., `http://localhost:5173/#/my-event-2026`)
 
 ## Usage
 

@@ -9,7 +9,12 @@ export const useQueryParams = <T extends Record<string, string>>() => {
 
   const initialQueryParams = useMemo(() => {
     if (!isBrowser()) return {} as QueryParams
-    const urlParams = new URLSearchParams(window.location.search)
+    // Extract query params from hash (format: #/path?param=value)
+    const hash = window.location.hash
+    const queryIndex = hash.indexOf('?')
+    if (queryIndex === -1) return {} as QueryParams
+    const searchString = hash.substring(queryIndex + 1)
+    const urlParams = new URLSearchParams(searchString)
     return Object.fromEntries(urlParams) as QueryParams
   }, [])
 
@@ -27,12 +32,16 @@ export const useQueryParams = <T extends Record<string, string>>() => {
     })
 
     const stringParams = urlParams.toString()
-    const newState =
-      window.location.pathname + (stringParams ? `?${stringParams}` : '')
+    // Get the current hash path (before any ?)
+    const hash = window.location.hash
+    const queryIndex = hash.indexOf('?')
+    const hashPath = queryIndex === -1 ? hash : hash.substring(0, queryIndex)
 
-    // Only update if the URL actually changed
-    if (newState !== window.location.pathname + window.location.search) {
-      window.history.pushState({}, '', newState)
+    const newHash = hashPath + (stringParams ? `?${stringParams}` : '')
+
+    // Only update if the hash actually changed
+    if (newHash !== window.location.hash) {
+      window.location.hash = newHash
     }
   }, [queryParams])
 
@@ -40,17 +49,27 @@ export const useQueryParams = <T extends Record<string, string>>() => {
   useEffect(() => {
     if (!isBrowser()) return
 
-    const handlePopState = () => {
-      const urlParams = new URLSearchParams(window.location.search)
+    const handleHashChange = () => {
+      const hash = window.location.hash
+      const queryIndex = hash.indexOf('?')
+      if (queryIndex === -1) {
+        setQueryParams({} as QueryParams)
+        return
+      }
+      const searchString = hash.substring(queryIndex + 1)
+      const urlParams = new URLSearchParams(searchString)
       setQueryParams(Object.fromEntries(urlParams) as QueryParams)
     }
 
-    window.addEventListener('popstate', handlePopState)
-    document.addEventListener(QUERY_PARAM_CHANGE_EVENT_ID, handlePopState)
+    window.addEventListener('hashchange', handleHashChange)
+    document.addEventListener(QUERY_PARAM_CHANGE_EVENT_ID, handleHashChange)
 
     return () => {
-      window.removeEventListener('popstate', handlePopState)
-      document.removeEventListener(QUERY_PARAM_CHANGE_EVENT_ID, handlePopState)
+      window.removeEventListener('hashchange', handleHashChange)
+      document.removeEventListener(
+        QUERY_PARAM_CHANGE_EVENT_ID,
+        handleHashChange
+      )
     }
   }, [])
 

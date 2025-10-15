@@ -1,30 +1,37 @@
 import { useState, useEffect } from 'react'
 
 /**
- * Hook to track the current URL path and re-render when it changes
- * This is useful for single-page apps that don't use a router
+ * Extract the path from hash, excluding query parameters
+ * Format: #/path?param=value -> /path
+ */
+const extractPathFromHash = (hash: string): string => {
+  const hashWithoutPrefix = hash.slice(1) || '/'
+  const queryIndex = hashWithoutPrefix.indexOf('?')
+  return queryIndex === -1
+    ? hashWithoutPrefix
+    : hashWithoutPrefix.substring(0, queryIndex)
+}
+
+/**
+ * Hook to track the current URL hash path and re-render when it changes
+ * This is useful for single-page apps that use hash-based routing
  */
 export function useCurrentPath(): string {
-  const [currentPath, setCurrentPath] = useState(window.location.pathname)
+  const [currentPath, setCurrentPath] = useState(
+    extractPathFromHash(window.location.hash)
+  )
 
   useEffect(() => {
-    // Update path when user navigates via browser back/forward buttons
-    const handlePopState = () => {
-      setCurrentPath(window.location.pathname)
+    // Update path when hash changes
+    const handleHashChange = () => {
+      setCurrentPath(extractPathFromHash(window.location.hash))
     }
 
-    // Listen for popstate events (browser back/forward)
-    window.addEventListener('popstate', handlePopState)
-
-    // Also listen for custom navigation events if they're dispatched
-    const handlePathChange = () => {
-      setCurrentPath(window.location.pathname)
-    }
-    window.addEventListener('pathchange', handlePathChange)
+    // Listen for hashchange events
+    window.addEventListener('hashchange', handleHashChange)
 
     return () => {
-      window.removeEventListener('popstate', handlePopState)
-      window.removeEventListener('pathchange', handlePathChange)
+      window.removeEventListener('hashchange', handleHashChange)
     }
   }, [])
 
