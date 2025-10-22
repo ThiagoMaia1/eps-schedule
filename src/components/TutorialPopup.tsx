@@ -23,16 +23,6 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({ isSessionsLoaded }) => {
   const { classes } = useTutorialPopupStyles()
 
   useEffect(() => {
-    console.log('isSessionsLoaded', isSessionsLoaded)
-    console.log('hasAnySelectedSessions', hasAnySelectedSessions())
-    console.log(
-      'tutorialDismissed',
-      localStorage.getItem(TUTORIAL_DISMISSED_KEY)
-    )
-    console.log(
-      'tutorialDismissedSession',
-      sessionStorage.getItem(TUTORIAL_DISMISSED_SESSION_KEY)
-    )
     if (!isSessionsLoaded) {
       return
     }

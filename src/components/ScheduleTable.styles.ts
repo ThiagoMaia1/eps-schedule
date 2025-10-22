@@ -49,6 +49,7 @@ export const useScheduleTableStyles = makeStyles<ScheduleTableStylesProps>()(
     },
 
     calendarHeader: {
+      marginBottom: theme.spacing.md,
       position: 'sticky',
       top: '59px',
       background: active ? theme.colors.primary : theme.colors.bgWhite,

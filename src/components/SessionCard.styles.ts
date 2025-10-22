@@ -7,12 +7,11 @@ interface SessionCardStylesProps {
     border: string
   }
   isPanelOrQA: boolean
-  isCancelled?: boolean
-  isPast?: boolean
+  shouldFade?: boolean
 }
 
 export const useSessionCardStyles = makeStyles<SessionCardStylesProps>()(
-  (theme, { isSelected, classificationColor, isCancelled, isPast }) => ({
+  (theme, { isSelected, classificationColor, shouldFade }) => ({
     cell: {
       textWrap: 'balance',
       display: 'flex',
@@ -35,8 +34,7 @@ export const useSessionCardStyles = makeStyles<SessionCardStylesProps>()(
       position: 'relative',
       flexGrow: 1,
       cursor: 'pointer',
-      opacity: isPast ? 0.5 : isCancelled ? 0.6 : 1,
-      filter: isCancelled ? 'grayscale(0.5)' : 'none',
+      filter: shouldFade ? 'invert(1) brightness(0.5) invert(1)' : 'none',
 
       '& > div': {
         maxWidth: '100%',

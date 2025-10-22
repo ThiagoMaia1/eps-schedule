@@ -5,21 +5,14 @@ interface GeneralEventCardStylesProps {
   isPopupMode: boolean
   pixelsPerMinute: number
   height: number
-  isCancelled?: boolean
-  isPast?: boolean
+  isMoved?: boolean
+  shouldFade?: boolean
 }
 
 export const useGeneralEventCardStyles =
   makeStyles<GeneralEventCardStylesProps>()((
     theme,
-    {
-      isSpecialEvent,
-      isPopupMode,
-      pixelsPerMinute,
-      height,
-      isCancelled,
-      isPast,
-    }
+    { isSpecialEvent, isPopupMode, pixelsPerMinute, height, shouldFade }
   ) => {
     // Calculate scale factor based on zoom level and available height
     // Low zoom (2.5-3.5) = small scale, High zoom (7+) = full scale
@@ -44,8 +37,7 @@ export const useGeneralEventCardStyles =
         left: theme.dimensions.timeColWidth,
         overflow: 'visible',
         zIndex: theme.zIndex.generalEvent,
-        opacity: isPast ? 0.5 : isCancelled ? 0.6 : 1,
-        filter: isCancelled ? 'grayscale(0.5)' : 'none',
+        filter: shouldFade ? 'invert(1) brightness(0.5) invert(1)' : 'none',
         ...(isPopupMode && {
           position: 'static',
           width: '100%',
@@ -116,7 +108,7 @@ export const useGeneralEventCardStyles =
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'row',
-        gap: isPopupMode ? '0' : `${Math.max(40, 80 * combinedScale)}px`,
+        gap: isPopupMode ? '0' : `${Math.max(200, 400 * combinedScale)}px`,
         overflow: 'hidden',
         flexWrap: 'nowrap',
       },

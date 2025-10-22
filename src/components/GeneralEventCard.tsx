@@ -4,11 +4,12 @@ import { highlightText } from '../utils/textHighlight'
 import { useGeneralEventCardStyles } from './GeneralEventCard.styles'
 import { theme } from '../styles/theme'
 import { useIsMobile } from '../hooks/useIsMobile'
+import { shouldFadeEvent } from '../utils/eventHelpers'
 
 // Controls how many content blocks to show per column width
 // Higher values = more repetitions (denser)
 // Lower values = fewer repetitions (sparser)
-const CONTENT_REPETITION_DENSITY = 2
+const CONTENT_REPETITION_DENSITY = 0.3
 
 interface GeneralEventContentProps {
   entry: ScheduleEntry
@@ -130,24 +131,6 @@ interface GeneralEventCardProps {
   isInPopup?: boolean
 }
 
-// Helper function to check if an event is in the past
-const isEventPast = (entry: ScheduleEntry): boolean => {
-  if (!entry.date || !entry.endTime) return false
-
-  try {
-    const now = new Date()
-    const currentYear = now.getFullYear()
-
-    // Parse the date (e.g., "October 20th" -> Date)
-    const dateStr = entry.date.replace(/(\d+)(st|nd|rd|th)/, '$1')
-    const eventDate = new Date(`${dateStr}, ${currentYear} ${entry.endTime}`)
-
-    return eventDate < now
-  } catch {
-    return false
-  }
-}
-
 const GeneralEventCard: React.FC<GeneralEventCardProps> = ({
   entry,
   searchText,
@@ -157,18 +140,16 @@ const GeneralEventCard: React.FC<GeneralEventCardProps> = ({
   pixelsPerMinute = 4,
   isInPopup = false,
 }) => {
-  const isPast = isEventPast(entry)
-  const isCancelled = entry.isCancelled || false
   const isMoved = !!(entry.originalEventIfMoved && !entry.isCancelled)
+  const shouldFade = shouldFadeEvent(entry)
 
   const { classes } = useGeneralEventCardStyles({
     isSpecialEvent: entry.isSpecialEvent ?? false,
     isPopupMode: isInPopup,
     pixelsPerMinute,
     height,
-    isCancelled,
     isMoved,
-    isPast,
+    shouldFade,
   })
   const isMobile = useIsMobile()
 

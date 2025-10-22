@@ -31,6 +31,7 @@ interface ScheduleTableProps {
   showOnlyInvitedGuest: boolean
   linearView: boolean
   showGeneralEventsInColumns: boolean
+  showCancelledEvents: boolean
   selectedSessions: Set<string>
   onToggleSelection: (sessionId: string) => void
   onLocationChange: (location: string | null) => void
@@ -51,6 +52,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   showOnlyInvitedGuest,
   linearView,
   showGeneralEventsInColumns,
+  showCancelledEvents,
   selectedSessions,
   onToggleSelection,
   onLocationChange,
@@ -116,6 +118,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     showOnlyInvitedGuest,
     searchText,
     activeTrack,
+    showCancelledEvents,
   })
 
   // Popup state
@@ -145,7 +148,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     hideGeneralEvents ||
     hideSpecialEvents ||
     showOnlyPanelQA ||
-    showOnlyInvitedGuest
+    showOnlyInvitedGuest ||
+    showCancelledEvents
 
   // Handler for time marker click
   const handleTimeMarkerClick = useCallback(

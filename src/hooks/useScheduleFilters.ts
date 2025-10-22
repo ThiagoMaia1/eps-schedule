@@ -87,6 +87,7 @@ interface FilterQueryParams extends Record<string, string> {
   generalInColumns: string
   panelQA: string
   invitedGuest: string
+  showCancelled: string
 }
 
 export const useScheduleFilters = (
@@ -156,6 +157,7 @@ export const useScheduleFilters = (
   )
   const showOnlyPanelQA = stringToBoolean(queryParams.panelQA)
   const showOnlyInvitedGuest = stringToBoolean(queryParams.invitedGuest)
+  const showCancelledEvents = stringToBoolean(queryParams.showCancelled)
 
   // Load selected sessions from localStorage on mount and clean up invalid ones
   useEffect(() => {
@@ -393,6 +395,18 @@ export const useScheduleFilters = (
     })
   }, [showOnlyInvitedGuest, setQueryParams])
 
+  const handleToggleShowCancelledEvents = useCallback(() => {
+    setQueryParams((prev) => {
+      const newParams = { ...prev }
+      if (!showCancelledEvents) {
+        newParams.showCancelled = 'true'
+      } else {
+        delete newParams.showCancelled
+      }
+      return newParams
+    })
+  }, [showCancelledEvents, setQueryParams])
+
   const handleToggleSessionSelection = useCallback(
     (sessionId: string) => {
       // Skip history update if this is an undo/redo action
@@ -552,6 +566,7 @@ export const useScheduleFilters = (
     showGeneralEventsInColumns,
     showOnlyPanelQA,
     showOnlyInvitedGuest,
+    showCancelledEvents,
     selectedSessions,
     isSessionsLoaded,
 
@@ -577,6 +592,7 @@ export const useScheduleFilters = (
     handleToggleGeneralEventsInColumns,
     handleTogglePanelQA,
     handleToggleInvitedGuest,
+    handleToggleShowCancelledEvents,
     handleToggleSessionSelection,
 
     // Import/Export handlers

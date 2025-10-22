@@ -48,6 +48,7 @@ function App() {
     showOnlyInvitedGuest,
     linearView,
     showGeneralEventsInColumns,
+    showCancelledEvents,
     selectedSessions,
     isSessionsLoaded,
     setActiveLocation,
@@ -66,6 +67,7 @@ function App() {
     handleToggleInvitedGuest,
     handleToggleLinearView,
     handleToggleGeneralEventsInColumns,
+    handleToggleShowCancelledEvents,
     handleToggleSessionSelection,
     handleCopySelectedSessions,
     handleImportValidatedSessions,
@@ -90,6 +92,9 @@ function App() {
       entry: ScheduleEntry,
       location: string
     ): boolean => {
+      // Hide cancelled events by default (unless showCancelledEvents is true)
+      if (entry.isCancelled && !showCancelledEvents) return false
+
       // Location filters
       if (activeLocation && location !== activeLocation) return false
       if (activeVenue && !location.includes(activeVenue)) return false
@@ -175,6 +180,7 @@ function App() {
     showOnlyInvitedGuest,
     searchText,
     activeTrack,
+    showCancelledEvents,
   ])
 
   return (
@@ -225,6 +231,8 @@ function App() {
           onToggleLinearView={handleToggleLinearView}
           showGeneralEventsInColumns={showGeneralEventsInColumns}
           onToggleGeneralEventsInColumns={handleToggleGeneralEventsInColumns}
+          showCancelledEvents={showCancelledEvents}
+          onToggleShowCancelledEvents={handleToggleShowCancelledEvents}
           tracks={allTracks}
           activeTrack={activeTrack}
           onTrackChange={setActiveTrack}
@@ -257,6 +265,7 @@ function App() {
           showOnlyInvitedGuest={showOnlyInvitedGuest}
           linearView={linearView}
           showGeneralEventsInColumns={showGeneralEventsInColumns}
+          showCancelledEvents={showCancelledEvents}
           selectedSessions={selectedSessions}
           onToggleSelection={handleToggleSessionSelection}
           onLocationChange={setActiveLocation}

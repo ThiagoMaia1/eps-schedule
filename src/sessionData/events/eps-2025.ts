@@ -338,7 +338,7 @@ export const generalEvents: GeneralEvent[] = [
 export const Tracks: TrackGroup[] = [
   {
     track: 'Evangelical Philosophical Society',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -475,7 +475,7 @@ export const Tracks: TrackGroup[] = [
               'With All your Heart and Mind: Biblical Communicative Imagination and Emotions in Prayer',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
@@ -579,7 +579,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Trinitarian Studies',
@@ -647,7 +647,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track:
@@ -717,7 +717,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'A Response to Reading the General Epistles Missiologically',
@@ -795,7 +795,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Adventist Theological Society',
@@ -865,7 +865,7 @@ export const Tracks: TrackGroup[] = [
               'Christian Identity and Unity in the Seven Letters: A First-Century Pastoral Perspective',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
       {
         dayOfWeek: 'Wednesday',
@@ -1034,7 +1034,7 @@ export const Tracks: TrackGroup[] = [
             isQAndA: true,
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
@@ -1152,7 +1152,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'American Christianity',
@@ -1224,7 +1224,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Anglican Theology',
@@ -1291,13 +1291,13 @@ export const Tracks: TrackGroup[] = [
               ' "In Spirit and Truth: Anglicans and the Nicene Faith Today"',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
   {
     track: 'Apologetics',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -1426,13 +1426,13 @@ export const Tracks: TrackGroup[] = [
             isPanelDiscussion: true,
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
   {
     track: 'Arguments for God',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -1568,7 +1568,7 @@ export const Tracks: TrackGroup[] = [
               'James Lee (Talbot School of Theology) The Theoretical and Applied Theology of Shame in the Westernized Asian Immigrant Context',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
@@ -1636,7 +1636,7 @@ export const Tracks: TrackGroup[] = [
             theme: 'Baptist Faith and Messages: An Assessment',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
@@ -1704,7 +1704,7 @@ export const Tracks: TrackGroup[] = [
             theme: 'Beyond the Dark Night',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
@@ -1770,7 +1770,7 @@ export const Tracks: TrackGroup[] = [
             isPanelDiscussion: true,
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
@@ -1839,7 +1839,7 @@ export const Tracks: TrackGroup[] = [
             theme: 'Is Apologetics Evangelism?',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
@@ -1975,7 +1975,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Biblical Worship',
@@ -2106,7 +2106,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Bioethics',
@@ -2176,7 +2176,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Book of Revelation',
@@ -2258,7 +2258,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Christian Ethics',
@@ -2329,7 +2329,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Christian History and Thought Since 1700',
@@ -2467,7 +2467,7 @@ export const Tracks: TrackGroup[] = [
               'Voting for Christian Liberty: Revising Chapter 20 of the Westminster Confession of Faith',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
@@ -2602,7 +2602,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Christianity and Islam: History and Texts',
@@ -2686,7 +2686,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Christianity and the Natural Sciences',
@@ -2762,7 +2762,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Church History',
@@ -2831,7 +2831,7 @@ export const Tracks: TrackGroup[] = [
               'The Underground Railroad and its Intersection with the Black Baptist Church ',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
       {
         dayOfWeek: 'Tuesday',
@@ -3333,7 +3333,7 @@ export const Tracks: TrackGroup[] = [
               'Regulating the “X from X” Language at the Heart of the Nicene Disputes',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
       {
         dayOfWeek: 'Tuesday',
@@ -4382,7 +4382,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: "Engaging Duane Garrett's Understanding Jeremiah",
@@ -4468,11 +4468,11 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Ethics',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -4582,7 +4582,7 @@ export const Tracks: TrackGroup[] = [
   {
     track:
       'Evaluating New Objections to the Mytho-Historical Adam and Genealogical Adam and Eve Theories',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -4770,7 +4770,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Evangelicals and Women',
@@ -4902,7 +4902,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Evangelicals in the Public Square',
@@ -4991,11 +4991,11 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Free Will and Related Issues',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -5129,7 +5129,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Gospel of Matthew',
@@ -5195,7 +5195,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Greco-Roman Backgrounds',
@@ -5263,7 +5263,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Hebrew Language',
@@ -5400,7 +5400,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Hermeneutics',
@@ -5541,7 +5541,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'History and Theology of Preaching',
@@ -5607,7 +5607,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'History for the Church',
@@ -5678,7 +5678,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Johannine Literature',
@@ -5812,7 +5812,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Latino/a Biblical and Theological Reﬂection Unit',
@@ -5898,7 +5898,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Luke-Acts',
@@ -5967,7 +5967,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Lutheran Studies',
@@ -6048,11 +6048,11 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Metaphysics Broadly Construed',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -6271,7 +6271,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Models of God Study Group',
@@ -6342,11 +6342,11 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Nature of God',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -6733,7 +6733,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'New Testament',
@@ -6802,7 +6802,7 @@ export const Tracks: TrackGroup[] = [
             theme: "The Uninterpreted Parable in Jesus's Preaching",
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
       {
         subtheme: 'General Studies II',
@@ -7469,7 +7469,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'New Testament Christology',
@@ -7540,7 +7540,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'New Testament Greek Language and Exegesis',
@@ -7677,7 +7677,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Old Testament',
@@ -7746,7 +7746,7 @@ export const Tracks: TrackGroup[] = [
               'Interpreting the Song of Songs: Wisdom, Orthodoxy, and Feminism',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
       {
         subtheme: 'Studies in the Septuagint',
@@ -8334,7 +8334,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Old Testament Narrative Literature',
@@ -8468,7 +8468,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Old Testament Prophetic and Apocalyptic Books',
@@ -8602,7 +8602,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Old Testament Theology',
@@ -8734,7 +8734,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Old Testament Wisdom Literature',
@@ -8876,7 +8876,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track:
@@ -8946,7 +8946,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Patristic and Medieval History',
@@ -9089,7 +9089,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Pauline Studies',
@@ -9258,11 +9258,11 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Philosophy and the Bible',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -9395,7 +9395,7 @@ export const Tracks: TrackGroup[] = [
               'The State of “Protestant Apologetics:” An Assessment and Plea',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
       {
         dayOfWeek: 'Tuesday',
@@ -9917,7 +9917,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Public Theology',
@@ -10082,7 +10082,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Puritan Theology in Post-Reformation Context',
@@ -10152,7 +10152,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Recovering Classical Protestant Politics',
@@ -10221,7 +10221,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Reformation Studies',
@@ -10359,11 +10359,11 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Religious Epistemology',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -10498,11 +10498,11 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Science, Technology, and Mathematics',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -10635,7 +10635,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Scriptural Use of Scripture',
@@ -10764,7 +10764,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Septuagint Studies',
@@ -10851,7 +10851,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Socio-Cultural Interpretation',
@@ -10923,7 +10923,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Spiritual Formation/Sanctiﬁcation',
@@ -10994,7 +10994,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Systematic Theology',
@@ -11062,7 +11062,7 @@ export const Tracks: TrackGroup[] = [
               'Bonded by Broken Bread: Food, Covenant, and the Atoning Sacriﬁce of Christ',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
       {
         dayOfWeek: 'Tuesday',
@@ -11785,7 +11785,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'The Doctrine of Deiﬁcation',
@@ -11877,7 +11877,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'The Doctrine of Scripture',
@@ -12013,7 +12013,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'The Perils and Possibilities of AI for Academics',
@@ -12078,11 +12078,11 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'The Problem of Evil',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -12218,7 +12218,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Theologies of Retrieval: Challenges and Prospects',
@@ -12306,7 +12306,7 @@ export const Tracks: TrackGroup[] = [
         },
       },
     ],
-    specialClassifications: ['Evangelical Theological Society'],
+    specialClassifications: ['ETS'],
   },
   {
     track: 'Torah Session',
@@ -12367,7 +12367,7 @@ export const Tracks: TrackGroup[] = [
             isPanelDiscussion: true,
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
       {
         dayOfWeek: 'Wednesday',
@@ -12490,7 +12490,7 @@ export const Tracks: TrackGroup[] = [
             theme: 'Defending Nicea: The Doctrine of the Trinity in Ephesians',
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
@@ -12572,13 +12572,13 @@ export const Tracks: TrackGroup[] = [
             isPanelDiscussion: true,
           },
         ],
-        specialClassifications: ['Evangelical Theological Society'],
+        specialClassifications: ['ETS'],
       },
     ],
   },
   {
     track: 'William Lane Craig’s Systematic Philosophical Theology, Vol. 1',
-    specialClassifications: ['Evangelical Philosophical Society'],
+    specialClassifications: ['EPS'],
     shifts: [
       {
         dayOfWeek: 'Thursday',

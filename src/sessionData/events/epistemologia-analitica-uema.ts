@@ -1,7 +1,6 @@
 import type { EventData, GeneralEvent, TrackGroup } from '../types'
 
 export const generalEvents: GeneralEvent[] = [
-  // Monday, October 20
   {
     date: 'October 20th',
     dayOfWeek: 'Monday',
@@ -50,7 +49,6 @@ export const generalEvents: GeneralEvent[] = [
       room: 'General',
     },
   },
-  // Tuesday, October 21
   {
     date: 'October 21st',
     dayOfWeek: 'Tuesday',
@@ -75,7 +73,6 @@ export const generalEvents: GeneralEvent[] = [
       room: 'General',
     },
   },
-  // Wednesday, October 22
   {
     date: 'October 22nd',
     dayOfWeek: 'Wednesday',
@@ -112,7 +109,6 @@ export const generalEvents: GeneralEvent[] = [
       room: 'General',
     },
   },
-  // Thursday, October 23
   {
     date: 'October 23rd',
     dayOfWeek: 'Thursday',
@@ -137,7 +133,6 @@ export const generalEvents: GeneralEvent[] = [
       room: 'General',
     },
   },
-  // Friday, October 24
   {
     date: 'October 24th',
     dayOfWeek: 'Friday',
@@ -162,7 +157,6 @@ export const generalEvents: GeneralEvent[] = [
       room: 'General',
     },
   },
-  // Keynotes
   {
     date: 'October 20th',
     dayOfWeek: 'Monday',
@@ -269,7 +263,6 @@ export const generalEvents: GeneralEvent[] = [
 ]
 
 export const Tracks: TrackGroup[] = [
-  // Monday, October 20 - Parallel Sessions Room 1
   {
     track: 'Parallel Sessions - Room 1',
     shifts: [
@@ -278,7 +271,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '4:15 PM',
         endWindow: '5:45 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -312,7 +304,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Monday, October 20 - Parallel Sessions Room 2
   {
     track: 'Parallel Sessions - Room 2',
     shifts: [
@@ -321,7 +312,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '4:15 PM',
         endWindow: '5:45 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -400,7 +390,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Monday, October 20 - Parallel Sessions Room 3
   {
     track: 'Parallel Sessions - Room 3',
     shifts: [
@@ -409,7 +398,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '4:15 PM',
         endWindow: '5:45 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -472,7 +460,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Monday, October 20 - Parallel Sessions Room 4
   {
     track: 'Parallel Sessions - Room 4',
     shifts: [
@@ -481,7 +468,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:45 PM',
         endWindow: '5:45 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -493,50 +479,22 @@ export const Tracks: TrackGroup[] = [
             dayOfWeek: 'Monday',
             startTime: '3:45 PM',
             endTime: '4:15 PM',
-            speakers: [{ name: 'Ariana Reis' }, { name: 'Ederson Safra Melo' }],
+            speakers: [
+              {
+                name: 'Ariana Reis',
+              },
+              {
+                name: 'Ederson Safra Melo',
+              },
+            ],
             theme:
               'Dinâmica da desinformação: disputas epistêmicas e discursivas, comunidades tradicionais e resistência',
-            isCancelled: true,
-          },
-          {
-            date: 'October 20th',
-            dayOfWeek: 'Monday',
-            startTime: '4:15 PM',
-            endTime: '4:45 PM',
-            speaker: {
-              name: 'Natalia Pereira Pinheiro',
-            },
-            theme: 'Epistemologia Ameríndia: os sonhos yanomamis',
-            isCancelled: true,
-          },
-          {
-            date: 'October 20th',
-            dayOfWeek: 'Monday',
-            startTime: '4:45 PM',
-            endTime: '5:15 PM',
-            speaker: {
-              name: 'Amanda Veloso Garcia',
-            },
-            theme:
-              'O problema do extrativismo epistêmico: desafios para a descolonização dos conhecimentos',
-            isCancelled: true,
-          },
-          {
-            date: 'October 20th',
-            dayOfWeek: 'Monday',
-            startTime: '5:15 PM',
-            endTime: '5:45 PM',
-            speaker: {
-              name: 'Milena Oliveira Pires',
-            },
-            theme: 'Por que precisamos de uma epistemologia feminista negra?',
             isCancelled: true,
           },
         ],
       },
     ],
   },
-  // Tuesday, October 21 - Parallel Sessions Room 1
   {
     track: 'Parallel Sessions - Room 1',
     shifts: [
@@ -545,7 +503,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -597,7 +554,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Tuesday, October 21 - Parallel Sessions Room 2
   {
     track: 'Parallel Sessions - Room 2',
     shifts: [
@@ -606,36 +562,12 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
           room: 'Sala 2',
         },
         sessions: [
-          {
-            date: 'October 21st',
-            dayOfWeek: 'Tuesday',
-            startTime: '3:30 PM',
-            endTime: '4:00 PM',
-            speaker: {
-              name: 'Cesár Santos',
-            },
-            theme: 'Filosofia da Ciência para não-filósofos: o que ensinar?',
-            isCancelled: true,
-          },
-          {
-            date: 'October 21st',
-            dayOfWeek: 'Tuesday',
-            startTime: '4:00 PM',
-            endTime: '4:30 PM',
-            speaker: {
-              name: 'Cicera Araújo',
-            },
-            theme:
-              'Inferência, atos de fala e função epistêmica: fundamentos para uma concepção situada da lógica e de seu ensino',
-            isCancelled: true,
-          },
           {
             date: 'October 21st',
             dayOfWeek: 'Tuesday',
@@ -652,7 +584,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Tuesday, October 21 - Parallel Sessions Room 3
   {
     track: 'Parallel Sessions - Room 3',
     shifts: [
@@ -661,7 +592,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -714,7 +644,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Wednesday, October 22 - Parallel Sessions Room 1
   {
     track: 'Parallel Sessions - Room 1',
     shifts: [
@@ -723,7 +652,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -764,7 +692,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Wednesday, October 22 - Parallel Sessions Room 2
   {
     track: 'Parallel Sessions - Room 2',
     shifts: [
@@ -773,7 +700,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -815,7 +741,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Wednesday, October 22 - Parallel Sessions Room 3
   {
     track: 'Parallel Sessions - Room 3',
     shifts: [
@@ -824,7 +749,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -867,7 +791,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Wednesday, October 22 - Parallel Sessions Room 4
   {
     track: 'Parallel Sessions - Room 4',
     shifts: [
@@ -876,7 +799,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -928,7 +850,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Thursday, October 23 - Parallel Sessions Room 1
   {
     track: 'Parallel Sessions - Room 1',
     shifts: [
@@ -937,7 +858,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -990,7 +910,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Thursday, October 23 - Parallel Sessions Room 2
   {
     track: 'Parallel Sessions - Room 2',
     shifts: [
@@ -999,7 +918,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1052,7 +970,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Thursday, October 23 - Parallel Sessions Room 3
   {
     track: 'Parallel Sessions - Room 3',
     shifts: [
@@ -1061,7 +978,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '3:30 PM',
         endWindow: '5:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1085,9 +1001,15 @@ export const Tracks: TrackGroup[] = [
             startTime: '4:00 PM',
             endTime: '4:30 PM',
             speakers: [
-              { name: 'Fátima de Jesus Soares Corrêa' },
-              { name: 'Cláudia Inês Horn' },
-              { name: 'Sônia Elisa Marchi Gonzatti' },
+              {
+                name: 'Fátima de Jesus Soares Corrêa',
+              },
+              {
+                name: 'Cláudia Inês Horn',
+              },
+              {
+                name: 'Sônia Elisa Marchi Gonzatti',
+              },
             ],
             theme:
               'Etnomatemática e epistemologias do conhecimento: diálogos entre Morin, Santos e Bachelard',
@@ -1117,7 +1039,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Friday, October 24 - Parallel Sessions Room 1
   {
     track: 'Parallel Sessions - Room 1',
     shifts: [
@@ -1126,7 +1047,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '2:00 PM',
         endWindow: '3:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1139,10 +1059,18 @@ export const Tracks: TrackGroup[] = [
             startTime: '2:00 PM',
             endTime: '2:30 PM',
             speakers: [
-              { name: 'Adriano Martins Costa' },
-              { name: 'Catarina Pinho' },
-              { name: 'João Tavares' },
-              { name: 'Louisa Huckemann' },
+              {
+                name: 'Adriano Martins Costa',
+              },
+              {
+                name: 'Catarina Pinho',
+              },
+              {
+                name: 'João Tavares',
+              },
+              {
+                name: 'Louisa Huckemann',
+              },
             ],
             theme:
               'A Construção da Identidade nas Mídias Sociais: Info-Influenciadores no Contexto da Semieducação (Halbbildung)',
@@ -1161,7 +1089,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Friday, October 24 - Parallel Sessions Room 2
   {
     track: 'Parallel Sessions - Room 2',
     shifts: [
@@ -1170,7 +1097,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '2:00 PM',
         endWindow: '3:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1211,7 +1137,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Friday, October 24 - Parallel Sessions Room 3
   {
     track: 'Parallel Sessions - Room 3',
     shifts: [
@@ -1220,7 +1145,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '2:00 PM',
         endWindow: '3:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1263,7 +1187,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Friday, October 24 - Parallel Sessions Room 4
   {
     track: 'Parallel Sessions - Room 4',
     shifts: [
@@ -1272,7 +1195,6 @@ export const Tracks: TrackGroup[] = [
         shift: 'PM',
         startWindow: '2:00 PM',
         endWindow: '3:30 PM',
-
         location: {
           hotel: 'Prédio da Arquitetura',
           floor: '1st',
@@ -1315,7 +1237,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Minicurso - Sala A (Verônica Campos)
   {
     track: 'Minicurso - Sala A',
     specialClassifications: ['Minicurso'],
@@ -1418,7 +1339,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Minicurso - Sala B (Pedro Bravo)
   {
     track: 'Minicurso - Sala B',
     specialClassifications: ['Minicurso'],
@@ -1475,7 +1395,6 @@ export const Tracks: TrackGroup[] = [
       },
     ],
   },
-  // Minicurso - Main Hall (Alexandre Meyer Luz)
   {
     track: 'Minicurso - Main Hall',
     specialClassifications: ['Minicurso'],

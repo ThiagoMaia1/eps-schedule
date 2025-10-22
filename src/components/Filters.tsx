@@ -34,6 +34,8 @@ interface FiltersProps {
   onToggleLinearView: () => void
   showGeneralEventsInColumns: boolean
   onToggleGeneralEventsInColumns: () => void
+  showCancelledEvents: boolean
+  onToggleShowCancelledEvents: () => void
   tracks: string[]
   activeTrack: string | null
   onTrackChange: (track: string | null) => void
@@ -78,6 +80,8 @@ const Filters: React.FC<FiltersProps> = ({
   onToggleLinearView,
   showGeneralEventsInColumns,
   onToggleGeneralEventsInColumns,
+  showCancelledEvents,
+  onToggleShowCancelledEvents,
   tracks,
   activeTrack,
   onTrackChange,
@@ -103,6 +107,11 @@ const Filters: React.FC<FiltersProps> = ({
   const [isImportExportOpen, setIsImportExportOpen] = useState(false)
   const [showLegendTooltip, setShowLegendTooltip] = useState(false)
   const [showMoreFilters, setShowMoreFilters] = useState(false)
+  const [tooltipPosition, setTooltipPosition] = useState<{
+    top: number
+    left: number
+  } | null>(null)
+  const infoButtonRef = React.useRef<HTMLButtonElement>(null)
 
   const { classes, cx } = useFiltersStyles({ isPanelCollapsed })
 
@@ -138,7 +147,25 @@ const Filters: React.FC<FiltersProps> = ({
     if (activeLocation) count++
     if (activeTrack) count++
     if (linearView && showOnlySelected) count++
+    if (showCancelledEvents) count++
     return count
+  }
+
+  const handleTooltipToggle = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!showLegendTooltip && infoButtonRef.current) {
+      const rect = infoButtonRef.current.getBoundingClientRect()
+      const isMobile = window.innerWidth < 768
+
+      if (!isMobile) {
+        // Position tooltip below and to the right of the icon
+        setTooltipPosition({
+          top: rect.bottom + 8,
+          left: rect.left,
+        })
+      }
+    }
+    setShowLegendTooltip(!showLegendTooltip)
   }
 
   const activeFilterCount = countActiveFilters()
@@ -190,11 +217,9 @@ const Filters: React.FC<FiltersProps> = ({
           <div className={classes.controls}>
             <div className={classes.onlySelectedContainer}>
               <button
+                ref={infoButtonRef}
                 className={classes.infoIconButton}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setShowLegendTooltip(!showLegendTooltip)
-                }}
+                onClick={handleTooltipToggle}
                 aria-label="Show help information"
               >
                 <MdInfoOutline />
@@ -214,21 +239,22 @@ const Filters: React.FC<FiltersProps> = ({
                     className={classes.legendTooltipBackdrop}
                     onClick={() => setShowLegendTooltip(false)}
                   />
-                  <div className={classes.legendTooltip}>
+                  <div
+                    className={classes.legendTooltip}
+                    style={
+                      tooltipPosition
+                        ? {
+                            top: tooltipPosition.top,
+                            left: tooltipPosition.left,
+                          }
+                        : undefined
+                    }
+                  >
                     To select a session, click the session card. Your selections
                     will persist if you refresh the page. Sessions under the{' '}
                     <strong>Evangelical Philosophical Society</strong> are
-                    shaded light blue.{' '}
-                    {typeof window !== 'undefined' &&
-                    'ontouchstart' in window &&
-                    navigator.maxTouchPoints > 0 ? (
-                      <>Use pinch-to-zoom to adjust the schedule view.</>
-                    ) : (
-                      <>
-                        Use <strong>Ctrl/Cmd + Mouse Wheel</strong> to zoom in
-                        and out of the schedule.
-                      </>
-                    )}
+                    shaded light blue. <strong>Ctrl/Cmd + Mouse Wheel</strong>{' '}
+                    or pinch-to-zoom to adjust the schedule view.
                   </div>
                 </>
               )}
@@ -329,6 +355,15 @@ const Filters: React.FC<FiltersProps> = ({
                 >
                   Only Invited Guest
                 </span>
+                <span
+                  className={cx(
+                    classes.btn,
+                    showCancelledEvents && classes.btnActive
+                  )}
+                  onClick={onToggleShowCancelledEvents}
+                >
+                  Show Cancelled Events
+                </span>
               </>
             )}
             <span
@@ -399,23 +434,6 @@ const Filters: React.FC<FiltersProps> = ({
           filteredTracks={filteredTracks}
           filteredSessions={filteredSessions}
         />
-
-        <div className={classes.legend}>
-          To select a session, click the session card. Your selections will
-          persist if you refresh the page. Sessions under the{' '}
-          <strong>Evangelical Philosophical Society</strong> are shaded light
-          blue.{' '}
-          {typeof window !== 'undefined' &&
-          'ontouchstart' in window &&
-          navigator.maxTouchPoints > 0 ? (
-            <>Use pinch-to-zoom to adjust the schedule view.</>
-          ) : (
-            <>
-              Use <strong>Ctrl/Cmd + Mouse Wheel</strong> to zoom in and out of
-              the schedule.
-            </>
-          )}
-        </div>
       </div>
     </div>
   )
