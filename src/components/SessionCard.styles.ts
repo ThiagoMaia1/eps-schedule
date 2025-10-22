@@ -7,10 +7,12 @@ interface SessionCardStylesProps {
     border: string
   }
   isPanelOrQA: boolean
+  isCancelled?: boolean
+  isPast?: boolean
 }
 
 export const useSessionCardStyles = makeStyles<SessionCardStylesProps>()(
-  (theme, { isSelected, classificationColor }) => ({
+  (theme, { isSelected, classificationColor, isCancelled, isPast }) => ({
     cell: {
       textWrap: 'balance',
       display: 'flex',
@@ -33,6 +35,8 @@ export const useSessionCardStyles = makeStyles<SessionCardStylesProps>()(
       position: 'relative',
       flexGrow: 1,
       cursor: 'pointer',
+      opacity: isPast ? 0.5 : isCancelled ? 0.6 : 1,
+      filter: isCancelled ? 'grayscale(0.5)' : 'none',
 
       '& > div': {
         maxWidth: '100%',
@@ -94,6 +98,8 @@ export const useSessionCardStyles = makeStyles<SessionCardStylesProps>()(
       fontWeight: theme.fontWeights.semibold,
       borderRadius: theme.borderRadius.xxl,
       whiteSpace: 'nowrap',
+      position: 'relative',
+      zIndex: 10,
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
         fontSize: theme.fontSizes.xs,
@@ -114,6 +120,24 @@ export const useSessionCardStyles = makeStyles<SessionCardStylesProps>()(
     moderatorTag: {
       background: theme.colors.moderatorBg,
       boxShadow: `0 1px 3px ${theme.colors.shadowPanelDiscussion}`,
+    },
+
+    cancelledTag: {
+      background: '#dc2626',
+      boxShadow: '0 1px 3px rgba(220, 38, 38, 0.3)',
+    },
+
+    movedTag: {
+      background: '#ea580c',
+      boxShadow: '0 1px 3px rgba(234, 88, 12, 0.3)',
+      padding: '1px 5px',
+      fontSize: theme.fontSizes.xs,
+      pointerEvents: 'auto',
+
+      [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+        fontSize: '0.65rem',
+        padding: '1px 4px',
+      },
     },
 
     track: {

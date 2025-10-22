@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Popup from './Popup'
 import Slideshow from './Slideshow'
 import { useTutorialPopupStyles } from './TutorialPopup.styles'
+import { hasAnySelectedSessions } from '../utils/localStorage'
 import step1Gif from '/tutorial-gifs/step1-select-sessions.gif'
 import step2Gif from '/tutorial-gifs/step2-linear-view.gif'
 import step3Gif from '/tutorial-gifs/step3-filtering.gif'
@@ -10,14 +11,10 @@ const TUTORIAL_DISMISSED_KEY = 'tutorialDismissed'
 const TUTORIAL_DISMISSED_SESSION_KEY = 'tutorialDismissedSession'
 
 interface TutorialPopupProps {
-  selectedSessionsCount: number
   isSessionsLoaded: boolean
 }
 
-const TutorialPopup: React.FC<TutorialPopupProps> = ({
-  selectedSessionsCount,
-  isSessionsLoaded,
-}) => {
+const TutorialPopup: React.FC<TutorialPopupProps> = ({ isSessionsLoaded }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [dontShowAgain, setDontShowAgain] = useState(false)
   const [allSlidesVisited, setAllSlidesVisited] = useState(false)
@@ -26,28 +23,33 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({
   const { classes } = useTutorialPopupStyles()
 
   useEffect(() => {
-    // Don't show tutorial until sessions are loaded from localStorage
+    console.log('isSessionsLoaded', isSessionsLoaded)
+    console.log('hasAnySelectedSessions', hasAnySelectedSessions())
+    console.log(
+      'tutorialDismissed',
+      localStorage.getItem(TUTORIAL_DISMISSED_KEY)
+    )
+    console.log(
+      'tutorialDismissedSession',
+      sessionStorage.getItem(TUTORIAL_DISMISSED_SESSION_KEY)
+    )
     if (!isSessionsLoaded) {
       return
     }
 
-    // Check if user has permanently dismissed the tutorial (localStorage)
     const tutorialDismissed = localStorage.getItem(TUTORIAL_DISMISSED_KEY)
-    // Check if user has dismissed the tutorial for this session (sessionStorage)
     const tutorialDismissedSession = sessionStorage.getItem(
       TUTORIAL_DISMISSED_SESSION_KEY
     )
 
-    if (
-      selectedSessionsCount === 0 &&
-      !tutorialDismissed &&
-      !tutorialDismissedSession
-    ) {
+    const hasAnySessions = hasAnySelectedSessions()
+
+    if (!hasAnySessions && !tutorialDismissed && !tutorialDismissedSession) {
       setIsOpen(true)
     } else {
       setIsOpen(false)
     }
-  }, [selectedSessionsCount, isSessionsLoaded])
+  }, [isSessionsLoaded])
 
   const handleClose = () => {
     // Don't allow closing if not all slides have been visited

@@ -9,7 +9,11 @@ import {
   useScheduleTableFilters,
   type SessionWithLocation,
 } from '../hooks/useScheduleTableFilters'
-import { getTimeRange, generateTimeMarkers } from '../utils/scheduleTableUtils'
+import {
+  getTimeRange,
+  generateTimeMarkers,
+  isDayInPast,
+} from '../utils/scheduleTableUtils'
 import { useScheduleTableStyles } from './ScheduleTable.styles'
 
 interface ScheduleTableProps {
@@ -71,6 +75,25 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   // Floating scrollbar refs
   const floatingScrollRef = useRef<HTMLDivElement>(null)
   const floatingScrollContentRef = useRef<HTMLDivElement>(null)
+
+  // Initialize collapse state for days (collapsed if in the past)
+  const [collapsedDays, setCollapsedDays] = useState<{
+    [dayIndex: number]: boolean
+  }>(() => {
+    const initialState: { [dayIndex: number]: boolean } = {}
+    scheduleData.forEach((dayData, index) => {
+      initialState[index] = isDayInPast(dayData.day)
+    })
+    return initialState
+  })
+
+  // Handler to toggle collapse state for a specific day
+  const toggleDayCollapse = useCallback((dayIndex: number) => {
+    setCollapsedDays((prev) => ({
+      ...prev,
+      [dayIndex]: !prev[dayIndex],
+    }))
+  }, [])
 
   // Use filtering hook
   const {
@@ -344,6 +367,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
                   searchText={searchText}
                   onTimeMarkerClick={handleTimeMarkerClick}
                   calculateSessionLayout={calculateSessionLayout}
+                  isCollapsed={collapsedDays[dayIndex] || false}
+                  onToggleCollapse={() => toggleDayCollapse(dayIndex)}
                 />
               )
             }
@@ -402,6 +427,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
                 getAllSessions={getAllSessions}
                 isEntryVisible={isEntryVisible}
                 showGeneralEventsInColumns={showGeneralEventsInColumns}
+                isCollapsed={collapsedDays[dayIndex] || false}
+                onToggleCollapse={() => toggleDayCollapse(dayIndex)}
               />
             )
           })}

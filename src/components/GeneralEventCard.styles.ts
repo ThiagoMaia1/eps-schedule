@@ -5,12 +5,21 @@ interface GeneralEventCardStylesProps {
   isPopupMode: boolean
   pixelsPerMinute: number
   height: number
+  isCancelled?: boolean
+  isPast?: boolean
 }
 
 export const useGeneralEventCardStyles =
   makeStyles<GeneralEventCardStylesProps>()((
     theme,
-    { isSpecialEvent, isPopupMode, pixelsPerMinute, height }
+    {
+      isSpecialEvent,
+      isPopupMode,
+      pixelsPerMinute,
+      height,
+      isCancelled,
+      isPast,
+    }
   ) => {
     // Calculate scale factor based on zoom level and available height
     // Low zoom (2.5-3.5) = small scale, High zoom (7+) = full scale
@@ -35,6 +44,8 @@ export const useGeneralEventCardStyles =
         left: theme.dimensions.timeColWidth,
         overflow: 'visible',
         zIndex: theme.zIndex.generalEvent,
+        opacity: isPast ? 0.5 : isCancelled ? 0.6 : 1,
+        filter: isCancelled ? 'grayscale(0.5)' : 'none',
         ...(isPopupMode && {
           position: 'static',
           width: '100%',
@@ -104,16 +115,18 @@ export const useGeneralEventCardStyles =
         flex: 1,
         display: 'flex',
         alignItems: 'center',
+        flexDirection: 'row',
+        gap: isPopupMode ? '0' : `${Math.max(40, 80 * combinedScale)}px`,
+        overflow: 'hidden',
+        flexWrap: 'nowrap',
       },
 
       generalEventHierarchy: {
         display: 'flex',
         flexDirection: 'column',
         gap: `${Math.max(4, 8 * combinedScale)}px`,
-        position: isPopupMode ? 'static' : 'sticky',
-        left: isPopupMode ? 'auto' : '180px',
-        width: 'fit-content',
-        maxWidth: '100%',
+        flex: isPopupMode ? '1' : '0 0 auto',
+        minWidth: isPopupMode ? '100%' : 'fit-content',
         paddingLeft: isPopupMode
           ? '0'
           : `${Math.max(10, 20 * combinedScale)}px`,
@@ -130,9 +143,6 @@ export const useGeneralEventCardStyles =
         },
 
         [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-          left: '70px',
-          maxWidth: 'calc(100vw - 80px)',
-          wordWrap: 'break-word',
           paddingLeft: isPopupMode
             ? '0'
             : `${Math.max(5, 10 * combinedScale)}px`,
@@ -243,6 +253,34 @@ export const useGeneralEventCardStyles =
         [`@media (max-width: ${theme.breakpoints.mobile})`]: {
           fontSize: `${Math.max(0.65, 0.85 * combinedScale)}rem`,
         },
+      },
+
+      statusBadge: {
+        display: 'inline-block',
+        padding: `${Math.max(1, 2 * combinedScale)}px ${Math.max(4, 6 * combinedScale)}px`,
+        borderRadius: theme.borderRadius.sm,
+        fontSize: `${Math.max(0.55, 0.65 * combinedScale)}rem`,
+        fontWeight: theme.fontWeights.bold,
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px',
+        whiteSpace: 'nowrap',
+        marginLeft: theme.spacing.md,
+        position: 'relative',
+        zIndex: 100,
+      },
+
+      cancelledBadge: {
+        backgroundColor: 'rgba(220, 38, 38, 0.95)',
+        color: 'white',
+        boxShadow: '0 2px 4px rgba(220, 38, 38, 0.3)',
+      },
+
+      movedBadge: {
+        backgroundColor: 'rgba(234, 88, 12, 0.95)',
+        color: 'white',
+        boxShadow: '0 2px 4px rgba(234, 88, 12, 0.3)',
+        cursor: 'help',
+        pointerEvents: 'auto',
       },
     }
   })

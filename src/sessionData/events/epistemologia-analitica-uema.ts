@@ -30,7 +30,7 @@ export const generalEvents: GeneralEvent[] = [
     date: 'October 20th',
     dayOfWeek: 'Monday',
     startTime: '2:00 PM',
-    endTime: '2:15 PM',
+    endTime: '2:30 PM',
     eventType: 'Opening Ceremony',
     location: {
       hotel: 'Prédio da Arquitetura',
@@ -91,11 +91,23 @@ export const generalEvents: GeneralEvent[] = [
   {
     date: 'October 22nd',
     dayOfWeek: 'Wednesday',
-    startTime: '5:30 PM',
-    endTime: '6:00 PM',
+    startTime: '5:00 PM',
+    endTime: '5:30 PM',
     eventType: 'Coffee Break',
     location: {
       hotel: 'Prédio da Arquitetura',
+      floor: '1st',
+      room: 'General',
+    },
+  },
+  {
+    date: 'October 22nd',
+    dayOfWeek: 'Wednesday',
+    startTime: '7:30 PM',
+    endTime: '10:00 PM',
+    eventType: 'Social Dinner',
+    location: {
+      hotel: 'TBD',
       floor: '1st',
       room: 'General',
     },
@@ -141,8 +153,8 @@ export const generalEvents: GeneralEvent[] = [
   {
     date: 'October 24th',
     dayOfWeek: 'Friday',
-    startTime: '4:00 PM',
-    endTime: '4:30 PM',
+    startTime: '3:30 PM',
+    endTime: '4:00 PM',
     eventType: 'Coffee Break',
     location: {
       hotel: 'Prédio da Arquitetura',
@@ -154,8 +166,8 @@ export const generalEvents: GeneralEvent[] = [
   {
     date: 'October 20th',
     dayOfWeek: 'Monday',
-    startTime: '2:15 PM',
-    endTime: '3:30 PM',
+    startTime: '2:30 PM',
+    endTime: '4:00 PM',
     eventType: 'Keynote',
     isSpecialEvent: true,
     speaker: {
@@ -240,8 +252,8 @@ export const generalEvents: GeneralEvent[] = [
   {
     date: 'October 24th',
     dayOfWeek: 'Friday',
-    startTime: '4:30 PM',
-    endTime: '5:45 PM',
+    startTime: '4:00 PM',
+    endTime: '5:15 PM',
     eventType: 'Keynote',
     isSpecialEvent: true,
     speaker: {
@@ -264,7 +276,7 @@ export const Tracks: TrackGroup[] = [
       {
         dayOfWeek: 'Monday',
         shift: 'PM',
-        startWindow: '3:45 PM',
+        startWindow: '4:15 PM',
         endWindow: '5:45 PM',
 
         location: {
@@ -276,10 +288,10 @@ export const Tracks: TrackGroup[] = [
           {
             date: 'October 20th',
             dayOfWeek: 'Monday',
-            startTime: '3:45 PM',
-            endTime: '4:15 PM',
+            startTime: '4:15 PM',
+            endTime: '4:45 PM',
             speaker: {
-              name: 'Mariana Passe',
+              name: 'Mariana Pase',
             },
             theme:
               'O problema filosófico da aplicação da matemática: uma abordagem sem milagres',
@@ -294,6 +306,7 @@ export const Tracks: TrackGroup[] = [
             },
             theme:
               'A virada metodológica de David Hilbert: da filosofia da matemática à metamatemática',
+            isCancelled: true,
           },
         ],
       },
@@ -306,7 +319,7 @@ export const Tracks: TrackGroup[] = [
       {
         dayOfWeek: 'Monday',
         shift: 'PM',
-        startWindow: '3:45 PM',
+        startWindow: '4:15 PM',
         endWindow: '5:45 PM',
 
         location: {
@@ -324,54 +337,13 @@ export const Tracks: TrackGroup[] = [
               name: 'Jorge Henrique Lima Moreira',
             },
             theme: 'Interpretar metáforas: embate entre Searle & Lakoff',
+            isCancelled: true,
           },
           {
             date: 'October 20th',
             dayOfWeek: 'Monday',
             startTime: '4:15 PM',
             endTime: '4:45 PM',
-            speaker: {
-              name: 'Lucas Felipe Araújo de Araújo',
-            },
-            theme:
-              'A Fronteira da Narrativa e a Democracia: Um debate acerca da crise democrática',
-          },
-          {
-            date: 'October 20th',
-            dayOfWeek: 'Monday',
-            startTime: '4:45 PM',
-            endTime: '5:15 PM',
-            speaker: {
-              name: 'Matheus Marques Rodrigues da Costa',
-            },
-            theme:
-              'Falácias Conceituais e Metodológicas na Crítica de Chomsky ao Behaviorismo',
-          },
-        ],
-      },
-    ],
-  },
-  // Monday, October 20 - Parallel Sessions Room 3
-  {
-    track: 'Parallel Sessions - Room 3',
-    shifts: [
-      {
-        dayOfWeek: 'Monday',
-        shift: 'PM',
-        startWindow: '3:45 PM',
-        endWindow: '5:45 PM',
-
-        location: {
-          hotel: 'Prédio da Arquitetura',
-          floor: '1st',
-          room: 'Sala 3',
-        },
-        sessions: [
-          {
-            date: 'October 20th',
-            dayOfWeek: 'Monday',
-            startTime: '3:45 PM',
-            endTime: '4:15 PM',
             speaker: {
               name: 'Lucas Moreira',
             },
@@ -384,6 +356,18 @@ export const Tracks: TrackGroup[] = [
             startTime: '4:15 PM',
             endTime: '4:45 PM',
             speaker: {
+              name: 'Lucas Felipe Araújo de Araújo',
+            },
+            theme:
+              'A Fronteira da Narrativa e a Democracia: Um debate acerca da crise democrática',
+            isCancelled: true,
+          },
+          {
+            date: 'October 20th',
+            dayOfWeek: 'Monday',
+            startTime: '4:45 PM',
+            endTime: '5:15 PM',
+            speaker: {
               name: 'Gabriel Filipe Brasileiro Costa',
             },
             theme:
@@ -395,10 +379,83 @@ export const Tracks: TrackGroup[] = [
             startTime: '4:45 PM',
             endTime: '5:15 PM',
             speaker: {
+              name: 'Matheus Marques Rodrigues da Costa',
+            },
+            theme:
+              'Falácias Conceituais e Metodológicas na Crítica de Chomsky ao Behaviorismo',
+            isCancelled: true,
+          },
+          {
+            date: 'October 20th',
+            dayOfWeek: 'Monday',
+            startTime: '5:15 PM',
+            endTime: '5:45 PM',
+            speaker: {
               name: 'Bruno Moura',
             },
             theme:
               'A natureza da crença no livre-arbítrio: uma investigação sobre natureza, agência e religião',
+          },
+        ],
+      },
+    ],
+  },
+  // Monday, October 20 - Parallel Sessions Room 3
+  {
+    track: 'Parallel Sessions - Room 3',
+    shifts: [
+      {
+        dayOfWeek: 'Monday',
+        shift: 'PM',
+        startWindow: '4:15 PM',
+        endWindow: '5:45 PM',
+
+        location: {
+          hotel: 'Prédio da Arquitetura',
+          floor: '1st',
+          room: 'Sala 3',
+        },
+        sessions: [
+          {
+            date: 'October 20th',
+            dayOfWeek: 'Monday',
+            startTime: '4:15 PM',
+            endTime: '4:45 PM',
+            speaker: {
+              name: 'Natalia Pereira Pinheiro',
+            },
+            theme: 'Epistemologia Ameríndia: os sonhos yanomamis',
+            originalEventIfMoved: {
+              date: 'October 20th',
+              startTime: '4:15 PM',
+              endTime: '4:45 PM',
+              location: {
+                hotel: 'Prédio da Arquitetura',
+                floor: '1st',
+                room: 'Sala 4',
+              },
+            },
+          },
+          {
+            date: 'October 20th',
+            dayOfWeek: 'Monday',
+            startTime: '4:45 PM',
+            endTime: '5:15 PM',
+            speaker: {
+              name: 'Amanda Veloso Garcia',
+            },
+            theme:
+              'O problema do extrativismo epistêmico: desafios para a descolonização dos conhecimentos',
+            originalEventIfMoved: {
+              date: 'October 20th',
+              startTime: '4:45 PM',
+              endTime: '5:15 PM',
+              location: {
+                hotel: 'Prédio da Arquitetura',
+                floor: '1st',
+                room: 'Sala 4',
+              },
+            },
           },
           {
             date: 'October 20th',
@@ -439,6 +496,7 @@ export const Tracks: TrackGroup[] = [
             speakers: [{ name: 'Ariana Reis' }, { name: 'Ederson Safra Melo' }],
             theme:
               'Dinâmica da desinformação: disputas epistêmicas e discursivas, comunidades tradicionais e resistência',
+            isCancelled: true,
           },
           {
             date: 'October 20th',
@@ -449,6 +507,7 @@ export const Tracks: TrackGroup[] = [
               name: 'Natalia Pereira Pinheiro',
             },
             theme: 'Epistemologia Ameríndia: os sonhos yanomamis',
+            isCancelled: true,
           },
           {
             date: 'October 20th',
@@ -460,6 +519,7 @@ export const Tracks: TrackGroup[] = [
             },
             theme:
               'O problema do extrativismo epistêmico: desafios para a descolonização dos conhecimentos',
+            isCancelled: true,
           },
           {
             date: 'October 20th',
@@ -470,6 +530,7 @@ export const Tracks: TrackGroup[] = [
               name: 'Milena Oliveira Pires',
             },
             theme: 'Por que precisamos de uma epistemologia feminista negra?',
+            isCancelled: true,
           },
         ],
       },
@@ -524,6 +585,14 @@ export const Tracks: TrackGroup[] = [
             theme:
               'Nombrar sin comprender: la filosofía de la psiquiatría frente al DSM',
           },
+          {
+            date: 'October 21st',
+            dayOfWeek: 'Tuesday',
+            startTime: '5:00 PM',
+            endTime: '5:30 PM',
+            theme: 'Reunião do GT',
+            isPanelDiscussion: true,
+          },
         ],
       },
     ],
@@ -553,6 +622,7 @@ export const Tracks: TrackGroup[] = [
               name: 'Cesár Santos',
             },
             theme: 'Filosofia da Ciência para não-filósofos: o que ensinar?',
+            isCancelled: true,
           },
           {
             date: 'October 21st',
@@ -564,6 +634,7 @@ export const Tracks: TrackGroup[] = [
             },
             theme:
               'Inferência, atos de fala e função epistêmica: fundamentos para uma concepção situada da lógica e de seu ensino',
+            isCancelled: true,
           },
           {
             date: 'October 21st',
@@ -575,6 +646,7 @@ export const Tracks: TrackGroup[] = [
             },
             theme:
               'Uma nova perspectiva para a solução do problema da Injustiça Epistêmica',
+            isCancelled: true,
           },
         ],
       },
@@ -621,12 +693,22 @@ export const Tracks: TrackGroup[] = [
           {
             date: 'October 21st',
             dayOfWeek: 'Tuesday',
-            startTime: '5:00 PM',
-            endTime: '5:30 PM',
+            startTime: '4:30 PM',
+            endTime: '5:00 PM',
             speaker: {
-              name: 'André Figueredo',
+              name: 'Milena Oliveira Pires',
             },
-            theme: 'Violência Epistêmica como Metáfora',
+            theme: 'Por que precisamos de uma epistemologia feminista negra?',
+            originalEventIfMoved: {
+              date: 'October 20th',
+              startTime: '5:15 PM',
+              endTime: '5:45 PM',
+              location: {
+                hotel: 'Prédio da Arquitetura',
+                floor: '1st',
+                room: 'Sala 4',
+              },
+            },
           },
         ],
       },
@@ -664,16 +746,6 @@ export const Tracks: TrackGroup[] = [
             startTime: '4:00 PM',
             endTime: '4:30 PM',
             speaker: {
-              name: 'Quirin Josef Colares Oberrauch',
-            },
-            theme: "Indeterminacy and Inference in Frege's Begriffsschrift",
-          },
-          {
-            date: 'October 22nd',
-            dayOfWeek: 'Wednesday',
-            startTime: '4:30 PM',
-            endTime: '5:00 PM',
-            speaker: {
               name: 'Rafael de Araujo Serra',
             },
             theme: 'A Extensionalização da Hierarquia de Funções de Frege',
@@ -681,10 +753,12 @@ export const Tracks: TrackGroup[] = [
           {
             date: 'October 22nd',
             dayOfWeek: 'Wednesday',
-            startTime: '5:00 PM',
-            endTime: '5:30 PM',
-            theme: 'Discussão',
-            isPanelDiscussion: true,
+            startTime: '4:30 PM',
+            endTime: '5:00 PM',
+            speaker: {
+              name: 'Quirin Josef Colares Oberrauch',
+            },
+            theme: "Indeterminacy and Inference in Frege's Begriffsschrift",
           },
         ],
       },
@@ -737,17 +811,6 @@ export const Tracks: TrackGroup[] = [
             },
             theme: 'Uma abordagem kantiana às virtudes e vícios epistêmicos',
           },
-          {
-            date: 'October 22nd',
-            dayOfWeek: 'Wednesday',
-            startTime: '5:00 PM',
-            endTime: '5:30 PM',
-            speaker: {
-              name: 'João Marcelo Saraiva',
-            },
-            theme:
-              'Além da Virtude Epistêmica: Uma Resposta Institucional à Injustiça e à Ignorância Construída',
-          },
         ],
       },
     ],
@@ -784,19 +847,6 @@ export const Tracks: TrackGroup[] = [
             dayOfWeek: 'Wednesday',
             startTime: '4:00 PM',
             endTime: '4:30 PM',
-            speakers: [
-              { name: 'Alexandre de Sá Ramos' },
-              { name: 'Ederson Safra Melo' },
-              { name: 'Cesar Frederico dos Santos' },
-            ],
-            theme:
-              'Ciência Cognitiva Padrão Versus Abordagens 4es: Uma Defesa Computacional Da Mente',
-          },
-          {
-            date: 'October 22nd',
-            dayOfWeek: 'Wednesday',
-            startTime: '4:30 PM',
-            endTime: '5:00 PM',
             speaker: {
               name: 'Alisson Brandemarte Moreira',
             },
@@ -805,13 +855,74 @@ export const Tracks: TrackGroup[] = [
           {
             date: 'October 22nd',
             dayOfWeek: 'Wednesday',
-            startTime: '5:00 PM',
-            endTime: '5:30 PM',
+            startTime: '4:30 PM',
+            endTime: '5:00 PM',
             speaker: {
               name: 'Valéria Carvalho',
             },
             theme:
               'Por uma razão ciborgue: repensar a filosofia da mente a partir de Donna Haraway',
+          },
+        ],
+      },
+    ],
+  },
+  // Wednesday, October 22 - Parallel Sessions Room 4
+  {
+    track: 'Parallel Sessions - Room 4',
+    shifts: [
+      {
+        dayOfWeek: 'Wednesday',
+        shift: 'PM',
+        startWindow: '3:30 PM',
+        endWindow: '5:30 PM',
+
+        location: {
+          hotel: 'Prédio da Arquitetura',
+          floor: '1st',
+          room: 'Sala 4',
+        },
+        sessions: [
+          {
+            date: 'October 22nd',
+            dayOfWeek: 'Wednesday',
+            startTime: '3:30 PM',
+            endTime: '4:00 PM',
+            speaker: {
+              name: 'Cesár Santos',
+            },
+            theme: 'Filosofia da Ciência para não-filósofos: o que ensinar?',
+            originalEventIfMoved: {
+              date: 'October 21st',
+              startTime: '3:30 PM',
+              endTime: '4:00 PM',
+              location: {
+                hotel: 'Prédio da Arquitetura',
+                floor: '1st',
+                room: 'Sala 2',
+              },
+            },
+          },
+          {
+            date: 'October 22nd',
+            dayOfWeek: 'Wednesday',
+            startTime: '4:00 PM',
+            endTime: '4:30 PM',
+            speaker: {
+              name: 'Cicera Araújo',
+            },
+            theme:
+              'Inferência, atos de fala e função epistêmica: fundamentos para uma concepção situada da lógica e de seu ensino',
+            originalEventIfMoved: {
+              date: 'October 21st',
+              startTime: '4:00 PM',
+              endTime: '4:30 PM',
+              location: {
+                hotel: 'Prédio da Arquitetura',
+                floor: '1st',
+                room: 'Sala 2',
+              },
+            },
           },
         ],
       },
@@ -1014,7 +1125,7 @@ export const Tracks: TrackGroup[] = [
         dayOfWeek: 'Friday',
         shift: 'PM',
         startWindow: '2:00 PM',
-        endWindow: '4:00 PM',
+        endWindow: '3:30 PM',
 
         location: {
           hotel: 'Prédio da Arquitetura',
@@ -1058,7 +1169,7 @@ export const Tracks: TrackGroup[] = [
         dayOfWeek: 'Friday',
         shift: 'PM',
         startWindow: '2:00 PM',
-        endWindow: '4:00 PM',
+        endWindow: '3:30 PM',
 
         location: {
           hotel: 'Prédio da Arquitetura',
@@ -1108,7 +1219,7 @@ export const Tracks: TrackGroup[] = [
         dayOfWeek: 'Friday',
         shift: 'PM',
         startWindow: '2:00 PM',
-        endWindow: '4:00 PM',
+        endWindow: '3:30 PM',
 
         location: {
           hotel: 'Prédio da Arquitetura',
@@ -1144,16 +1255,6 @@ export const Tracks: TrackGroup[] = [
             startTime: '3:00 PM',
             endTime: '3:30 PM',
             speaker: {
-              name: 'Martin Adam Motloch',
-            },
-            theme: 'Como formalizar advérbios na lógica?',
-          },
-          {
-            date: 'October 24th',
-            dayOfWeek: 'Friday',
-            startTime: '3:30 PM',
-            endTime: '4:00 PM',
-            speaker: {
               name: 'Marcio Kléos Freire Pereira',
             },
             theme: 'O que realmente importa no paradoxo de Fitch',
@@ -1170,7 +1271,7 @@ export const Tracks: TrackGroup[] = [
         dayOfWeek: 'Friday',
         shift: 'PM',
         startWindow: '2:00 PM',
-        endWindow: '4:00 PM',
+        endWindow: '3:30 PM',
 
         location: {
           hotel: 'Prédio da Arquitetura',
@@ -1210,16 +1311,6 @@ export const Tracks: TrackGroup[] = [
             theme:
               'Diferenciando razões de arbitrar razões para justificar crenças',
           },
-          {
-            date: 'October 24th',
-            dayOfWeek: 'Friday',
-            startTime: '3:30 PM',
-            endTime: '4:00 PM',
-            speaker: {
-              name: 'Marcelo Henrique Reis Freire',
-            },
-            theme: 'Argumentar com precedentes',
-          },
         ],
       },
     ],
@@ -1236,9 +1327,9 @@ export const Tracks: TrackGroup[] = [
         endWindow: '12:00 PM',
         specialClassifications: ['Minicurso'],
         location: {
-          hotel: 'Prédio da Música',
+          hotel: 'Prédio da Arquitetura',
           floor: '1st',
-          room: 'Sala A',
+          room: 'Auditório',
         },
         sessions: [
           {
@@ -1260,9 +1351,9 @@ export const Tracks: TrackGroup[] = [
         endWindow: '12:00 PM',
         specialClassifications: ['Minicurso'],
         location: {
-          hotel: 'Prédio da Música',
+          hotel: 'Prédio da Arquitetura',
           floor: '1st',
-          room: 'Sala A',
+          room: 'Auditório',
         },
         sessions: [
           {
@@ -1284,9 +1375,9 @@ export const Tracks: TrackGroup[] = [
         endWindow: '12:00 PM',
         specialClassifications: ['Minicurso'],
         location: {
-          hotel: 'Prédio da Música',
+          hotel: 'Prédio da Arquitetura',
           floor: '1st',
-          room: 'Sala A',
+          room: 'Auditório',
         },
         sessions: [
           {
@@ -1308,9 +1399,9 @@ export const Tracks: TrackGroup[] = [
         endWindow: '12:00 PM',
         specialClassifications: ['Minicurso'],
         location: {
-          hotel: 'Prédio da Música',
+          hotel: 'Prédio da Arquitetura',
           floor: '1st',
-          room: 'Sala A',
+          room: 'Auditório',
         },
         sessions: [
           {
@@ -1339,7 +1430,7 @@ export const Tracks: TrackGroup[] = [
         endWindow: '12:00 PM',
         specialClassifications: ['Minicurso'],
         location: {
-          hotel: 'Prédio da Música',
+          hotel: 'Prédio da História',
           floor: '1st',
           room: 'Sala B',
         },
@@ -1364,7 +1455,7 @@ export const Tracks: TrackGroup[] = [
         endWindow: '12:00 PM',
         specialClassifications: ['Minicurso'],
         location: {
-          hotel: 'Prédio da Música',
+          hotel: 'Prédio da História',
           floor: '1st',
           room: 'Sala B',
         },
@@ -1416,8 +1507,8 @@ export const Tracks: TrackGroup[] = [
       {
         dayOfWeek: 'Wednesday',
         shift: 'PM',
-        startWindow: '6:00 PM',
-        endWindow: '7:30 PM',
+        startWindow: '5:30 PM',
+        endWindow: '7:00 PM',
         specialClassifications: ['Minicurso'],
         location: {
           hotel: 'Prédio da Arquitetura',
@@ -1428,8 +1519,8 @@ export const Tracks: TrackGroup[] = [
           {
             date: 'October 22nd',
             dayOfWeek: 'Wednesday',
-            startTime: '6:00 PM',
-            endTime: '7:30 PM',
+            startTime: '5:30 PM',
+            endTime: '7:00 PM',
             speaker: {
               name: 'Alexandre Meyer Luz',
             },
