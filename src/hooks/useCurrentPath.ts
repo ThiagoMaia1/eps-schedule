@@ -3,13 +3,23 @@ import { useState, useEffect } from 'react'
 /**
  * Extract the path from hash, excluding query parameters
  * Format: #/path?param=value -> /path
+ * Removes trailing slashes to ensure consistent path matching
  */
 const extractPathFromHash = (hash: string): string => {
   const hashWithoutPrefix = hash.slice(1) || '/'
   const queryIndex = hashWithoutPrefix.indexOf('?')
-  return queryIndex === -1
-    ? hashWithoutPrefix
-    : hashWithoutPrefix.substring(0, queryIndex)
+  const pathWithoutQuery =
+    queryIndex === -1
+      ? hashWithoutPrefix
+      : hashWithoutPrefix.substring(0, queryIndex)
+
+  // Remove trailing slashes, but keep a single '/' for root path
+  if (pathWithoutQuery === '/' || pathWithoutQuery === '') {
+    return '/'
+  }
+  const normalized = pathWithoutQuery.replace(/\/+$/, '')
+  // If removing trailing slashes results in empty string, it was all slashes, so return root
+  return normalized === '' ? '/' : normalized
 }
 
 /**

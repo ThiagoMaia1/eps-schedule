@@ -10,9 +10,19 @@ const eventDataMap: Record<string, EventData> = {
   '/': eps2025Data,
 }
 
+/**
+ * Normalize a path by removing trailing slashes (except for root path)
+ */
+const normalizePath = (path: string): string => {
+  if (!path || path === '/' || path === '') {
+    return '/'
+  }
+  return path.replace(/\/+$/, '')
+}
+
 const getEventByPath = (path: string): EventData => {
   // For hash routing, extract the path from the hash
-  const currentPath = path || '/'
+  const currentPath = normalizePath(path || '/')
   return eventDataMap[currentPath] || eps2025Data
 }
 
@@ -22,8 +32,8 @@ const getEventByPath = (path: string): EventData => {
  * @returns Event data for the requested event
  */
 export function getEventData(path?: string): EventData {
-  // Use the path directly (it's already processed by useCurrentPath)
-  const currentPath = path || '/'
+  // Normalize the path to handle trailing slashes
+  const currentPath = normalizePath(path || '/')
 
   // Check for exact match
   if (eventDataMap[currentPath]) {
