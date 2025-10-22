@@ -134,6 +134,19 @@ export const useScheduleFilters = (
     return sessionIds
   }, [scheduleData])
 
+  // Redirect old classification values to new ones
+  useEffect(() => {
+    const oldClassificationValue = 'Evangelical Philosophical Society'
+    const newClassificationValue = 'EPS'
+
+    if (queryParams.classification === oldClassificationValue) {
+      setQueryParams((prev) => ({
+        ...prev,
+        classification: newClassificationValue,
+      }))
+    }
+  }, [queryParams.classification, setQueryParams])
+
   // Derive filter states from query params
   const activeLocation = queryParams.location || null
   const activeTrack = queryParams.track || null
