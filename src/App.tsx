@@ -5,7 +5,6 @@ import Filters from './components/Filters'
 import ScheduleTable from './components/ScheduleTable'
 import Footer from './components/Footer'
 import TutorialPopup from './components/TutorialPopup'
-import AuthButton from './components/AuthButton'
 import { type ScheduleEntry } from './types/schedule'
 import { useScheduleFilters } from './hooks/useScheduleFilters'
 import { useCurrentPath } from './hooks/useCurrentPath'
@@ -202,9 +201,6 @@ function App() {
               <Tooltip id="official-source-tooltip" content="Official source" />
             </>
           )}
-          <div className={classes.authButtonContainer}>
-            <AuthButton />
-          </div>
         </div>
 
         <Filters
