@@ -12660,7 +12660,7 @@ const eventData: EventData = {
   generalEvents,
   Tracks,
   classificationColors: {
-    'Evangelical Philosophical Society': {
+    EPS: {
       background: '#ebf5ff',
       border: '#93c5fd',
     },
