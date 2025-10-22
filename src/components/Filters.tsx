@@ -11,6 +11,7 @@ import ImportExportSessions from './ImportExportSessions'
 import FilterResultsCount from './FilterResultsCount'
 import { type ScheduleData } from '../types/schedule'
 import { useFiltersStyles } from './Filters.styles'
+import { trackEvent } from '../utils/analytics'
 
 interface FiltersProps {
   showOnlySelected: boolean
@@ -168,6 +169,21 @@ const Filters: React.FC<FiltersProps> = ({
     setShowLegendTooltip(!showLegendTooltip)
   }
 
+  const handleToggleOnlySelected = () => {
+    trackEvent('filter_only_selected', {
+      action: showOnlySelected ? 'disable' : 'enable',
+      selected_count: selectedCount,
+    })
+    onToggleSelected()
+  }
+
+  const handleOpenTransferSessions = () => {
+    trackEvent('open_transfer_sessions', {
+      selected_count: selectedCount,
+    })
+    setIsImportExportOpen(true)
+  }
+
   const activeFilterCount = countActiveFilters()
 
   return (
@@ -229,7 +245,7 @@ const Filters: React.FC<FiltersProps> = ({
                   classes.btn,
                   showOnlySelected && classes.btnActive
                 )}
-                onClick={onToggleSelected}
+                onClick={handleToggleOnlySelected}
               >
                 Only selected sessions
               </span>
@@ -410,7 +426,7 @@ const Filters: React.FC<FiltersProps> = ({
             )}
             <span
               className={cx(classes.btn, classes.transferBtn)}
-              onClick={() => setIsImportExportOpen(true)}
+              onClick={handleOpenTransferSessions}
             >
               <MdSwapHoriz className="btn-icon" />
               Transfer Sessions

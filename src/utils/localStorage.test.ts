@@ -9,6 +9,12 @@ import {
   migrateExistingSelectionsToEps2025,
 } from './localStorage'
 
+// Mock analytics module
+vi.mock('./analytics', () => ({
+  trackSessionSelection: vi.fn(),
+  trackSessionsClear: vi.fn(),
+}))
+
 // Mock localStorage using a Proxy to support both method calls and Object.keys()
 const createLocalStorageMock = () => {
   const store: Record<string, string> = {}
@@ -63,13 +69,11 @@ const createLocalStorageMock = () => {
   return new Proxy({}, handler) as Storage
 }
 
-// @ts-expect-error - Mocking localStorage
 global.localStorage = createLocalStorageMock()
 
 describe('localStorage utilities', () => {
   beforeEach(() => {
     // Recreate localStorage to ensure clean state
-    // @ts-expect-error - Mocking localStorage
     global.localStorage = createLocalStorageMock()
     // Clear console mocks
     vi.clearAllMocks()

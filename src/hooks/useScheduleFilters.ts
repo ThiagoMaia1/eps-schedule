@@ -5,6 +5,7 @@ import {
   toggleSessionSelection,
   setSelectedSessions,
 } from '../utils/localStorage'
+import { trackSessionsImport, trackSessionsExport } from '../utils/analytics'
 import { useQueryParams } from './useQueryParams'
 
 // Extract all unique locations from the schedule data
@@ -512,12 +513,16 @@ export const useScheduleFilters = (
       const sessionsArray = Array.from(selectedSessions)
       const data = JSON.stringify(sessionsArray)
       await navigator.clipboard.writeText(data)
+
+      // Track the export
+      trackSessionsExport(storageEventPath, sessionsArray.length)
+
       return { success: true, count: sessionsArray.length }
     } catch (error) {
       console.error('Failed to copy to clipboard:', error)
       return { success: false, count: 0 }
     }
-  }, [selectedSessions])
+  }, [selectedSessions, storageEventPath])
 
   // Import validated sessions (to be called after validation)
   const handleImportValidatedSessions = useCallback(
@@ -539,8 +544,16 @@ export const useScheduleFilters = (
           (id) => !selectedSessions.has(id)
         ).length
 
-        setSelectedSessions(mergedSessions, storageEventPath)
+        // Skip analytics for setSelectedSessions since we'll track it separately
+        setSelectedSessions(mergedSessions, storageEventPath, {
+          skipAnalytics: true,
+        })
         setSelectedSessionsState(mergedSessions)
+
+        // Track the import (only if new sessions were added)
+        if (newSessionsCount > 0) {
+          trackSessionsImport(storageEventPath, newSessionsCount)
+        }
 
         // Add to history
         setHistory((prevHistory) => {
