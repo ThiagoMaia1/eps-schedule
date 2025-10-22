@@ -1,6 +1,8 @@
 // Utility functions for managing selected sessions in localStorage
 // Sessions are stored per event to keep selections separate
 
+import { trackSessionSelection, trackSessionsClear } from './analytics'
+
 const STORAGE_KEY_PREFIX = 'selectedSessions'
 const OLD_STORAGE_KEY = 'favoriteSessions' // For migration (legacy global key)
 const OLD_GENERAL_KEY = 'selectedSessions' // For migration (legacy general key)
@@ -78,13 +80,24 @@ export const toggleSessionSelection = (
   eventPath: string = '/'
 ): Set<string> => {
   const selected = getSelectedSessions(eventPath)
-  if (selected.has(sessionId)) {
+  const wasSelected = selected.has(sessionId)
+
+  if (wasSelected) {
     selected.delete(sessionId)
   } else {
     // Add ensures deduplication (Set property)
     selected.add(sessionId)
   }
   saveSelectedSessions(selected, eventPath)
+
+  // Track the selection change
+  trackSessionSelection(
+    wasSelected ? 'remove' : 'add',
+    sessionId,
+    eventPath,
+    JSON.stringify([...selected])
+  )
+
   // Return a new Set to ensure deduplication
   return new Set(selected)
 }
@@ -99,9 +112,22 @@ export const isSessionSelected = (
 
 export const setSelectedSessions = (
   sessions: Set<string>,
-  eventPath: string = '/'
+  eventPath: string = '/',
+  options?: { skipAnalytics?: boolean }
 ): void => {
+  const previousSessions = getSelectedSessions(eventPath)
+  const previousCount = previousSessions.size
+  const newCount = sessions.size
+
   saveSelectedSessions(sessions, eventPath)
+
+  // Track analytics unless explicitly skipped (useful for imports)
+  if (!options?.skipAnalytics) {
+    // If clearing sessions (new count is 0 and had selections before)
+    if (newCount === 0 && previousCount > 0) {
+      trackSessionsClear(eventPath, previousCount)
+    }
+  }
 }
 
 /**

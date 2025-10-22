@@ -7,4 +7,18 @@ interface Window {
    * that should be considered valid when filtering sessions.
    */
   __TEST_MOCK_SESSION_IDS?: string[]
+
+  /**
+   * Google Analytics gtag function
+   */
+  gtag?: (
+    command: 'event' | 'config' | 'js',
+    targetOrAction: string | Date,
+    params?: Record<string, unknown>
+  ) => void
+
+  /**
+   * Google Analytics dataLayer
+   */
+  dataLayer?: unknown[]
 }

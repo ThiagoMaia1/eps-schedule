@@ -3,6 +3,7 @@ import Popup from './Popup'
 import Slideshow from './Slideshow'
 import { useTutorialPopupStyles } from './TutorialPopup.styles'
 import { hasAnySelectedSessions } from '../utils/localStorage'
+import { trackEvent } from '../utils/analytics'
 import step1Gif from '/tutorial-gifs/step1-select-sessions.gif'
 import step2Gif from '/tutorial-gifs/step2-linear-view.gif'
 import step3Gif from '/tutorial-gifs/step3-filtering.gif'
@@ -46,6 +47,12 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({ isSessionsLoaded }) => {
     if (!allSlidesVisited) {
       return
     }
+
+    // Track tutorial completion
+    trackEvent('tutorial_completed', {
+      dont_show_again: dontShowAgain,
+      dismissal_type: dontShowAgain ? 'permanent' : 'session',
+    })
 
     if (dontShowAgain) {
       // Permanently dismiss (persists across browser sessions)
