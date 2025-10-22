@@ -75,7 +75,10 @@ const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
           </div>
           <div
             className={classes.sessionsContainer}
-            style={{ height: calendarHeight }}
+            style={{
+              height: isCollapsed ? 0 : calendarHeight,
+              overflow: isCollapsed ? 'hidden' : 'visible',
+            }}
           >
             {/* Hour grid lines */}
             <HourGridLine

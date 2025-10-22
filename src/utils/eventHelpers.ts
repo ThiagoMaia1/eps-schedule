@@ -1,20 +1,43 @@
 import { type ScheduleEntry } from '../types/schedule'
+import { isBefore, set } from 'date-fns'
 
 /**
  * Helper function to check if an event is in the past
  */
 export const isEventPast = (entry: ScheduleEntry): boolean => {
-  if (!entry.date || !entry.endTime) return false
+  if (!entry.endTime) return false
+  if (!entry.dateObject && !entry.date) return false
 
   try {
     const now = new Date()
-    const currentYear = now.getFullYear()
+    let eventDate: Date
 
-    // Parse the date (e.g., "October 20th" -> Date)
-    const dateStr = entry.date.replace(/(\d+)(st|nd|rd|th)/, '$1')
-    const eventDate = new Date(`${dateStr}, ${currentYear} ${entry.endTime}`)
+    // Prefer dateObject if available
+    if (entry.dateObject) {
+      // Parse the end time and set it on the date object
+      const timeMatch = entry.endTime.match(/(\d+):(\d+)\s*(AM|PM)/i)
+      if (!timeMatch) return false
 
-    return eventDate < now
+      let hours = parseInt(timeMatch[1], 10)
+      const minutes = parseInt(timeMatch[2], 10)
+      const period = timeMatch[3].toUpperCase()
+
+      if (period === 'PM' && hours !== 12) hours += 12
+      if (period === 'AM' && hours === 12) hours = 0
+
+      eventDate = set(entry.dateObject, { hours, minutes, seconds: 0 })
+    } else {
+      // Fallback to parsing the date string
+      const currentYear = now.getFullYear()
+      const dateStr = entry.date!.replace(/(\d+)(st|nd|rd|th)/, '$1')
+      const dateTimeStr = `${dateStr}, ${currentYear} ${entry.endTime}`
+      eventDate = new Date(dateTimeStr)
+
+      // Validate the date
+      if (isNaN(eventDate.getTime())) return false
+    }
+
+    return isBefore(eventDate, now)
   } catch {
     return false
   }

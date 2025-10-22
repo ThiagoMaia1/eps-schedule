@@ -10,6 +10,7 @@ import {
 } from './roomOrder'
 import { getEventData } from '../sessionData'
 import type { TrackGroup, Location } from '../sessionData'
+import { parse, isValid } from 'date-fns'
 
 // Utility function to parse time string to minutes since midnight
 const parseTimeToMinutes = (timeStr: string): number => {
@@ -24,6 +25,42 @@ const parseTimeToMinutes = (timeStr: string): number => {
   if (period === 'AM' && hours === 12) hours = 0
 
   return hours * 60 + minutes
+}
+
+// Utility function to parse date strings into Date objects
+// Handles formats like "October 20th" or "November 18th" with day of week
+const parseDateString = (
+  dateStr: string,
+  dayOfWeek: string,
+  year?: number
+): Date | null => {
+  try {
+    // Remove ordinal suffixes (st, nd, rd, th)
+    const cleanedDate = dateStr.replace(/(\d+)(st|nd|rd|th)/, '$1')
+
+    // Use current year if not provided, or infer from the current date
+    const currentYear = year || new Date().getFullYear()
+
+    // Try to parse the date with day of week: "Monday, October 20, 2025"
+    const fullDateStr = `${dayOfWeek}, ${cleanedDate}, ${currentYear}`
+    const parsedDate = parse(fullDateStr, 'EEEE, MMMM d, yyyy', new Date())
+
+    if (isValid(parsedDate)) {
+      return parsedDate
+    }
+
+    // Fallback: try without day of week
+    const simpleDateStr = `${cleanedDate}, ${currentYear}`
+    const fallbackDate = parse(simpleDateStr, 'MMMM d, yyyy', new Date())
+
+    if (isValid(fallbackDate)) {
+      return fallbackDate
+    }
+
+    return null
+  } catch {
+    return null
+  }
 }
 
 interface SessionDataRow {
@@ -376,6 +413,9 @@ const transformSessionDataToScheduleData = (
             ? dayShifts.find((s) => s.id === row.shift_id)
             : undefined
 
+          // Parse the date into a Date object
+          const dateObject = parseDateString(row.date, row.day_of_week)
+
           const entry: ScheduleEntry = {
             id: sessionId,
             speaker: row.speaker || undefined,
@@ -402,6 +442,7 @@ const transformSessionDataToScheduleData = (
             moderator: shift?.moderator,
             isInvitedGuest: row.is_invited_guest === true,
             date: row.date,
+            dateObject: dateObject || undefined,
             dayOfWeek: row.day_of_week,
             isCancelled: row.is_cancelled || false,
             originalEventIfMoved: row.original_event_if_moved,
@@ -427,8 +468,15 @@ const transformSessionDataToScheduleData = (
     // date is "November 18th", day_of_week is "Tuesday"
     const formattedDate = dayParts[2] + ', ' + dayParts[0] + ' ' + dayParts[1]
 
+    // Parse the day date for comparisons
+    const dayDate = parseDateString(
+      dayParts[0] + ' ' + dayParts[1],
+      dayParts[2]
+    )
+
     scheduleDataArray.push({
       day: formattedDate,
+      dayDate: dayDate || undefined,
       locations,
       timeSlots,
       shifts: dayShifts,

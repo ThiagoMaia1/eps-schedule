@@ -312,46 +312,29 @@ describe('getHotelFromLocation', () => {
 })
 
 describe('isDayInPast', () => {
-  let originalDate: typeof Date
-
   beforeEach(() => {
-    // Save the original Date
-    originalDate = global.Date
-
-    // Mock current date to October 21, 2025 (from user_info)
-    const mockDate = new Date(2025, 9, 21) // October 21, 2025
-    global.Date = class extends originalDate {
-      constructor(...args: ConstructorParameters<typeof originalDate> | []) {
-        if (args.length === 0) {
-          super(mockDate.getTime())
-        } else {
-          super(...args)
-        }
-      }
-
-      static now() {
-        return mockDate.getTime()
-      }
-    } as typeof originalDate
+    // Mock current date to October 22, 2025 using vitest's built-in date mocking
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2025, 9, 22)) // October 22, 2025
   })
 
   afterEach(() => {
-    // Restore the original Date
-    global.Date = originalDate
-    vi.clearAllMocks()
+    // Restore the real timers
+    vi.useRealTimers()
   })
 
   it('should return true for dates in the past (with day of week)', () => {
     expect(isDayInPast('Monday, November 18, 2024')).toBe(true)
-    expect(isDayInPast('Saturday, October 20, 2025')).toBe(true) // Yesterday
+    expect(isDayInPast('Saturday, October 20, 2025')).toBe(true) // Two days ago
+    expect(isDayInPast('Tuesday, October 21, 2025')).toBe(true) // Yesterday
   })
 
   it('should return false for today (with day of week)', () => {
-    expect(isDayInPast('Tuesday, October 21, 2025')).toBe(false)
+    expect(isDayInPast('Wednesday, October 22, 2025')).toBe(false)
   })
 
   it('should return false for dates in the future (with day of week)', () => {
-    expect(isDayInPast('Wednesday, October 22, 2025')).toBe(false)
+    expect(isDayInPast('Thursday, October 23, 2025')).toBe(false)
     expect(isDayInPast('Thursday, December 25, 2025')).toBe(false)
     expect(isDayInPast('Wednesday, January 1, 2026')).toBe(false)
   })

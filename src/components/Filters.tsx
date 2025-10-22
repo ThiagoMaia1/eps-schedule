@@ -251,10 +251,9 @@ const Filters: React.FC<FiltersProps> = ({
                     }
                   >
                     To select a session, click the session card. Your selections
-                    will persist if you refresh the page. Sessions under the{' '}
-                    <strong>Evangelical Philosophical Society</strong> are
-                    shaded light blue. <strong>Ctrl/Cmd + Mouse Wheel</strong>{' '}
-                    or pinch-to-zoom to adjust the schedule view.
+                    will persist if you refresh the page.
+                    <strong>Ctrl/Cmd + Mouse Wheel</strong> or pinch-to-zoom to
+                    adjust the schedule view.
                   </div>
                 </>
               )}
