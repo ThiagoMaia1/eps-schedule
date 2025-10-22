@@ -251,7 +251,7 @@ const Filters: React.FC<FiltersProps> = ({
                     }
                   >
                     To select a session, click the session card. Your selections
-                    will persist if you refresh the page.
+                    will persist if you refresh the page.{' '}
                     <strong>Ctrl/Cmd + Mouse Wheel</strong> or pinch-to-zoom to
                     adjust the schedule view.
                   </div>
