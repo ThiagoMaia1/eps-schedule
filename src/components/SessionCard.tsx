@@ -3,6 +3,8 @@ import { type ScheduleEntry } from '../types/schedule'
 import { highlightText } from '../utils/textHighlight'
 import { useSessionCardStyles } from './SessionCard.styles'
 import { getEventData } from '../sessionData'
+import MovedBadge from './MovedBadge'
+import { shouldFadeEvent } from '../utils/eventHelpers'
 
 interface SessionCardProps {
   entry: ScheduleEntry
@@ -32,10 +34,15 @@ const SessionCard: React.FC<SessionCardProps> = ({
     ? eventData.classificationColors?.[entry.primaryClassification]
     : undefined
 
+  const isCancelled = entry.isCancelled || false
+  const isMoved = !!(entry.originalEventIfMoved && !entry.isCancelled)
+  const shouldFade = shouldFadeEvent(entry)
+
   const { classes, cx } = useSessionCardStyles({
     isSelected,
     classificationColor,
     isPanelOrQA: entry.isPanelOrQA || false,
+    shouldFade,
   })
 
   const handleClick = () => {
@@ -49,6 +56,17 @@ const SessionCard: React.FC<SessionCardProps> = ({
       <div className={classes.sessionTime}>
         {entry.startTime} - {entry.endTime}
       </div>
+      {isCancelled && (
+        <span className={cx(classes.sessionTag, classes.cancelledTag)}>
+          Cancelled
+        </span>
+      )}
+      {isMoved && entry.originalEventIfMoved && (
+        <MovedBadge
+          entry={entry}
+          className={cx(classes.sessionTag, classes.movedTag)}
+        />
+      )}
       {(entry.isPanelDiscussion || entry.isQAndA || isResponse) && (
         <div className={classes.speaker}>
           {entry.isPanelDiscussion && entry.isQAndA ? (

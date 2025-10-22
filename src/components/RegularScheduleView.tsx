@@ -34,6 +34,8 @@ interface RegularScheduleViewProps {
   getAllSessions: (dayData: ScheduleData, location: string) => ScheduleEntry[]
   isEntryVisible: (entry: ScheduleEntry, dayData?: ScheduleData) => boolean
   showGeneralEventsInColumns: boolean
+  isCollapsed?: boolean
+  onToggleCollapse?: () => void
 }
 
 const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
@@ -53,12 +55,18 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
   getAllSessions,
   isEntryVisible,
   showGeneralEventsInColumns,
+  isCollapsed = false,
+  onToggleCollapse,
 }) => {
   const { classes: baseClasses } = useScheduleTableStyles({})
   const { classes: activeClasses } = useScheduleTableStyles({ active: true })
 
   return (
-    <DayContainer dayTitle={dayData.day}>
+    <DayContainer
+      dayTitle={dayData.day}
+      isCollapsed={isCollapsed}
+      onToggleCollapse={onToggleCollapse}
+    >
       <div className={baseClasses.calendarContainer}>
         {/* Time guide column */}
         <TimeGuideColumn

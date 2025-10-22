@@ -22,9 +22,13 @@ export const useAppStyles = makeStyles()((theme) => ({
       margin: 0,
       flexShrink: 0,
       fontSize: '1.75rem',
+      wordWrap: 'break-word',
+      overflowWrap: 'break-word',
+      flex: 1,
+      minWidth: 0,
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-        fontSize: '1.5rem',
+        fontSize: '1.1rem',
       },
     },
   },
@@ -35,10 +39,20 @@ export const useAppStyles = makeStyles()((theme) => ({
     gap: '12px',
     marginBottom: '8px',
     flexShrink: 0,
+    flexWrap: 'wrap',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
       gap: '8px',
       marginBottom: '6px',
+      alignItems: 'flex-start',
+    },
+  },
+
+  authButtonContainer: {
+    marginLeft: 'auto',
+
+    [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+      marginLeft: 0,
     },
   },
 

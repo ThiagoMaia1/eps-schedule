@@ -27,6 +27,11 @@ export type Event = {
   startTime: string
   endTime: string
   location?: Location
+  isCancelled?: boolean
+  originalEventIfMoved?: Pick<
+    Event,
+    'date' | 'startTime' | 'endTime' | 'location'
+  >
 }
 
 export type Session = Event &

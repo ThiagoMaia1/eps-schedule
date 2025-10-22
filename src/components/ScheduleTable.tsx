@@ -9,7 +9,11 @@ import {
   useScheduleTableFilters,
   type SessionWithLocation,
 } from '../hooks/useScheduleTableFilters'
-import { getTimeRange, generateTimeMarkers } from '../utils/scheduleTableUtils'
+import {
+  getTimeRange,
+  generateTimeMarkers,
+  isDayInPast,
+} from '../utils/scheduleTableUtils'
 import { useScheduleTableStyles } from './ScheduleTable.styles'
 
 interface ScheduleTableProps {
@@ -27,6 +31,7 @@ interface ScheduleTableProps {
   showOnlyInvitedGuest: boolean
   linearView: boolean
   showGeneralEventsInColumns: boolean
+  showCancelledEvents: boolean
   selectedSessions: Set<string>
   onToggleSelection: (sessionId: string) => void
   onLocationChange: (location: string | null) => void
@@ -47,6 +52,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   showOnlyInvitedGuest,
   linearView,
   showGeneralEventsInColumns,
+  showCancelledEvents,
   selectedSessions,
   onToggleSelection,
   onLocationChange,
@@ -72,6 +78,25 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   const floatingScrollRef = useRef<HTMLDivElement>(null)
   const floatingScrollContentRef = useRef<HTMLDivElement>(null)
 
+  // Initialize collapse state for days (collapsed if in the past)
+  const [collapsedDays, setCollapsedDays] = useState<{
+    [dayIndex: number]: boolean
+  }>(() => {
+    const initialState: { [dayIndex: number]: boolean } = {}
+    scheduleData.forEach((dayData, index) => {
+      initialState[index] = isDayInPast(dayData.day)
+    })
+    return initialState
+  })
+
+  // Handler to toggle collapse state for a specific day
+  const toggleDayCollapse = useCallback((dayIndex: number) => {
+    setCollapsedDays((prev) => ({
+      ...prev,
+      [dayIndex]: !prev[dayIndex],
+    }))
+  }, [])
+
   // Use filtering hook
   const {
     isLocationVisible,
@@ -93,6 +118,7 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     showOnlyInvitedGuest,
     searchText,
     activeTrack,
+    showCancelledEvents,
   })
 
   // Popup state
@@ -122,7 +148,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
     hideGeneralEvents ||
     hideSpecialEvents ||
     showOnlyPanelQA ||
-    showOnlyInvitedGuest
+    showOnlyInvitedGuest ||
+    showCancelledEvents
 
   // Handler for time marker click
   const handleTimeMarkerClick = useCallback(
@@ -344,6 +371,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
                   searchText={searchText}
                   onTimeMarkerClick={handleTimeMarkerClick}
                   calculateSessionLayout={calculateSessionLayout}
+                  isCollapsed={collapsedDays[dayIndex] || false}
+                  onToggleCollapse={() => toggleDayCollapse(dayIndex)}
                 />
               )
             }
@@ -402,6 +431,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
                 getAllSessions={getAllSessions}
                 isEntryVisible={isEntryVisible}
                 showGeneralEventsInColumns={showGeneralEventsInColumns}
+                isCollapsed={collapsedDays[dayIndex] || false}
+                onToggleCollapse={() => toggleDayCollapse(dayIndex)}
               />
             )
           })}

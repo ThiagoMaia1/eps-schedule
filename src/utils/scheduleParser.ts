@@ -57,6 +57,13 @@ interface SessionDataRow {
   is_q_and_a?: boolean
   shift_id?: string
   is_invited_guest?: boolean
+  is_cancelled?: boolean
+  original_event_if_moved?: {
+    date: string
+    startTime: string
+    endTime: string
+    location?: Location
+  }
 }
 
 interface ParsedData {
@@ -158,6 +165,7 @@ const flattenTracks = (tracks: TrackGroup[]): ParsedData => {
           start_time: session.startTime,
           end_time: session.endTime,
           location: formatLocation(shift.location),
+          locationObject: shift.location,
           speaker: hasSpeaker ? session.speaker.name : undefined,
           affiliation: hasSpeaker ? session.speaker.affiliation : undefined,
           speakers: hasSpeakers ? session.speakers : undefined,
@@ -173,6 +181,12 @@ const flattenTracks = (tracks: TrackGroup[]): ParsedData => {
           is_invited_guest: hasSpeaker
             ? session.speaker.isInvitedGuest
             : undefined,
+          is_cancelled:
+            'isCancelled' in session ? session.isCancelled : undefined,
+          original_event_if_moved:
+            'originalEventIfMoved' in session
+              ? session.originalEventIfMoved
+              : undefined,
         }
 
         sessions.push(sessionData)
@@ -214,6 +228,8 @@ export const parseScheduleData = (path?: string): ScheduleData[] => {
         is_panel_or_qa: false,
         has_room_conflict: false,
         is_invited_guest: event.speaker?.isInvitedGuest,
+        is_cancelled: event.isCancelled,
+        original_event_if_moved: event.originalEventIfMoved,
       })
     )
 
@@ -385,6 +401,10 @@ const transformSessionDataToScheduleData = (
             shiftId: row.shift_id,
             moderator: shift?.moderator,
             isInvitedGuest: row.is_invited_guest === true,
+            date: row.date,
+            dayOfWeek: row.day_of_week,
+            isCancelled: row.is_cancelled || false,
+            originalEventIfMoved: row.original_event_if_moved,
           }
 
           // For general events without location, add to first location

@@ -36,6 +36,20 @@ export interface ScheduleEntry {
     affiliation?: string
   }
   isInvitedGuest?: boolean // True for invited guest speakers
+  isCancelled?: boolean // True for cancelled sessions
+  originalEventIfMoved?: {
+    // Information about original time/location if event was moved
+    date: string
+    startTime: string
+    endTime: string
+    location?: {
+      hotel: string
+      floor: string
+      room: string
+    }
+  }
+  date?: string // Date of the session (e.g., "October 20th")
+  dayOfWeek?: string // Day of week (e.g., "Monday")
 }
 
 export interface ShiftBlock {

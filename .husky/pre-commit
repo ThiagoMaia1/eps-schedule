@@ -1,0 +1,12 @@
+# Push origin/main is already blocked by Github via repo setting
+# But also: prevent local commits on `main` branch
+# see context: https://github.com/tremendous-rewards/marketing-site/pull/2184#discussion_r1955328959
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$branch" = "main" ]; then
+  echo "You can't commit directly to main branch"
+  exit 1
+fi
+
+npm run pre:commit:checks

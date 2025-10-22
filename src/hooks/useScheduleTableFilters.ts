@@ -29,6 +29,7 @@ interface UseScheduleTableFiltersProps {
   showOnlyInvitedGuest: boolean
   searchText: string
   activeTrack: string | null
+  showCancelledEvents: boolean
 }
 
 export const useScheduleTableFilters = ({
@@ -44,6 +45,7 @@ export const useScheduleTableFilters = ({
   showOnlyInvitedGuest,
   searchText,
   activeTrack,
+  showCancelledEvents,
 }: UseScheduleTableFiltersProps) => {
   // Helper function to get moderator name for a session
   const getModeratorName = (entry: ScheduleEntry): string | undefined => {
@@ -52,6 +54,9 @@ export const useScheduleTableFilters = ({
 
   const isEntryVisible = useCallback(
     (entry: ScheduleEntry): boolean => {
+      // Hide cancelled events by default (unless showCancelledEvents is true)
+      if (entry.isCancelled && !showCancelledEvents) return false
+
       if (showOnlySelected && !selectedSessions.has(entry.id)) return false
       if (showOnlyGeneralEvents && !entry.isGeneralEvent) return false
       // Hide filters
@@ -105,6 +110,7 @@ export const useScheduleTableFilters = ({
       showOnlyInvitedGuest,
       searchText,
       activeTrack,
+      showCancelledEvents,
     ]
   )
 

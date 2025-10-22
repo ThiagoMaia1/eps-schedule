@@ -1,20 +1,27 @@
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { FiExternalLink } from 'react-icons/fi'
 import { Tooltip } from 'react-tooltip'
 import Filters from './components/Filters'
 import ScheduleTable from './components/ScheduleTable'
 import Footer from './components/Footer'
 import TutorialPopup from './components/TutorialPopup'
+import AuthButton from './components/AuthButton'
 import { type ScheduleEntry } from './types/schedule'
 import { useScheduleFilters } from './hooks/useScheduleFilters'
 import { useCurrentPath } from './hooks/useCurrentPath'
 import { getScheduleData } from './utils/scheduleParser'
 import { getEventName, getEventConfig, getEventData } from './sessionData'
+import { migrateExistingSelectionsToEps2025 } from './utils/localStorage'
 import 'react-tooltip/dist/react-tooltip.css'
 import { useAppStyles } from './App.styles'
 
 function App() {
   const { classes } = useAppStyles()
+
+  // Run migration on first mount to preserve existing user selections
+  useEffect(() => {
+    migrateExistingSelectionsToEps2025()
+  }, [])
 
   // Get current path and schedule data dynamically
   const currentPath = useCurrentPath()
@@ -26,7 +33,7 @@ function App() {
   const eventConfig = useMemo(() => getEventConfig(currentPath), [currentPath])
   const eventData = useMemo(() => getEventData(currentPath), [currentPath])
   const officialSourceUrl = eventData.footerConfig?.officialSourceUrl
-  // Use the filtering hook
+  // Use the filtering hook (pass currentPath for event-specific localStorage)
   const {
     activeLocation,
     activeTrack,
@@ -41,6 +48,7 @@ function App() {
     showOnlyInvitedGuest,
     linearView,
     showGeneralEventsInColumns,
+    showCancelledEvents,
     selectedSessions,
     isSessionsLoaded,
     setActiveLocation,
@@ -59,11 +67,12 @@ function App() {
     handleToggleInvitedGuest,
     handleToggleLinearView,
     handleToggleGeneralEventsInColumns,
+    handleToggleShowCancelledEvents,
     handleToggleSessionSelection,
     handleCopySelectedSessions,
     handleImportValidatedSessions,
     handleClearAllFilters,
-  } = useScheduleFilters(scheduleData, eventConfig)
+  } = useScheduleFilters(scheduleData, eventConfig, currentPath)
 
   // Calculate total and filtered session and track counts
   // Excludes general sessions from the count
@@ -83,6 +92,9 @@ function App() {
       entry: ScheduleEntry,
       location: string
     ): boolean => {
+      // Hide cancelled events by default (unless showCancelledEvents is true)
+      if (entry.isCancelled && !showCancelledEvents) return false
+
       // Location filters
       if (activeLocation && location !== activeLocation) return false
       if (activeVenue && !location.includes(activeVenue)) return false
@@ -168,6 +180,7 @@ function App() {
     showOnlyInvitedGuest,
     searchText,
     activeTrack,
+    showCancelledEvents,
   ])
 
   return (
@@ -189,6 +202,9 @@ function App() {
               <Tooltip id="official-source-tooltip" content="Official source" />
             </>
           )}
+          <div className={classes.authButtonContainer}>
+            <AuthButton />
+          </div>
         </div>
 
         <Filters
@@ -215,6 +231,8 @@ function App() {
           onToggleLinearView={handleToggleLinearView}
           showGeneralEventsInColumns={showGeneralEventsInColumns}
           onToggleGeneralEventsInColumns={handleToggleGeneralEventsInColumns}
+          showCancelledEvents={showCancelledEvents}
+          onToggleShowCancelledEvents={handleToggleShowCancelledEvents}
           tracks={allTracks}
           activeTrack={activeTrack}
           onTrackChange={setActiveTrack}
@@ -247,16 +265,14 @@ function App() {
           showOnlyInvitedGuest={showOnlyInvitedGuest}
           linearView={linearView}
           showGeneralEventsInColumns={showGeneralEventsInColumns}
+          showCancelledEvents={showCancelledEvents}
           selectedSessions={selectedSessions}
           onToggleSelection={handleToggleSessionSelection}
           onLocationChange={setActiveLocation}
         />
       </div>
       <Footer />
-      <TutorialPopup
-        selectedSessionsCount={selectedSessions.size}
-        isSessionsLoaded={isSessionsLoaded}
-      />
+      <TutorialPopup isSessionsLoaded={isSessionsLoaded} />
     </>
   )
 }

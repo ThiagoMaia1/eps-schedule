@@ -213,7 +213,7 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
     },
 
     infoIconButton: {
-      display: 'none',
+      display: 'flex',
       padding: theme.spacing.xs,
       background: 'transparent',
       border: 'none',
@@ -227,47 +227,42 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
       '&:hover': {
         color: theme.colors.primary,
       },
-
-      [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-        display: 'flex',
-      },
     },
 
     legendTooltipBackdrop: {
-      display: 'none',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'transparent',
+      zIndex: theme.zIndex.tooltip,
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-        display: 'block',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
         background: theme.colors.backdropBg,
-        zIndex: theme.zIndex.tooltip,
       },
     },
 
     legendTooltip: {
-      display: 'none',
+      position: 'fixed',
+      background: 'white',
+      border: `1px solid ${theme.colors.borderPrimary}`,
+      borderRadius: theme.borderRadius.lg,
+      padding: theme.spacing.lg,
+      width: '340px',
+      maxWidth: 'calc(100vw - 32px)',
+      zIndex: theme.zIndex.modal,
+      boxShadow: `0 4px 12px ${theme.colors.shadowMedium}`,
+      fontSize: theme.fontSizes.base,
+      color: theme.colors.textTertiary,
+      lineHeight: 1.5,
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-        display: 'block',
-        position: 'fixed',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        background: 'white',
-        border: `1px solid ${theme.colors.borderPrimary}`,
-        borderRadius: theme.borderRadius.lg,
         padding: theme.spacing.xxl,
-        maxWidth: '90%',
         width: '340px',
-        zIndex: theme.zIndex.modal,
-        boxShadow: `0 4px 12px ${theme.colors.shadowMedium}`,
-        fontSize: theme.fontSizes.base,
-        color: theme.colors.textTertiary,
-        lineHeight: 1.5,
       },
     },
   })

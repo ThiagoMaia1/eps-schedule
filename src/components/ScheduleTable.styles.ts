@@ -51,7 +51,7 @@ export const useScheduleTableStyles = makeStyles<ScheduleTableStylesProps>()(
     calendarHeader: {
       marginBottom: theme.spacing.md,
       position: 'sticky',
-      top: '64px',
+      top: '59px',
       background: active ? theme.colors.primary : theme.colors.bgWhite,
       color: active ? 'white' : theme.colors.textQuaternary,
       boxShadow: '0 1px 0 0 #e5e7eb',
@@ -63,7 +63,7 @@ export const useScheduleTableStyles = makeStyles<ScheduleTableStylesProps>()(
       zIndex: theme.zIndex.header,
       fontSize: theme.fontSizes.md,
       fontWeight: theme.fontWeights.bold,
-      height: '44px',
+      height: '48px',
       display: 'flex',
       alignItems: 'center',
       cursor: 'pointer',
@@ -79,7 +79,7 @@ export const useScheduleTableStyles = makeStyles<ScheduleTableStylesProps>()(
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
         fontSize: theme.fontSizes.md,
         padding: '8px 6px',
-        top: '45px',
+        top: '42px',
         height: '36px',
       },
     },

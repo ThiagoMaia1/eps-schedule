@@ -27,6 +27,8 @@ interface LinearScheduleViewProps {
     session: SessionWithLocationExtended,
     allSessions: SessionWithLocationExtended[]
   ) => { left: string; width: string; needsHotelChange?: boolean }
+  isCollapsed?: boolean
+  onToggleCollapse?: () => void
 }
 
 const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
@@ -41,11 +43,17 @@ const LinearScheduleView: React.FC<LinearScheduleViewProps> = ({
   searchText,
   onTimeMarkerClick,
   calculateSessionLayout,
+  isCollapsed = false,
+  onToggleCollapse,
 }) => {
   const { classes, cx } = useScheduleTableStyles({})
 
   return (
-    <DayContainer dayTitle={dayData.day}>
+    <DayContainer
+      dayTitle={dayData.day}
+      isCollapsed={isCollapsed}
+      onToggleCollapse={onToggleCollapse}
+    >
       <div className={classes.calendarContainer}>
         {/* Time guide column */}
         <TimeGuideColumn

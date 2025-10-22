@@ -19,6 +19,7 @@ A modern, interactive schedule viewer for ETS (Escola de Tecnologia e Sistemas) 
 - **🏷️ Session Tags**: Filter by EPS and ETS session types
 - **📱 Responsive Design**: Works seamlessly on desktop and mobile devices
 - **💾 Persistent State**: Your selected sessions are saved locally and persist across sessions
+- **🔐 Firebase Authentication**: Optional user authentication with email/password or Google sign-in
 - **📊 Analytics**: Optional Cloudflare Web Analytics integration (privacy-friendly, no cookies)
 
 ## 🚀 Tech Stack
@@ -54,21 +55,22 @@ npm install
 
 3. Configure environment variables (optional):
 
+Create a `.env` file in the root directory:
+
 ```bash
-cp .env.example .env.local
+# Firebase Configuration (optional)
+VITE_FIREBASE_API_KEY=your_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
 ```
 
-Edit `.env.local` and add your Cloudflare Web Analytics token:
+**Firebase Setup** (optional, for authentication):
 
-```
-VITE_CLOUDFLARE_TOKEN=your_actual_token_here
-```
-
-To get a token:
-
-- Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
-- Navigate to **Web Analytics** → **Add a site**
-- Copy your token from the generated script
+- See [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) for detailed instructions on setting up Firebase
+- The app works without Firebase, but you won't have authentication features
 
 4. Start the development server:
 

@@ -87,14 +87,19 @@ interface FilterQueryParams extends Record<string, string> {
   generalInColumns: string
   panelQA: string
   invitedGuest: string
+  showCancelled: string
 }
 
 export const useScheduleFilters = (
   scheduleData: ScheduleData[],
-  config?: { hideSpecialEventsByDefault?: boolean }
+  config?: { hideSpecialEventsByDefault?: boolean },
+  eventPath?: string
 ) => {
   // Query params state
   const [queryParams, setQueryParams] = useQueryParams<FilterQueryParams>()
+
+  // Use event path for localStorage (default to '/' if not provided)
+  const storageEventPath = eventPath || '/'
 
   // Selected sessions (not in query params, stored in localStorage)
   const [selectedSessions, setSelectedSessionsState] = useState<Set<string>>(
@@ -119,6 +124,13 @@ export const useScheduleFilters = (
         })
       })
     })
+
+    // For testing: merge in mock session IDs if provided
+    if (typeof window !== 'undefined' && window.__TEST_MOCK_SESSION_IDS) {
+      const mockIds = window.__TEST_MOCK_SESSION_IDS
+      mockIds.forEach((id) => sessionIds.add(id))
+    }
+
     return sessionIds
   }, [scheduleData])
 
@@ -145,10 +157,11 @@ export const useScheduleFilters = (
   )
   const showOnlyPanelQA = stringToBoolean(queryParams.panelQA)
   const showOnlyInvitedGuest = stringToBoolean(queryParams.invitedGuest)
+  const showCancelledEvents = stringToBoolean(queryParams.showCancelled)
 
   // Load selected sessions from localStorage on mount and clean up invalid ones
   useEffect(() => {
-    const selected = getSelectedSessions()
+    const selected = getSelectedSessions(storageEventPath)
 
     // Filter out any invalid session IDs
     const validSelected = new Set(
@@ -162,7 +175,7 @@ export const useScheduleFilters = (
       console.log(
         `Cleaned up ${selected.size - validSelected.size} invalid session(s) from storage`
       )
-      setSelectedSessions(validSelected)
+      setSelectedSessions(validSelected, storageEventPath)
     }
 
     setSelectedSessionsState(validSelected)
@@ -171,7 +184,7 @@ export const useScheduleFilters = (
     setHistoryIndex(0)
     // Mark sessions as loaded
     setIsSessionsLoaded(true)
-  }, [getAllValidSessionIds])
+  }, [getAllValidSessionIds, storageEventPath])
 
   // Ensure linear view is only active when showing selected sessions
   useEffect(() => {
@@ -382,6 +395,18 @@ export const useScheduleFilters = (
     })
   }, [showOnlyInvitedGuest, setQueryParams])
 
+  const handleToggleShowCancelledEvents = useCallback(() => {
+    setQueryParams((prev) => {
+      const newParams = { ...prev }
+      if (!showCancelledEvents) {
+        newParams.showCancelled = 'true'
+      } else {
+        delete newParams.showCancelled
+      }
+      return newParams
+    })
+  }, [showCancelledEvents, setQueryParams])
+
   const handleToggleSessionSelection = useCallback(
     (sessionId: string) => {
       // Skip history update if this is an undo/redo action
@@ -389,7 +414,7 @@ export const useScheduleFilters = (
         return
       }
 
-      const updated = toggleSessionSelection(sessionId)
+      const updated = toggleSessionSelection(sessionId, storageEventPath)
       setSelectedSessionsState(new Set(updated))
 
       // Add to history
@@ -402,7 +427,7 @@ export const useScheduleFilters = (
       })
       setHistoryIndex((prev) => prev + 1)
     },
-    [historyIndex]
+    [historyIndex, storageEventPath]
   )
 
   const handleUndo = useCallback(() => {
@@ -411,7 +436,7 @@ export const useScheduleFilters = (
       const previousState = history[newIndex]
 
       isUndoRedoAction.current = true
-      setSelectedSessions(previousState)
+      setSelectedSessions(previousState, storageEventPath)
       setSelectedSessionsState(new Set(previousState))
       setHistoryIndex(newIndex)
 
@@ -420,7 +445,7 @@ export const useScheduleFilters = (
         isUndoRedoAction.current = false
       }, 0)
     }
-  }, [historyIndex, history])
+  }, [historyIndex, history, storageEventPath])
 
   const handleRedo = useCallback(() => {
     if (historyIndex < history.length - 1) {
@@ -428,7 +453,7 @@ export const useScheduleFilters = (
       const nextState = history[newIndex]
 
       isUndoRedoAction.current = true
-      setSelectedSessions(nextState)
+      setSelectedSessions(nextState, storageEventPath)
       setSelectedSessionsState(new Set(nextState))
       setHistoryIndex(newIndex)
 
@@ -437,7 +462,7 @@ export const useScheduleFilters = (
         isUndoRedoAction.current = false
       }, 0)
     }
-  }, [historyIndex, history])
+  }, [historyIndex, history, storageEventPath])
 
   // Keyboard shortcuts for undo/redo
   useEffect(() => {
@@ -501,7 +526,7 @@ export const useScheduleFilters = (
           (id) => !selectedSessions.has(id)
         ).length
 
-        setSelectedSessions(mergedSessions)
+        setSelectedSessions(mergedSessions, storageEventPath)
         setSelectedSessionsState(mergedSessions)
 
         // Add to history
@@ -518,7 +543,7 @@ export const useScheduleFilters = (
         return { success: false, count: 0 }
       }
     },
-    [historyIndex, selectedSessions]
+    [historyIndex, selectedSessions, storageEventPath]
   )
 
   // Clear all filters and return to default state
@@ -541,6 +566,7 @@ export const useScheduleFilters = (
     showGeneralEventsInColumns,
     showOnlyPanelQA,
     showOnlyInvitedGuest,
+    showCancelledEvents,
     selectedSessions,
     isSessionsLoaded,
 
@@ -566,6 +592,7 @@ export const useScheduleFilters = (
     handleToggleGeneralEventsInColumns,
     handleTogglePanelQA,
     handleToggleInvitedGuest,
+    handleToggleShowCancelledEvents,
     handleToggleSessionSelection,
 
     // Import/Export handlers
