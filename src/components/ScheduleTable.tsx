@@ -84,7 +84,8 @@ const ScheduleTable: React.FC<ScheduleTableProps> = ({
   }>(() => {
     const initialState: { [dayIndex: number]: boolean } = {}
     scheduleData.forEach((dayData, index) => {
-      initialState[index] = isDayInPast(dayData.day)
+      // Prefer dayDate object over string for more reliable comparison
+      initialState[index] = isDayInPast(dayData.dayDate || dayData.day)
     })
     return initialState
   })

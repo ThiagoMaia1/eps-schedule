@@ -49,6 +49,7 @@ export interface ScheduleEntry {
     }
   }
   date?: string // Date of the session (e.g., "October 20th")
+  dateObject?: Date // Parsed date object for reliable comparisons
   dayOfWeek?: string // Day of week (e.g., "Monday")
 }
 
@@ -70,7 +71,8 @@ export interface ShiftBlock {
 }
 
 export interface ScheduleData {
-  day: string
+  day: string // Formatted day string (e.g., "Monday, November 18, 2024")
+  dayDate?: Date // Parsed date object for reliable comparisons
   locations: string[]
   timeSlots: {
     time: string

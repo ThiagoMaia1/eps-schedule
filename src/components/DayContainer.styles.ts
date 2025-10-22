@@ -24,10 +24,11 @@ export const useDayContainerStyles = makeStyles<DayContainerStylesProps>()(
       background: theme.colors.bgWhite,
       zIndex: theme.zIndex.dayHeader,
       boxShadow: isCollapsed ? '0 1px 0 0 #e5e7eb' : '0 2px 0 0 #e5e7eb',
+      borderBottom: isCollapsed ? '1px solid #e5e7eb !important' : 'none',
       fontSize: '1.5rem',
       fontWeight: theme.fontWeights.bold,
       color: '#1f2937',
-      width: 'calc(100vw - 50px)',
+      width: 'calc(100vw - 64px)',
       border: 'none',
       textAlign: 'left',
       cursor: 'pointer',
@@ -60,6 +61,7 @@ export const useDayContainerStyles = makeStyles<DayContainerStylesProps>()(
       width: '16px',
       height: '16px',
       flexShrink: 0,
+      position: 'sticky',
       transition: 'transform 0.2s ease',
 
       '& svg': {
@@ -75,7 +77,8 @@ export const useDayContainerStyles = makeStyles<DayContainerStylesProps>()(
     },
 
     calendarWrapper: {
-      position: 'relative',
+      position: isCollapsed ? 'sticky' : 'relative',
+      left: isCollapsed ? 0 : undefined,
       minWidth: 'max-content',
       background: '#f8f8f8',
     },

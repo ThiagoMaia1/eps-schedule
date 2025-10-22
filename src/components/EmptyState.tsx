@@ -1,4 +1,5 @@
 import React from 'react'
+import { MdSearch } from 'react-icons/md'
 import { useEmptyStateStyles } from './EmptyState.styles'
 
 interface EmptyStateProps {
@@ -103,7 +104,9 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 
   return (
     <div className={classes.emptyState}>
-      <div className={classes.emptyStateIcon}>🔍</div>
+      <div className={classes.emptyStateIcon}>
+        <MdSearch />
+      </div>
       <h3 className={classes.emptyStateTitle}>No sessions found</h3>
       <p className={classes.emptyStateMessage}>{getMessage()}</p>
     </div>

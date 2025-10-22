@@ -1,4 +1,5 @@
 import { type ScheduleData, type ScheduleEntry } from '../types/schedule'
+import { startOfDay, isBefore } from 'date-fns'
 
 // Format minutes to time string
 export const formatMinutesToTime = (
@@ -69,40 +70,49 @@ export const getHotelFromLocation = (location: string): string | null => {
   return null
 }
 
-// Parse day string and determine if it's in the past
-export const isDayInPast = (dayString: string): boolean => {
+// Parse day string or Date object and determine if it's in the past
+export const isDayInPast = (day: string | Date): boolean => {
   try {
-    // Parse day strings like "Monday, November 18, 2024" or "November 18, 2024"
-    const dateParts = dayString.match(/(\w+),?\s+(\w+)\s+(\d+),?\s+(\d{4})/)
-    if (!dateParts) return false
+    let dayDate: Date
 
-    const monthStr = dateParts[2]
-    const day = parseInt(dateParts[3], 10)
-    const year = parseInt(dateParts[4], 10)
+    // If it's already a Date object, use it directly
+    if (day instanceof Date) {
+      dayDate = day
+    } else {
+      // Parse day strings like "Monday, November 18, 2024" or "November 18, 2024"
+      const dateParts = day.match(/(\w+),?\s+(\w+)\s+(\d+),?\s+(\d{4})/)
+      if (!dateParts) return false
 
-    const monthMap: { [key: string]: number } = {
-      January: 0,
-      February: 1,
-      March: 2,
-      April: 3,
-      May: 4,
-      June: 5,
-      July: 6,
-      August: 7,
-      September: 8,
-      October: 9,
-      November: 10,
-      December: 11,
+      const monthStr = dateParts[2]
+      const dayNum = parseInt(dateParts[3], 10)
+      const year = parseInt(dateParts[4], 10)
+
+      const monthMap: { [key: string]: number } = {
+        January: 0,
+        February: 1,
+        March: 2,
+        April: 3,
+        May: 4,
+        June: 5,
+        July: 6,
+        August: 7,
+        September: 8,
+        October: 9,
+        November: 10,
+        December: 11,
+      }
+
+      const month = monthMap[monthStr]
+      if (month === undefined) return false
+
+      dayDate = new Date(year, month, dayNum)
     }
 
-    const month = monthMap[monthStr]
-    if (month === undefined) return false
+    // Use date-fns for date comparison
+    const today = startOfDay(new Date())
+    const dayStart = startOfDay(dayDate)
 
-    const dayDate = new Date(year, month, day)
-    const today = new Date()
-    today.setHours(0, 0, 0, 0) // Reset time to start of day for comparison
-
-    return dayDate < today
+    return isBefore(dayStart, today)
   } catch {
     return false
   }

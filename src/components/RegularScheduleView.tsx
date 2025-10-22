@@ -118,7 +118,10 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
               </button>
               <div
                 className={baseClasses.sessionsContainer}
-                style={{ height: calendarHeight }}
+                style={{
+                  height: isCollapsed ? 0 : calendarHeight,
+                  overflow: isCollapsed ? 'hidden' : 'visible',
+                }}
               >
                 {/* Hour grid lines */}
                 <HourGridLine
@@ -314,7 +317,7 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
             (entry) => entry.isGeneralEvent && isEntryVisible(entry, dayData)
           )
 
-          if (generalEvent) {
+          if (generalEvent && !isCollapsed) {
             const duration = generalEvent.endMinutes - generalEvent.startMinutes
             const top = (generalEvent.startMinutes - minTime) * pixelsPerMinute
             const height = duration * pixelsPerMinute
