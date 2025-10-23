@@ -243,7 +243,6 @@ function App() {
           onCopySelectedSessions={handleCopySelectedSessions}
           onImportValidatedSessions={handleImportValidatedSessions}
           onClearAllFilters={handleClearAllFilters}
-          scheduleData={scheduleData}
         />
 
         <ScheduleTable
