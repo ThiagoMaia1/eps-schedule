@@ -165,6 +165,61 @@ export const hasAnySelectedSessions = (): boolean => {
 }
 
 /**
+ * Get all selected sessions across all events
+ * @returns Map of event paths to their selected session IDs
+ */
+export const getAllSelectedSessionsAcrossEvents = (): Map<
+  string,
+  Set<string>
+> => {
+  const allSessions = new Map<string, Set<string>>()
+
+  try {
+    const keys = Object.keys(localStorage)
+
+    for (const key of keys) {
+      if (key.startsWith(STORAGE_KEY_PREFIX + ':')) {
+        const stored = localStorage.getItem(key)
+        if (stored) {
+          try {
+            const sessions = JSON.parse(stored)
+            if (Array.isArray(sessions) && sessions.length > 0) {
+              // Extract event path from key (e.g., "selectedSessions:eps-2025" -> "/eps-2025")
+              const eventPath =
+                '/' + key.substring(STORAGE_KEY_PREFIX.length + 1)
+              allSessions.set(eventPath, new Set(sessions))
+            }
+          } catch {
+            // Skip invalid JSON
+            continue
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error getting all selected sessions:', error)
+  }
+
+  return allSessions
+}
+
+/**
+ * Set selected sessions for multiple events at once
+ * @param sessionsMap - Map of event paths to their selected session IDs
+ */
+export const setAllSelectedSessionsAcrossEvents = (
+  sessionsMap: Map<string, Set<string>>
+): void => {
+  try {
+    for (const [eventPath, sessions] of sessionsMap.entries()) {
+      saveSelectedSessions(sessions, eventPath)
+    }
+  } catch (error) {
+    console.error('Error setting all selected sessions:', error)
+  }
+}
+
+/**
  * One-time migration: Move any existing selectedSessions to the eps-2025 event
  * This ensures users don't lose their selections after the per-event update
  */

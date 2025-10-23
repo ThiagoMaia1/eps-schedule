@@ -9,7 +9,6 @@ import Dropdown from './Dropdown'
 import SearchInput from './SearchInput'
 import ImportExportSessions from './ImportExportSessions'
 import FilterResultsCount from './FilterResultsCount'
-import { type ScheduleData } from '../types/schedule'
 import { useFiltersStyles } from './Filters.styles'
 import { trackEvent } from '../utils/analytics'
 
@@ -52,11 +51,9 @@ interface FiltersProps {
   filteredSessions: number
   onCopySelectedSessions: () => Promise<{ success: boolean; count: number }>
   onImportValidatedSessions: (
-    validSessions: string[],
-    allValidSessionIds: Set<string>
+    validSessionsMap: Map<string, string[]>
   ) => Promise<{ success: boolean; count: number }>
   onClearAllFilters: () => void
-  scheduleData: ScheduleData[]
 }
 
 const Filters: React.FC<FiltersProps> = ({
@@ -99,7 +96,6 @@ const Filters: React.FC<FiltersProps> = ({
   onCopySelectedSessions,
   onImportValidatedSessions,
   onClearAllFilters,
-  scheduleData,
 }) => {
   // Initialize collapsed state based on window width to avoid flash on mobile
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(() => {
@@ -434,12 +430,10 @@ const Filters: React.FC<FiltersProps> = ({
           </div>
 
           <ImportExportSessions
-            selectedCount={selectedCount}
             isOpen={isImportExportOpen}
             onClose={() => setIsImportExportOpen(false)}
             onCopySelectedSessions={onCopySelectedSessions}
             onImportSelectedSessions={onImportValidatedSessions}
-            scheduleData={scheduleData}
           />
         </div>
 

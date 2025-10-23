@@ -4,6 +4,8 @@ import {
   getSelectedSessions,
   toggleSessionSelection,
   setSelectedSessions,
+  getAllSelectedSessionsAcrossEvents,
+  saveSelectedSessions,
 } from '../utils/localStorage'
 import { trackSessionsImport, trackSessionsExport } from '../utils/analytics'
 import { useQueryParams } from './useQueryParams'
@@ -507,69 +509,88 @@ export const useScheduleFilters = (
     }
   }, [handleUndo, handleRedo])
 
-  // Copy selected sessions to clipboard
+  // Copy selected sessions to clipboard (all events)
   const handleCopySelectedSessions = useCallback(async () => {
     try {
-      const sessionsArray = Array.from(selectedSessions)
-      const data = JSON.stringify(sessionsArray)
+      // Get all selected sessions across all events
+      const allSessionsMap = getAllSelectedSessionsAcrossEvents()
+
+      // Convert to a serializable format: { eventPath: [sessionIds...] }
+      const exportData: Record<string, string[]> = {}
+      let totalCount = 0
+
+      for (const [eventPath, sessionIds] of allSessionsMap.entries()) {
+        exportData[eventPath] = Array.from(sessionIds)
+        totalCount += sessionIds.size
+      }
+
+      const data = JSON.stringify(exportData)
       await navigator.clipboard.writeText(data)
 
       // Track the export
-      trackSessionsExport(storageEventPath, sessionsArray.length)
+      trackSessionsExport(storageEventPath, totalCount)
 
-      return { success: true, count: sessionsArray.length }
+      return { success: true, count: totalCount }
     } catch (error) {
       console.error('Failed to copy to clipboard:', error)
       return { success: false, count: 0 }
     }
-  }, [selectedSessions, storageEventPath])
+  }, [storageEventPath])
 
   // Import validated sessions (to be called after validation)
+  // validSessionsMap is a Map of eventPath -> array of session IDs
   const handleImportValidatedSessions = useCallback(
-    async (validSessions: string[], allValidSessionIds: Set<string>) => {
+    async (validSessionsMap: Map<string, string[]>) => {
       try {
-        // Filter existing sessions to remove any invalid ones
-        const validExistingSessions = Array.from(selectedSessions).filter(
-          (sessionId) => allValidSessionIds.has(sessionId)
-        )
+        // Get all existing sessions across all events
+        const existingSessionsMap = getAllSelectedSessionsAcrossEvents()
 
-        // Merge cleaned existing sessions with new valid imported sessions and deduplicate
-        const mergedSessions = new Set([
-          ...validExistingSessions,
-          ...validSessions,
-        ])
+        let totalNewSessionsCount = 0
 
-        // Count how many sessions we're actually importing (new ones only)
-        const newSessionsCount = validSessions.filter(
-          (id) => !selectedSessions.has(id)
-        ).length
+        // Process each event's sessions
+        for (const [eventPath, sessionIds] of validSessionsMap.entries()) {
+          // Get existing sessions for this event
+          const existingSessions =
+            existingSessionsMap.get(eventPath) || new Set<string>()
 
-        // Skip analytics for setSelectedSessions since we'll track it separately
-        setSelectedSessions(mergedSessions, storageEventPath, {
-          skipAnalytics: true,
-        })
-        setSelectedSessionsState(mergedSessions)
+          // Count how many are actually new
+          const newSessions = sessionIds.filter(
+            (id) => !existingSessions.has(id)
+          )
+          totalNewSessionsCount += newSessions.length
 
-        // Track the import (only if new sessions were added)
-        if (newSessionsCount > 0) {
-          trackSessionsImport(storageEventPath, newSessionsCount)
+          // Merge with existing sessions
+          const mergedSessions = new Set([...existingSessions, ...sessionIds])
+
+          // Save to storage
+          saveSelectedSessions(mergedSessions, eventPath)
+
+          // If this is the current event, update the state
+          if (eventPath === storageEventPath) {
+            setSelectedSessionsState(mergedSessions)
+
+            // Add to history for current event
+            setHistory((prevHistory) => {
+              const newHistory = prevHistory.slice(0, historyIndex + 1)
+              newHistory.push(new Set(mergedSessions))
+              return newHistory
+            })
+            setHistoryIndex((prev) => prev + 1)
+          }
         }
 
-        // Add to history
-        setHistory((prevHistory) => {
-          const newHistory = prevHistory.slice(0, historyIndex + 1)
-          newHistory.push(new Set(mergedSessions))
-          return newHistory
-        })
-        setHistoryIndex((prev) => prev + 1)
+        // Track the import (only if new sessions were added)
+        if (totalNewSessionsCount > 0) {
+          trackSessionsImport(storageEventPath, totalNewSessionsCount)
+        }
 
-        return { success: true, count: newSessionsCount }
+        return { success: true, count: totalNewSessionsCount }
       } catch (error) {
         console.error('Failed to import sessions:', error)
         return { success: false, count: 0 }
       }
     },
-    [historyIndex, selectedSessions, storageEventPath]
+    [historyIndex, storageEventPath]
   )
 
   // Clear all filters and return to default state

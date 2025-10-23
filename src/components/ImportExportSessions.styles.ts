@@ -186,6 +186,7 @@ export const useImportExportSessionsStyles =
       borderRadius: theme.borderRadius.lg,
       fontSize: theme.fontSizes.base,
       fontWeight: theme.fontWeights.medium,
+      marginTop: '1rem',
       marginBottom: '1.5rem',
       animation: 'slideDown 0.3s ease-out',
 
