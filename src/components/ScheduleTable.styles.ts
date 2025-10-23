@@ -1,5 +1,7 @@
 import { makeStyles } from '../styles/makeStyles'
 
+const MOBILE_TIME_COL_WIDTH = '50px'
+
 interface ScheduleTableStylesProps {
   active?: boolean
 }
@@ -24,6 +26,7 @@ export const useScheduleTableStyles = makeStyles<ScheduleTableStylesProps>()(
         WebkitOverflowScrolling: 'touch',
         scrollPaddingLeft: theme.dimensions.timeColWidthMobile,
         minHeight: 'calc(100vh - 140px)',
+        overscrollBehavior: 'auto',
       },
     },
 
@@ -156,10 +159,9 @@ export const useScheduleTableStyles = makeStyles<ScheduleTableStylesProps>()(
       maxWidth: theme.dimensions.linearColWidth,
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-        width: `min(320px, calc(100vw - ${theme.dimensions.timeColWidthMobile} - 40px))`,
-        minWidth: `min(320px, calc(100vw - ${theme.dimensions.timeColWidthMobile} - 40px))`,
-        maxWidth: `min(320px, calc(100vw - ${theme.dimensions.timeColWidthMobile} - 40px))`,
-        scrollSnapAlign: 'start',
+        width: `calc(100vw - ${MOBILE_TIME_COL_WIDTH} - 26px)`,
+        minWidth: `0px`,
+        maxWidth: 'none',
       },
     },
 
@@ -235,6 +237,8 @@ export const useScheduleTableStyles = makeStyles<ScheduleTableStylesProps>()(
       boxShadow: `0 2px 4px ${theme.colors.shadowError}`,
       width: '100%',
       boxSizing: 'border-box',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
 
     emptySelectedRow: {

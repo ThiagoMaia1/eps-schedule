@@ -108,9 +108,9 @@ export const useGeneralEventCardStyles =
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'row',
-        gap: isPopupMode ? '0' : `${Math.max(200, 400 * combinedScale)}px`,
         overflow: 'hidden',
         flexWrap: 'nowrap',
+        justifyContent: 'space-between',
       },
 
       generalEventHierarchy: {

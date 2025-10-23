@@ -8,7 +8,8 @@ export const useDayContainerStyles = makeStyles<DayContainerStylesProps>()(
   (theme, { isCollapsed }) => ({
     dayContainer: {
       display: 'block',
-      position: 'relative',
+      position: 'sticky',
+      left: 0,
       minWidth: 'max-content',
     },
 
