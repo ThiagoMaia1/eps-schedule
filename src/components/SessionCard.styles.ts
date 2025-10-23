@@ -83,7 +83,6 @@ export const useSessionCardStyles = makeStyles<SessionCardStylesProps>()(
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
         fontSize: '0.9rem',
-        gap: theme.spacing.xs,
       },
     },
 

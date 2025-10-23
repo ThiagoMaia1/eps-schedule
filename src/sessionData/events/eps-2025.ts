@@ -12056,7 +12056,9 @@ export const Tracks: TrackGroup[] = [
             startTime: '10:40 AM',
             endTime: '11:20 AM',
             speaker: {
-              name: 'Adam Dodd (Southwestern Seminary) Patrick Schreiner (Midwestern Baptist Theological Seminary) David Bosworth (Colorado Christian University) David Kotter (Colorado Christian University) Jason Thacker (Boyce College)',
+              name: 'Adam Dodd & Patrick Schreiner & David Bosworth & David Kotter',
+              affiliation:
+                'Southwestern Seminary, Midwestern Baptist Theological Seminary, Colorado Christian University',
             },
             theme: 'AI Use Cases: Practical Applications for Scholars',
           },
@@ -12066,7 +12068,9 @@ export const Tracks: TrackGroup[] = [
             startTime: '11:30 AM',
             endTime: '12:10 PM',
             speaker: {
-              name: 'Adam Dodd (Southwestern Seminary) Patrick Schreiner (Midwestern Baptist Theological Seminary) David Bosworth (Colorado Christian University) David Kotter (Colorado Christian University) Jason Thacker (Boyce College)',
+              name: 'Adam Dodd & Patrick Schreiner & David Bosworth & David Kotter & Jason Thacker',
+              affiliation:
+                'Southwestern Seminary, Midwestern Baptist Theological Seminary, Colorado Christian University, Boyce College',
             },
             theme: 'The Perils and Possibilities of AI for Academics',
           },

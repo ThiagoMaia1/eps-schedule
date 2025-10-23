@@ -1490,7 +1490,7 @@ const eventData: EventData = {
   footerConfig: {
     officialSourceUrl: 'https://sites.google.com/ufma.br/epistemologia/',
     officialSourceName: 'the official event page at UFMA',
-    lastUpdated: 'October 13, 2025',
+    lastUpdated: 'October 21, 2025',
   },
 }
 

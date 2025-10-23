@@ -2,6 +2,7 @@ import { AiOutlineGithub, AiFillLinkedin } from 'react-icons/ai'
 import { FaCode } from 'react-icons/fa'
 import { useFooterStyles } from './Footer.styles'
 import { getEventData } from '../sessionData'
+import { useCurrentPath } from '../hooks/useCurrentPath'
 
 // Developer info (always the same)
 const fullName = 'Thiago Pereira Maia'
@@ -31,9 +32,8 @@ const links: Link[] = [
 
 function Footer() {
   const { classes } = useFooterStyles()
-
-  // Get footer configuration from current event data
-  const eventData = getEventData()
+  const currentPath = useCurrentPath()
+  const eventData = getEventData(currentPath)
   const footerConfig = eventData.footerConfig || defaultFooterConfig
 
   return (
@@ -55,7 +55,7 @@ function Footer() {
           </p>
           {footerConfig.lastUpdated && (
             <p className={classes.lastUpdated}>
-              Data last updated: {footerConfig.lastUpdated}
+              Date last updated: {footerConfig.lastUpdated}
             </p>
           )}
         </div>
