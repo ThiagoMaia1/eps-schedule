@@ -21,9 +21,19 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
       },
     },
 
+    filterToggleRow: {
+      display: 'none',
+      gap: theme.spacing.md,
+      alignItems: 'center',
+
+      [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+        display: 'flex',
+      },
+    },
+
     filterToggle: {
       display: 'none',
-      width: '100%',
+      flex: 1,
       padding: theme.spacing.lg,
       background: theme.colors.primary,
       color: 'white',
@@ -36,8 +46,7 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
       alignItems: 'center',
       justifyContent: 'center',
       gap: theme.spacing.sm,
-      flexShrink: 0,
-      marginBottom: isPanelCollapsed ? '0' : '12px',
+      flexShrink: 1,
 
       '&:hover': {
         background: theme.colors.primaryHover,
@@ -45,6 +54,29 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
         display: 'flex',
+      },
+    },
+
+    quickViewToggle: {
+      display: 'none',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '4px',
+      flexShrink: 0,
+
+      [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+        display: 'flex',
+      },
+    },
+
+    quickViewLabel: {
+      fontSize: theme.fontSizes.xs,
+      color: theme.colors.textQuaternary,
+      fontWeight: theme.fontWeights.medium,
+      whiteSpace: 'nowrap',
+
+      [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+        fontSize: '0.8rem',
       },
     },
 
@@ -92,6 +124,10 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
       gap: theme.spacing.lg,
       alignItems: 'center',
       margin: 0,
+
+      [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+        gap: theme.spacing.md,
+      },
     },
 
     controlsSpacer: {
@@ -138,6 +174,11 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
       fontSize: theme.fontSizes.base,
       cursor: 'pointer',
       userSelect: 'none',
+
+      [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+        fontSize: '1.05rem',
+        padding: `${theme.spacing.md} ${theme.spacing.xl}`,
+      },
     },
 
     btnActive: {
@@ -227,6 +268,11 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
       '&:hover': {
         color: theme.colors.primary,
       },
+
+      [`@media (max-width: ${theme.breakpoints.mobile})`]: {
+        fontSize: '1.4em',
+        padding: theme.spacing.sm,
+      },
     },
 
     legendTooltipBackdrop: {
@@ -236,7 +282,7 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
       right: 0,
       bottom: 0,
       background: 'transparent',
-      zIndex: theme.zIndex.tooltip,
+      zIndex: 1001,
 
       [`@media (max-width: ${theme.breakpoints.mobile})`]: {
         background: theme.colors.backdropBg,
@@ -251,7 +297,7 @@ export const useFiltersStyles = makeStyles<FiltersStylesProps>()(
       padding: theme.spacing.lg,
       width: '340px',
       maxWidth: 'calc(100vw - 32px)',
-      zIndex: theme.zIndex.modal,
+      zIndex: 1002,
       boxShadow: `0 4px 12px ${theme.colors.shadowMedium}`,
       fontSize: theme.fontSizes.base,
       color: theme.colors.textTertiary,

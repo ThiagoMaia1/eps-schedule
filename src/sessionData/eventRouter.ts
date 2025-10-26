@@ -34,7 +34,6 @@ const getEventByPath = (path: string): EventData => {
 export function getEventData(path?: string): EventData {
   // Normalize the path to handle trailing slashes
   const currentPath = normalizePath(path || '/')
-  console.log(currentPath)
 
   // Check for exact match
   if (eventDataMap[currentPath]) {

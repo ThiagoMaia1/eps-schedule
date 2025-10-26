@@ -51,9 +51,10 @@ export const useSearchInputStyles = makeStyles()((theme) => ({
     fontSize: '0.875rem',
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-      width: '18px',
-      height: '18px',
-      left: '0.75rem',
+      width: '20px',
+      height: '20px',
+      left: '0.875rem',
+      fontSize: '1.125rem',
     },
   },
 
@@ -85,8 +86,9 @@ export const useSearchInputStyles = makeStyles()((theme) => ({
     },
 
     [`@media (max-width: ${theme.breakpoints.mobile})`]: {
-      padding: '0.5rem 2.5rem 0.5rem 2.5rem',
-      fontSize: '0.875rem',
+      padding: '0.75rem 2.75rem 0.75rem 2.75rem',
+      fontSize: '1rem',
+      borderRadius: '0.5rem',
     },
   },
 

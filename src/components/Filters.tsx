@@ -9,6 +9,8 @@ import Dropdown from './Dropdown'
 import SearchInput from './SearchInput'
 import ImportExportSessions from './ImportExportSessions'
 import FilterResultsCount from './FilterResultsCount'
+import Popup from './Popup'
+import Toggle from './Toggle'
 import { useFiltersStyles } from './Filters.styles'
 import { trackEvent } from '../utils/analytics'
 
@@ -97,10 +99,15 @@ const Filters: React.FC<FiltersProps> = ({
   onImportValidatedSessions,
   onClearAllFilters,
 }) => {
-  // Initialize collapsed state based on window width to avoid flash on mobile
-  const [isPanelCollapsed, setIsPanelCollapsed] = useState(() => {
+  // Initialize states
+  const [isMobile, setIsMobile] = useState(() => {
     return typeof window !== 'undefined' && window.innerWidth < 768
   })
+  const [isPanelCollapsed, setIsPanelCollapsed] = useState(() => {
+    // On mobile, start collapsed; on desktop, start expanded
+    return typeof window !== 'undefined' && window.innerWidth < 768
+  })
+  const [isFiltersPopupOpen, setIsFiltersPopupOpen] = useState(false)
   const [isImportExportOpen, setIsImportExportOpen] = useState(false)
   const [showLegendTooltip, setShowLegendTooltip] = useState(false)
   const [showMoreFilters, setShowMoreFilters] = useState(false)
@@ -112,10 +119,14 @@ const Filters: React.FC<FiltersProps> = ({
 
   const { classes, cx } = useFiltersStyles({ isPanelCollapsed })
 
-  // Update collapsed state on window resize
+  // Update mobile state on window resize
   useEffect(() => {
     const handleResize = () => {
-      setIsPanelCollapsed(window.innerWidth < 768)
+      const mobile = window.innerWidth < 768
+      setIsMobile(mobile)
+      if (!mobile) {
+        setIsFiltersPopupOpen(false)
+      }
     }
 
     window.addEventListener('resize', handleResize)
@@ -173,6 +184,39 @@ const Filters: React.FC<FiltersProps> = ({
     onToggleSelected()
   }
 
+  const handleQuickViewToggle = (checked: boolean) => {
+    trackEvent('quick_view_toggle', {
+      action: checked ? 'enable' : 'disable',
+      selected_count: selectedCount,
+    })
+
+    // Enable both onlySelected and linearView when toggled on
+    if (checked) {
+      if (!showOnlySelected) {
+        onToggleSelected()
+      }
+      if (!linearView) {
+        onToggleLinearView()
+      }
+    } else {
+      // Disable both when toggled off
+      if (showOnlySelected) {
+        onToggleSelected()
+      }
+      if (linearView) {
+        onToggleLinearView()
+      }
+    }
+  }
+
+  const handleShowFiltersClick = () => {
+    if (isMobile) {
+      setIsFiltersPopupOpen(true)
+    } else {
+      setIsPanelCollapsed(!isPanelCollapsed)
+    }
+  }
+
   const handleOpenTransferSessions = () => {
     trackEvent('open_transfer_sessions', {
       selected_count: selectedCount,
@@ -181,269 +225,297 @@ const Filters: React.FC<FiltersProps> = ({
   }
 
   const activeFilterCount = countActiveFilters()
+  const isQuickViewActive = showOnlySelected && linearView
+
+  // Filters content (used in both popup and regular view)
+  const filtersContent = (
+    <>
+      <div className={classes.filterRow}>
+        <SearchInput
+          label="Search"
+          value={searchText}
+          onChange={onSearchChange}
+          placeholder="Search by topic, speaker, or moderator..."
+        />
+        <Dropdown
+          label="Track"
+          value={activeTrack}
+          options={tracks}
+          onChange={onTrackChange}
+          placeholder="All Tracks"
+          showClearButton={true}
+        />
+      </div>
+
+      <div className={classes.controlsWrapper}>
+        <div className={classes.controls}>
+          <div className={classes.onlySelectedContainer}>
+            <button
+              ref={infoButtonRef}
+              className={classes.infoIconButton}
+              onClick={handleTooltipToggle}
+              aria-label="Show help information"
+            >
+              <MdInfoOutline />
+            </button>
+            <span
+              className={cx(classes.btn, showOnlySelected && classes.btnActive)}
+              onClick={handleToggleOnlySelected}
+            >
+              Only selected sessions
+            </span>
+            {showLegendTooltip && (
+              <>
+                <div
+                  className={classes.legendTooltipBackdrop}
+                  onClick={() => setShowLegendTooltip(false)}
+                />
+                <div
+                  className={classes.legendTooltip}
+                  style={
+                    tooltipPosition
+                      ? {
+                          top: tooltipPosition.top,
+                          left: tooltipPosition.left,
+                        }
+                      : undefined
+                  }
+                >
+                  To select a session, click the session card. Your selections
+                  will persist if you refresh the page.{' '}
+                  <strong>Ctrl/Cmd + Mouse Wheel</strong> or pinch-to-zoom to
+                  adjust the schedule view.
+                </div>
+              </>
+            )}
+          </div>
+          {showOnlySelected && (
+            <span
+              className={cx(classes.btn, linearView && classes.btnActive)}
+              onClick={onToggleLinearView}
+            >
+              Linear View
+            </span>
+          )}
+          {/* Dynamic classification pills */}
+          {allClassifications.map((classification) => (
+            <span
+              key={classification}
+              className={cx(
+                classes.btn,
+                activeClassification === classification && classes.btnActive
+              )}
+              onClick={() =>
+                onClassificationChange(
+                  activeClassification === classification
+                    ? null
+                    : classification
+                )
+              }
+            >
+              Only {classification}
+            </span>
+          ))}
+          {/* Dynamic venue pills */}
+          {allVenues.map((venue) => (
+            <span
+              key={venue}
+              className={cx(
+                classes.btn,
+                activeVenue === venue && classes.btnActive
+              )}
+              onClick={() =>
+                onVenueChange(activeVenue === venue ? null : venue)
+              }
+            >
+              Only {venue}
+            </span>
+          ))}
+          <span
+            className={cx(classes.btn, hideGeneralEvents && classes.btnActive)}
+            onClick={onToggleHideGeneralEvents}
+          >
+            Hide General Events
+          </span>
+          <span
+            className={cx(classes.btn, hideSpecialEvents && classes.btnActive)}
+            onClick={onToggleHideSpecialEvents}
+          >
+            Hide Special Events
+          </span>
+          <span
+            className={cx(classes.btn)}
+            onClick={() => setShowMoreFilters(!showMoreFilters)}
+            style={{ cursor: 'pointer' }}
+          >
+            {showMoreFilters ? '− Less filters' : '+ More filters'}
+          </span>
+          {showMoreFilters && (
+            <>
+              <span
+                className={cx(
+                  classes.btn,
+                  showOnlyGeneralEvents && classes.btnActive
+                )}
+                onClick={onToggleGeneralEvents}
+              >
+                Only General Events
+              </span>
+              <span
+                className={cx(
+                  classes.btn,
+                  showOnlyPanelQA && classes.btnActive
+                )}
+                onClick={onTogglePanelQA}
+              >
+                Only Panel/Q&A
+              </span>
+              <span
+                className={cx(
+                  classes.btn,
+                  showOnlyInvitedGuest && classes.btnActive
+                )}
+                onClick={onToggleInvitedGuest}
+              >
+                Only Invited Guest
+              </span>
+              <span
+                className={cx(
+                  classes.btn,
+                  showCancelledEvents && classes.btnActive
+                )}
+                onClick={onToggleShowCancelledEvents}
+              >
+                Show Cancelled Events
+              </span>
+            </>
+          )}
+          <span
+            style={{ display: 'none' }}
+            className={cx(
+              classes.btn,
+              showGeneralEventsInColumns && classes.btnActive
+            )}
+            onClick={onToggleGeneralEventsInColumns}
+          >
+            General Events in Columns
+          </span>
+          {searchText && (
+            <span
+              className={cx(classes.btn, classes.btnActive)}
+              onClick={() => onSearchChange('')}
+            >
+              Search: {searchText}
+            </span>
+          )}
+          {activeLocation && (
+            <span
+              className={cx(classes.btn, classes.btnActive)}
+              onClick={() => onLocationChange(null)}
+            >
+              Location: {activeLocation}
+            </span>
+          )}
+          {activeTrack && (
+            <span
+              className={cx(classes.btn, classes.btnActive)}
+              onClick={() => onTrackChange(null)}
+            >
+              Track: {activeTrack}
+            </span>
+          )}
+          <div className={classes.controlsSpacer}></div>
+          {activeFilterCount > 0 && (
+            <span
+              className={cx(classes.btn, classes.clearAllBtn)}
+              onClick={onClearAllFilters}
+            >
+              Clear All
+            </span>
+          )}
+          <span
+            className={cx(classes.btn, classes.transferBtn)}
+            onClick={handleOpenTransferSessions}
+          >
+            <MdSwapHoriz className="btn-icon" />
+            Transfer Sessions
+          </span>
+        </div>
+
+        <ImportExportSessions
+          isOpen={isImportExportOpen}
+          onClose={() => setIsImportExportOpen(false)}
+          onCopySelectedSessions={onCopySelectedSessions}
+          onImportSelectedSessions={onImportValidatedSessions}
+        />
+      </div>
+
+      <FilterResultsCount
+        totalTracks={totalTracks}
+        totalSessions={totalSessions}
+        filteredTracks={filteredTracks}
+        filteredSessions={filteredSessions}
+      />
+    </>
+  )
 
   return (
     <div className={classes.summary}>
-      <button
-        className={classes.filterToggle}
-        onClick={() => setIsPanelCollapsed(!isPanelCollapsed)}
-        aria-expanded={!isPanelCollapsed}
-      >
-        {isPanelCollapsed ? (
-          <>
-            <span className={classes.filterToggleText}>
+      <div className={classes.filterToggleRow}>
+        <button
+          className={classes.filterToggle}
+          onClick={handleShowFiltersClick}
+          aria-expanded={!isPanelCollapsed}
+        >
+          {isMobile ? (
+            <>
               Show Filters
               {activeFilterCount > 0 && (
                 <span className={classes.filterBadge}>{activeFilterCount}</span>
               )}
-            </span>
-            <MdKeyboardArrowDown size={20} />
-          </>
-        ) : (
-          <>
-            Hide Filters
-            <MdKeyboardArrowUp size={20} />
-          </>
-        )}
-      </button>
+            </>
+          ) : isPanelCollapsed ? (
+            <>
+              <span className={classes.filterToggleText}>
+                Show Filters
+                {activeFilterCount > 0 && (
+                  <span className={classes.filterBadge}>
+                    {activeFilterCount}
+                  </span>
+                )}
+              </span>
+              <MdKeyboardArrowDown size={20} />
+            </>
+          ) : (
+            <>
+              Hide Filters
+              <MdKeyboardArrowUp size={20} />
+            </>
+          )}
+        </button>
 
-      <div className={classes.filterContent}>
-        <div className={classes.filterRow}>
-          <SearchInput
-            label="Search"
-            value={searchText}
-            onChange={onSearchChange}
-            placeholder="Search by topic, speaker, or moderator..."
+        <div className={classes.quickViewToggle}>
+          <Toggle
+            checked={isQuickViewActive}
+            onChange={handleQuickViewToggle}
+            ariaLabel="Toggle Selected Sessions View"
           />
-          <Dropdown
-            label="Track"
-            value={activeTrack}
-            options={tracks}
-            onChange={onTrackChange}
-            placeholder="All Tracks"
-            showClearButton={true}
-          />
+          <span className={classes.quickViewLabel}>Only Selected</span>
         </div>
-
-        <div className={classes.controlsWrapper}>
-          <div className={classes.controls}>
-            <div className={classes.onlySelectedContainer}>
-              <button
-                ref={infoButtonRef}
-                className={classes.infoIconButton}
-                onClick={handleTooltipToggle}
-                aria-label="Show help information"
-              >
-                <MdInfoOutline />
-              </button>
-              <span
-                className={cx(
-                  classes.btn,
-                  showOnlySelected && classes.btnActive
-                )}
-                onClick={handleToggleOnlySelected}
-              >
-                Only selected sessions
-              </span>
-              {showLegendTooltip && (
-                <>
-                  <div
-                    className={classes.legendTooltipBackdrop}
-                    onClick={() => setShowLegendTooltip(false)}
-                  />
-                  <div
-                    className={classes.legendTooltip}
-                    style={
-                      tooltipPosition
-                        ? {
-                            top: tooltipPosition.top,
-                            left: tooltipPosition.left,
-                          }
-                        : undefined
-                    }
-                  >
-                    To select a session, click the session card. Your selections
-                    will persist if you refresh the page.{' '}
-                    <strong>Ctrl/Cmd + Mouse Wheel</strong> or pinch-to-zoom to
-                    adjust the schedule view.
-                  </div>
-                </>
-              )}
-            </div>
-            {showOnlySelected && (
-              <span
-                className={cx(classes.btn, linearView && classes.btnActive)}
-                onClick={onToggleLinearView}
-              >
-                Linear View
-              </span>
-            )}
-            {/* Dynamic classification pills */}
-            {allClassifications.map((classification) => (
-              <span
-                key={classification}
-                className={cx(
-                  classes.btn,
-                  activeClassification === classification && classes.btnActive
-                )}
-                onClick={() =>
-                  onClassificationChange(
-                    activeClassification === classification
-                      ? null
-                      : classification
-                  )
-                }
-              >
-                Only {classification}
-              </span>
-            ))}
-            {/* Dynamic venue pills */}
-            {allVenues.map((venue) => (
-              <span
-                key={venue}
-                className={cx(
-                  classes.btn,
-                  activeVenue === venue && classes.btnActive
-                )}
-                onClick={() =>
-                  onVenueChange(activeVenue === venue ? null : venue)
-                }
-              >
-                Only {venue}
-              </span>
-            ))}
-            <span
-              className={cx(
-                classes.btn,
-                hideGeneralEvents && classes.btnActive
-              )}
-              onClick={onToggleHideGeneralEvents}
-            >
-              Hide General Events
-            </span>
-            <span
-              className={cx(
-                classes.btn,
-                hideSpecialEvents && classes.btnActive
-              )}
-              onClick={onToggleHideSpecialEvents}
-            >
-              Hide Special Events
-            </span>
-            <span
-              className={cx(classes.btn)}
-              onClick={() => setShowMoreFilters(!showMoreFilters)}
-              style={{ cursor: 'pointer' }}
-            >
-              {showMoreFilters ? '− Less filters' : '+ More filters'}
-            </span>
-            {showMoreFilters && (
-              <>
-                <span
-                  className={cx(
-                    classes.btn,
-                    showOnlyGeneralEvents && classes.btnActive
-                  )}
-                  onClick={onToggleGeneralEvents}
-                >
-                  Only General Events
-                </span>
-                <span
-                  className={cx(
-                    classes.btn,
-                    showOnlyPanelQA && classes.btnActive
-                  )}
-                  onClick={onTogglePanelQA}
-                >
-                  Only Panel/Q&A
-                </span>
-                <span
-                  className={cx(
-                    classes.btn,
-                    showOnlyInvitedGuest && classes.btnActive
-                  )}
-                  onClick={onToggleInvitedGuest}
-                >
-                  Only Invited Guest
-                </span>
-                <span
-                  className={cx(
-                    classes.btn,
-                    showCancelledEvents && classes.btnActive
-                  )}
-                  onClick={onToggleShowCancelledEvents}
-                >
-                  Show Cancelled Events
-                </span>
-              </>
-            )}
-            <span
-              style={{ display: 'none' }}
-              className={cx(
-                classes.btn,
-                showGeneralEventsInColumns && classes.btnActive
-              )}
-              onClick={onToggleGeneralEventsInColumns}
-            >
-              General Events in Columns
-            </span>
-            {searchText && (
-              <span
-                className={cx(classes.btn, classes.btnActive)}
-                onClick={() => onSearchChange('')}
-              >
-                Search: {searchText}
-              </span>
-            )}
-            {activeLocation && (
-              <span
-                className={cx(classes.btn, classes.btnActive)}
-                onClick={() => onLocationChange(null)}
-              >
-                Location: {activeLocation}
-              </span>
-            )}
-            {activeTrack && (
-              <span
-                className={cx(classes.btn, classes.btnActive)}
-                onClick={() => onTrackChange(null)}
-              >
-                Track: {activeTrack}
-              </span>
-            )}
-            <div className={classes.controlsSpacer}></div>
-            {activeFilterCount > 0 && (
-              <span
-                className={cx(classes.btn, classes.clearAllBtn)}
-                onClick={onClearAllFilters}
-              >
-                Clear All
-              </span>
-            )}
-            <span
-              className={cx(classes.btn, classes.transferBtn)}
-              onClick={handleOpenTransferSessions}
-            >
-              <MdSwapHoriz className="btn-icon" />
-              Transfer Sessions
-            </span>
-          </div>
-
-          <ImportExportSessions
-            isOpen={isImportExportOpen}
-            onClose={() => setIsImportExportOpen(false)}
-            onCopySelectedSessions={onCopySelectedSessions}
-            onImportSelectedSessions={onImportValidatedSessions}
-          />
-        </div>
-
-        <FilterResultsCount
-          totalTracks={totalTracks}
-          totalSessions={totalSessions}
-          filteredTracks={filteredTracks}
-          filteredSessions={filteredSessions}
-        />
       </div>
+
+      {isMobile ? (
+        <Popup
+          isOpen={isFiltersPopupOpen}
+          onClose={() => setIsFiltersPopupOpen(false)}
+          title="Filters"
+          maxWidth="95vw"
+        >
+          {filtersContent}
+        </Popup>
+      ) : (
+        <div className={classes.filterContent}>{filtersContent}</div>
+      )}
     </div>
   )
 }

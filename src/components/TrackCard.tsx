@@ -2,7 +2,11 @@ import React from 'react'
 import { type ShiftBlock } from '../types/schedule'
 import { useTrackCardStyles } from './TrackCard.styles'
 import { Tooltip } from 'react-tooltip'
-import { IoInformationCircleOutline } from 'react-icons/io5'
+import {
+  IoInformationCircleOutline,
+  IoCheckboxOutline,
+  IoCheckbox,
+} from 'react-icons/io5'
 
 interface TrackCardProps {
   shift: ShiftBlock
@@ -10,6 +14,9 @@ interface TrackCardProps {
   height: number
   searchText: string
   children?: React.ReactNode
+  sessionIds?: string[]
+  onToggleSelection?: (sessionId: string) => void
+  selectedSessions?: Set<string>
 }
 
 const TrackCard: React.FC<TrackCardProps> = ({
@@ -17,11 +24,40 @@ const TrackCard: React.FC<TrackCardProps> = ({
   top,
   height,
   children,
+  sessionIds = [],
+  onToggleSelection,
+  selectedSessions = new Set(),
 }) => {
   const tooltipId = `moderator-tooltip-${shift.id}`
+  const selectAllTooltipId = `select-all-tooltip-${shift.id}`
   const trackHeaderHeight = 32 // Height of the track header section
 
   const { classes } = useTrackCardStyles()
+
+  // Check if all sessions in this track are selected
+  const areAllSelected =
+    sessionIds.length > 0 && sessionIds.every((id) => selectedSessions.has(id))
+
+  const handleSelectAll = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!onToggleSelection || sessionIds.length === 0) return
+
+    // Toggle all sessions: if all are selected, deselect all; otherwise select all
+    sessionIds.forEach((id) => {
+      const isSelected = selectedSessions.has(id)
+      if (areAllSelected) {
+        // Deselect all
+        if (isSelected) {
+          onToggleSelection(id)
+        }
+      } else {
+        // Select all
+        if (!isSelected) {
+          onToggleSelection(id)
+        }
+      }
+    })
+  }
 
   return (
     <>
@@ -51,13 +87,34 @@ const TrackCard: React.FC<TrackCardProps> = ({
                   </span>
                 )}
               </div>
-              {shift.moderator && shift.moderator.name && (
-                <IoInformationCircleOutline
-                  className={classes.trackInfoIcon}
-                  data-tooltip-id={tooltipId}
-                  data-tooltip-place="left"
-                />
-              )}
+              <div className={classes.trackIcons}>
+                {sessionIds.length > 0 && onToggleSelection && (
+                  <>
+                    {areAllSelected ? (
+                      <IoCheckbox
+                        className={classes.trackSelectAllIconActive}
+                        onClick={handleSelectAll}
+                        data-tooltip-id={selectAllTooltipId}
+                        data-tooltip-place="left"
+                      />
+                    ) : (
+                      <IoCheckboxOutline
+                        className={classes.trackSelectAllIcon}
+                        onClick={handleSelectAll}
+                        data-tooltip-id={selectAllTooltipId}
+                        data-tooltip-place="left"
+                      />
+                    )}
+                  </>
+                )}
+                {shift.moderator && shift.moderator.name && (
+                  <IoInformationCircleOutline
+                    className={classes.trackInfoIcon}
+                    data-tooltip-id={tooltipId}
+                    data-tooltip-place="left"
+                  />
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -96,6 +153,26 @@ const TrackCard: React.FC<TrackCardProps> = ({
                 {shift.moderator.affiliation}
               </div>
             )}
+          </div>
+        </Tooltip>
+      )}
+
+      {sessionIds.length > 0 && onToggleSelection && (
+        <Tooltip
+          id={selectAllTooltipId}
+          style={{
+            backgroundColor: '#1a1a1a',
+            color: '#fff',
+            padding: '8px 12px',
+            borderRadius: '6px',
+            fontSize: '13px',
+            zIndex: 1000,
+          }}
+        >
+          <div>
+            {areAllSelected
+              ? 'Click to deselect all sessions in this track'
+              : 'Click to select all sessions in this track'}
           </div>
         </Tooltip>
       )}
