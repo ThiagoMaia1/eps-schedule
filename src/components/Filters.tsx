@@ -494,14 +494,23 @@ const Filters: React.FC<FiltersProps> = ({
           )}
         </button>
 
-        <div className={classes.quickViewToggle}>
-          <Toggle
-            checked={isQuickViewActive}
-            onChange={handleQuickViewToggle}
-            ariaLabel="Toggle Selected Sessions View"
-          />
-          <span className={classes.quickViewLabel}>Only Selected</span>
-        </div>
+        {isMobile ? (
+          <span
+            className={cx(classes.btn, showOnlySelected && classes.btnActive)}
+            onClick={handleToggleOnlySelected}
+          >
+            Only selected
+          </span>
+        ) : (
+          <div className={classes.quickViewToggle}>
+            <Toggle
+              checked={isQuickViewActive}
+              onChange={handleQuickViewToggle}
+              ariaLabel="Toggle Selected Sessions View"
+            />
+            <span className={classes.quickViewLabel}>Only Selected</span>
+          </div>
+        )}
       </div>
 
       {isMobile ? (

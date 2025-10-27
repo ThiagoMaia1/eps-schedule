@@ -56,18 +56,17 @@ export const useUnselectConfirmationPopupStyles = makeStyles()((theme) => ({
     padding: '0.625rem 1.25rem',
     fontSize: '0.9375rem',
     fontWeight: theme.fontWeights.semibold,
-    background: theme.colors.error,
+    background: theme.colors.primary,
     color: theme.colors.textWhite,
-    border: `1px solid ${theme.colors.error}`,
+    border: `1px solid ${theme.colors.primary}`,
     borderRadius: theme.borderRadius.lg,
     cursor: 'pointer',
     transition: `all ${theme.transitions.fast} ease`,
 
     '&:hover': {
-      background: '#b91c1c',
-      borderColor: '#b91c1c',
+      background: theme.colors.primaryHover,
       transform: 'translateY(-1px)',
-      boxShadow: `0 4px 6px -1px ${theme.colors.shadowError}`,
+      boxShadow: `0 4px 6px -1px ${theme.colors.shadowDark}`,
     },
 
     '&:active': {
