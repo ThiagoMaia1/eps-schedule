@@ -12,7 +12,7 @@ interface SessionCardStylesProps {
 
 export const useSessionCardStyles = makeStyles<SessionCardStylesProps>()(
   (theme, { isSelected, classificationColor, shouldFade }) => ({
-    cell: {
+    sessionCard: {
       textWrap: 'balance',
       display: 'flex',
       flexDirection: 'column',

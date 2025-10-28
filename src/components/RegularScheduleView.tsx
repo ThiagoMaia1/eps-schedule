@@ -193,6 +193,9 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                     const shiftHeight =
                       (latestEnd - earliestStart) * pixelsPerMinute
 
+                    // Collect session IDs for this shift
+                    const sessionIds = sessionsInShift.map((entry) => entry.id)
+
                     return (
                       <TrackCard
                         searchText={searchText}
@@ -200,6 +203,9 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                         shift={shift}
                         top={shiftTop}
                         height={shiftHeight}
+                        sessionIds={sessionIds}
+                        onToggleSelection={onToggleSelection}
+                        selectedSessions={selectedSessions}
                       >
                         {/* Sessions within this shift/track */}
                         {sessionsInShift.map((entry, entryIndex) => {

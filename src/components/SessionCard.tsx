@@ -52,7 +52,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
   const isResponse = entry.theme === 'Response'
 
   return (
-    <div className={classes.cell} onClick={handleClick}>
+    <div className={classes.sessionCard} onClick={handleClick}>
       <div className={classes.sessionTime}>
         {entry.startTime} - {entry.endTime}
       </div>

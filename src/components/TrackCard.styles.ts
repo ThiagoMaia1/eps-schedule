@@ -68,6 +68,40 @@ export const useTrackCardStyles = makeStyles()((theme) => ({
     color: '#333',
   },
 
+  trackIcons: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing.sm,
+  },
+
+  trackSelectAllIcon: {
+    color: '#888',
+    fontSize: '18px',
+    flexShrink: 0,
+    cursor: 'pointer',
+    transition: `all ${theme.transitions.fast} ease`,
+    pointerEvents: 'auto',
+
+    '&:hover': {
+      color: theme.colors.primary,
+      transform: 'scale(1.1)',
+    },
+  },
+
+  trackSelectAllIconActive: {
+    color: theme.colors.primary,
+    fontSize: '18px',
+    flexShrink: 0,
+    cursor: 'pointer',
+    transition: `all ${theme.transitions.fast} ease`,
+    pointerEvents: 'auto',
+
+    '&:hover': {
+      color: theme.colors.primaryHover,
+      transform: 'scale(1.1)',
+    },
+  },
+
   trackInfoIcon: {
     color: theme.colors.moderatorAccent,
     fontSize: '18px',

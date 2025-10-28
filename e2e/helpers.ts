@@ -98,3 +98,32 @@ export async function clearAllFilters(page: Page) {
 export async function grantClipboardPermissions(page: Page) {
   await page.context().grantPermissions(['clipboard-read', 'clipboard-write'])
 }
+
+/**
+ * Enable "Only Selected" toggle to activate linear view
+ */
+export async function enableOnlySelectedView(page: Page) {
+  // The toggle is in a quickViewToggle div with a span "Only Selected" next to it
+  const toggleContainer = page.locator(
+    'span:has-text("Only Selected sessions")'
+  )
+  await toggleContainer.click()
+  await page.waitForTimeout(800) // Wait for linear view to render
+}
+
+/**
+ * Expand all collapsed day containers
+ * This is useful for past events where days are collapsed by default
+ */
+export async function expandAllDayContainers(page: Page) {
+  // Keep expanding the first collapsed container until there are none left
+  // We use first() because indices change as containers expand
+  const collapsedHeader = page
+    .locator('button[aria-expanded="false"][aria-label*="Expand"]')
+    .first()
+
+  while ((await collapsedHeader.count()) > 0) {
+    await collapsedHeader.click()
+    await page.waitForTimeout(200)
+  }
+}

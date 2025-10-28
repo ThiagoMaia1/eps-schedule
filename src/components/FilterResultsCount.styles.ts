@@ -10,7 +10,7 @@ export const useFilterResultsCountStyles = makeStyles()((theme) => ({
     fontSize: theme.fontSizes.base,
 
     '@media (max-width: 640px)': {
-      padding: '10px 12px',
+      padding: '16px 18px',
     },
   },
 
@@ -56,9 +56,9 @@ export const useFilterResultsCountStyles = makeStyles()((theme) => ({
     justifyContent: 'center',
 
     '@media (max-width: 640px)': {
-      fontSize: '1.1em',
-      width: '1.1em',
-      height: '1.1em',
+      fontSize: '1.4em',
+      width: '1.4em',
+      height: '1.4em',
     },
   },
 
@@ -68,7 +68,7 @@ export const useFilterResultsCountStyles = makeStyles()((theme) => ({
     fontSize: '0.95em',
 
     '@media (max-width: 640px)': {
-      fontSize: '0.85em',
+      fontSize: '1em',
     },
   },
 
@@ -105,7 +105,7 @@ export const useFilterResultsCountStyles = makeStyles()((theme) => ({
     fontSize: '1.05em',
 
     '@media (max-width: 640px)': {
-      fontSize: '0.95em',
+      fontSize: '1.15em',
     },
   },
 
@@ -117,7 +117,7 @@ export const useFilterResultsCountStyles = makeStyles()((theme) => ({
     letterSpacing: '0.03em',
 
     '@media (max-width: 640px)': {
-      fontSize: theme.fontSizes.sm,
+      fontSize: '0.9em',
     },
   },
 
@@ -127,7 +127,7 @@ export const useFilterResultsCountStyles = makeStyles()((theme) => ({
     fontSize: '1.2em',
 
     '@media (max-width: 640px)': {
-      fontSize: '1.1em',
+      fontSize: '1.3em',
     },
   },
 
