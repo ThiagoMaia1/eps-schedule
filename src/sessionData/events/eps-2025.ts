@@ -10217,7 +10217,7 @@ export const Tracks: TrackGroup[] = [
         location: {
           hotel: 'Copley Place',
           floor: '3rd',
-          room: 'Brandeis',
+          room: 'Tufts',
         },
       },
     ],
