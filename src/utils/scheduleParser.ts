@@ -151,7 +151,7 @@ const flattenTracks = (tracks: TrackGroup[]): ParsedData => {
         endMinutes: parseTimeToMinutes(latestTime),
         dayOfWeek: shift.dayOfWeek,
         shift: shift.shift,
-        track: trackGroup.track,
+        trackName: trackGroup.trackName,
         subtheme: shift.subtheme,
       })
 
@@ -207,7 +207,7 @@ const flattenTracks = (tracks: TrackGroup[]): ParsedData => {
           affiliation: hasSpeaker ? session.speaker.affiliation : undefined,
           speakers: hasSpeakers ? session.speakers : undefined,
           theme: themeText,
-          track: trackGroup.track || undefined,
+          track: trackGroup.trackName || undefined,
           special_classifications: allClassifications,
           primary_classification: primaryClassification,
           is_general_event: false,
@@ -396,7 +396,7 @@ const transformSessionDataToScheduleData = (
             const shift = row.shift_id
               ? dayShifts.find((s) => s.id === row.shift_id)
               : undefined
-            const trackStr = row.track || shift?.track || 'empty'
+            const trackStr = row.track || shift?.trackName || 'empty'
             const subthemeStr = shift?.subtheme || 'empty'
             sessionId = `${trackStr}-${subthemeStr}`
               .replace(/\s+/g, '-')

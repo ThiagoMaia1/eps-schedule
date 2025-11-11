@@ -65,7 +65,7 @@ export interface ShiftBlock {
   endMinutes: number // End time in minutes since midnight (parsed once during data load)
   dayOfWeek: string
   shift: string
-  track?: string | null
+  trackName?: string
   subtheme?: string
   hasRoomConflict?: boolean
 }

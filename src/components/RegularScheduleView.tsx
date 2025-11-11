@@ -214,7 +214,7 @@ const RegularScheduleView: React.FC<RegularScheduleViewProps> = ({
                             (entry.startMinutes - earliestStart) *
                             pixelsPerMinute
                           const height = duration * pixelsPerMinute
-                          const trackHeaderHeight = shift.track ? 32 : 0
+                          const trackHeaderHeight = 32
 
                           return (
                             <div
