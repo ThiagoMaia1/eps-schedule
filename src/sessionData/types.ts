@@ -63,8 +63,7 @@ export type TrackShift = {
 }
 
 export type TrackGroup = {
-  /** Track name; null when a session has no program track */
-  track: string | null
+  trackName?: string
   shifts: TrackShift[]
   specialClassifications?: string[]
 }

@@ -264,7 +264,7 @@ export const generalEvents: GeneralEvent[] = [
 
 export const Tracks: TrackGroup[] = [
   {
-    track: 'Parallel Sessions - Room 1',
+    trackName: 'Parallel Sessions - Room 1',
     shifts: [
       {
         dayOfWeek: 'Monday',
@@ -305,7 +305,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 2',
+    trackName: 'Parallel Sessions - Room 2',
     shifts: [
       {
         dayOfWeek: 'Monday',
@@ -391,7 +391,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 3',
+    trackName: 'Parallel Sessions - Room 3',
     shifts: [
       {
         dayOfWeek: 'Monday',
@@ -461,7 +461,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 4',
+    trackName: 'Parallel Sessions - Room 4',
     shifts: [
       {
         dayOfWeek: 'Monday',
@@ -496,7 +496,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 1',
+    trackName: 'Parallel Sessions - Room 1',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -555,7 +555,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 2',
+    trackName: 'Parallel Sessions - Room 2',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -585,7 +585,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 3',
+    trackName: 'Parallel Sessions - Room 3',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -645,7 +645,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 1',
+    trackName: 'Parallel Sessions - Room 1',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -693,7 +693,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 2',
+    trackName: 'Parallel Sessions - Room 2',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -742,7 +742,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 3',
+    trackName: 'Parallel Sessions - Room 3',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -792,7 +792,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 4',
+    trackName: 'Parallel Sessions - Room 4',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -851,7 +851,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 1',
+    trackName: 'Parallel Sessions - Room 1',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -911,7 +911,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 2',
+    trackName: 'Parallel Sessions - Room 2',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -971,7 +971,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 3',
+    trackName: 'Parallel Sessions - Room 3',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -1040,7 +1040,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 1',
+    trackName: 'Parallel Sessions - Room 1',
     shifts: [
       {
         dayOfWeek: 'Friday',
@@ -1090,7 +1090,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 2',
+    trackName: 'Parallel Sessions - Room 2',
     shifts: [
       {
         dayOfWeek: 'Friday',
@@ -1138,7 +1138,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 3',
+    trackName: 'Parallel Sessions - Room 3',
     shifts: [
       {
         dayOfWeek: 'Friday',
@@ -1188,7 +1188,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Parallel Sessions - Room 4',
+    trackName: 'Parallel Sessions - Room 4',
     shifts: [
       {
         dayOfWeek: 'Friday',
@@ -1238,7 +1238,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Minicurso - Sala A',
+    trackName: 'Minicurso - Sala A',
     specialClassifications: ['Minicurso'],
     shifts: [
       {
@@ -1340,7 +1340,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Minicurso - Sala B',
+    trackName: 'Minicurso - Sala B',
     specialClassifications: ['Minicurso'],
     shifts: [
       {
@@ -1396,7 +1396,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Minicurso - Main Hall',
+    trackName: 'Minicurso - Main Hall',
     specialClassifications: ['Minicurso'],
     shifts: [
       {

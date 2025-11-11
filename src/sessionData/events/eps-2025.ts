@@ -337,7 +337,7 @@ export const generalEvents: GeneralEvent[] = [
 
 export const Tracks: TrackGroup[] = [
   {
-    track: 'Evangelical Philosophical Society',
+    trackName: 'Evangelical Philosophical Society',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -407,7 +407,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Spiritual Formation / Sanctification',
+    trackName: 'Spiritual Formation / Sanctification',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -480,7 +480,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Messianic Jewish Studies: History, Theology and Praxis',
+    trackName: 'Messianic Jewish Studies: History, Theology and Praxis',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -582,7 +582,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Trinitarian Studies',
+    trackName: 'Trinitarian Studies',
     shifts: [
       {
         moderator: {
@@ -650,7 +650,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track:
+    trackName:
       'A Dogmatic Dialogue about the Christian Life: A Conversation Around Four Recent',
     shifts: [
       {
@@ -720,7 +720,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'A Response to Reading the General Epistles Missiologically',
+    trackName: 'A Response to Reading the General Epistles Missiologically',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -798,7 +798,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Adventist Theological Society',
+    trackName: 'Adventist Theological Society',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -935,7 +935,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'African Biblical Studies',
+    trackName: 'African Biblical Studies',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -1039,7 +1039,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'American Christianity',
+    trackName: 'American Christianity',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -1155,7 +1155,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'American Christianity',
+    trackName: 'American Christianity',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -1227,7 +1227,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Anglican Theology',
+    trackName: 'Anglican Theology',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -1296,7 +1296,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Apologetics',
+    trackName: 'Apologetics',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -1367,7 +1367,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Applied Linguistics and Biblical Languages',
+    trackName: 'Applied Linguistics and Biblical Languages',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -1431,7 +1431,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Arguments for God',
+    trackName: 'Arguments for God',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -1501,7 +1501,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Asian/Asian American Theology',
+    trackName: 'Asian/Asian American Theology',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -1573,7 +1573,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Baptist Studies Group',
+    trackName: 'Baptist Studies Group',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -1641,7 +1641,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track:
+    trackName:
       'Beyond the Dark Night of the Soul: Realism and Hope among Black Evangelicals',
     shifts: [
       {
@@ -1709,7 +1709,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Bible Exposition and Hermeneutics',
+    trackName: 'Bible Exposition and Hermeneutics',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -1775,7 +1775,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Biblical Evangelism',
+    trackName: 'Biblical Evangelism',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -1844,7 +1844,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Biblical Theology',
+    trackName: 'Biblical Theology',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -1978,7 +1978,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Biblical Worship',
+    trackName: 'Biblical Worship',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -2109,7 +2109,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Bioethics',
+    trackName: 'Bioethics',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -2179,7 +2179,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Book of Revelation',
+    trackName: 'Book of Revelation',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -2261,7 +2261,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Christian Ethics',
+    trackName: 'Christian Ethics',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -2332,7 +2332,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Christian History and Thought Since 1700',
+    trackName: 'Christian History and Thought Since 1700',
     shifts: [
       {
         subtheme:
@@ -2472,7 +2472,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Christianity and Culture',
+    trackName: 'Christianity and Culture',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -2605,7 +2605,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Christianity and Islam: History and Texts',
+    trackName: 'Christianity and Islam: History and Texts',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -2689,7 +2689,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Christianity and the Natural Sciences',
+    trackName: 'Christianity and the Natural Sciences',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -2765,7 +2765,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Church History',
+    trackName: 'Church History',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -3268,7 +3268,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Creedal Christianity',
+    trackName: 'Creedal Christianity',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -4242,7 +4242,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Early Christian Theology in Protestant Thought',
+    trackName: 'Early Christian Theology in Protestant Thought',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -4385,7 +4385,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: "Engaging Duane Garrett's Understanding Jeremiah",
+    trackName: "Engaging Duane Garrett's Understanding Jeremiah",
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -4471,7 +4471,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Ethics',
+    trackName: 'Ethics',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -4580,7 +4580,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track:
+    trackName:
       'Evaluating New Objections to the Mytho-Historical Adam and Genealogical Adam and Eve Theories',
     specialClassifications: ['EPS'],
     shifts: [
@@ -4705,7 +4705,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Evangelicalism in the Long Eighteenth Century',
+    trackName: 'Evangelicalism in the Long Eighteenth Century',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -4773,7 +4773,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Evangelicals and Women',
+    trackName: 'Evangelicals and Women',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -4905,7 +4905,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Evangelicals in the Public Square',
+    trackName: 'Evangelicals in the Public Square',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -4994,7 +4994,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Free Will and Related Issues',
+    trackName: 'Free Will and Related Issues',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -5062,7 +5062,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'General Epistles',
+    trackName: 'General Epistles',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -5132,7 +5132,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Gospel of Matthew',
+    trackName: 'Gospel of Matthew',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -5198,7 +5198,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Greco-Roman Backgrounds',
+    trackName: 'Greco-Roman Backgrounds',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -5266,7 +5266,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Hebrew Language',
+    trackName: 'Hebrew Language',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -5403,7 +5403,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Hermeneutics',
+    trackName: 'Hermeneutics',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -5544,7 +5544,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'History and Theology of Preaching',
+    trackName: 'History and Theology of Preaching',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -5610,7 +5610,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'History for the Church',
+    trackName: 'History for the Church',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -5681,7 +5681,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Johannine Literature',
+    trackName: 'Johannine Literature',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -5815,7 +5815,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Latino/a Biblical and Theological Reﬂection Unit',
+    trackName: 'Latino/a Biblical and Theological Reﬂection Unit',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -5901,7 +5901,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Luke-Acts',
+    trackName: 'Luke-Acts',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -5970,7 +5970,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Lutheran Studies',
+    trackName: 'Lutheran Studies',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -6051,7 +6051,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Metaphysics Broadly Construed',
+    trackName: 'Metaphysics Broadly Construed',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -6120,7 +6120,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Method in Systematic Theology',
+    trackName: 'Method in Systematic Theology',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -6274,7 +6274,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Models of God Study Group',
+    trackName: 'Models of God Study Group',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -6345,7 +6345,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Nature of God',
+    trackName: 'Nature of God',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -6414,7 +6414,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Near East Archaeological Society',
+    trackName: 'Near East Archaeological Society',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -6736,7 +6736,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'New Testament',
+    trackName: 'New Testament',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -7324,7 +7324,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'New Testament Canon, Textual Criticism & Apocryphal Literature',
+    trackName: 'New Testament Canon, Textual Criticism & Apocryphal Literature',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -7472,7 +7472,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'New Testament Christology',
+    trackName: 'New Testament Christology',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -7543,7 +7543,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'New Testament Greek Language and Exegesis',
+    trackName: 'New Testament Greek Language and Exegesis',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -7680,7 +7680,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Old Testament',
+    trackName: 'Old Testament',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -8205,7 +8205,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Old Testament Background / Ancient Near East',
+    trackName: 'Old Testament Background / Ancient Near East',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -8337,7 +8337,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Old Testament Narrative Literature',
+    trackName: 'Old Testament Narrative Literature',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -8471,7 +8471,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Old Testament Prophetic and Apocalyptic Books',
+    trackName: 'Old Testament Prophetic and Apocalyptic Books',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -8605,7 +8605,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Old Testament Theology',
+    trackName: 'Old Testament Theology',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -8737,7 +8737,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Old Testament Wisdom Literature',
+    trackName: 'Old Testament Wisdom Literature',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -8879,7 +8879,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track:
+    trackName:
       'Orthodoxy and Deliverance: The Nicene Creed in Black Evangelicalism',
     shifts: [
       {
@@ -8949,7 +8949,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Patristic and Medieval History',
+    trackName: 'Patristic and Medieval History',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -9092,7 +9092,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Pauline Studies',
+    trackName: 'Pauline Studies',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -9261,7 +9261,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Philosophy and the Bible',
+    trackName: 'Philosophy and the Bible',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -9330,7 +9330,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Practical Theology',
+    trackName: 'Practical Theology',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -9788,7 +9788,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Psalms and Hebrew Poetry',
+    trackName: 'Psalms and Hebrew Poetry',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -9920,7 +9920,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Public Theology',
+    trackName: 'Public Theology',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -10085,7 +10085,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Puritan Theology in Post-Reformation Context',
+    trackName: 'Puritan Theology in Post-Reformation Context',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -10155,7 +10155,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Recovering Classical Protestant Politics',
+    trackName: 'Recovering Classical Protestant Politics',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -10224,7 +10224,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Reformation Studies',
+    trackName: 'Reformation Studies',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -10362,7 +10362,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Religious Epistemology',
+    trackName: 'Religious Epistemology',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -10430,7 +10430,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: "Revitalizing Francis Schaeﬀer's Work for the 21st Century",
+    trackName: "Revitalizing Francis Schaeﬀer's Work for the 21st Century",
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -10501,7 +10501,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Science, Technology, and Mathematics',
+    trackName: 'Science, Technology, and Mathematics',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -10567,7 +10567,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Scottish Church History and Theology Study Group',
+    trackName: 'Scottish Church History and Theology Study Group',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -10638,7 +10638,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Scriptural Use of Scripture',
+    trackName: 'Scriptural Use of Scripture',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -10767,7 +10767,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Septuagint Studies',
+    trackName: 'Septuagint Studies',
     shifts: [
       {
         subtheme:
@@ -10854,7 +10854,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Socio-Cultural Interpretation',
+    trackName: 'Socio-Cultural Interpretation',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -10926,7 +10926,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Spiritual Formation/Sanctiﬁcation',
+    trackName: 'Spiritual Formation/Sanctiﬁcation',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -10997,7 +10997,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Systematic Theology',
+    trackName: 'Systematic Theology',
     shifts: [
       {
         subtheme: 'General Studies I',
@@ -11711,7 +11711,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'The Beatiﬁc Vision and the Trinity',
+    trackName: 'The Beatiﬁc Vision and the Trinity',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -11788,7 +11788,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'The Doctrine of Deiﬁcation',
+    trackName: 'The Doctrine of Deiﬁcation',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -11880,7 +11880,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'The Doctrine of Scripture',
+    trackName: 'The Doctrine of Scripture',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -12016,7 +12016,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'The Perils and Possibilities of AI for Academics',
+    trackName: 'The Perils and Possibilities of AI for Academics',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -12085,7 +12085,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'The Problem of Evil',
+    trackName: 'The Problem of Evil',
     specialClassifications: ['EPS'],
     shifts: [
       {
@@ -12153,7 +12153,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track:
+    trackName:
       'Theological Method in Counseling Practice: The Nicene Creed and Human Personhood',
     shifts: [
       {
@@ -12225,7 +12225,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Theologies of Retrieval: Challenges and Prospects',
+    trackName: 'Theologies of Retrieval: Challenges and Prospects',
     shifts: [
       {
         dayOfWeek: 'Wednesday',
@@ -12313,7 +12313,7 @@ export const Tracks: TrackGroup[] = [
     specialClassifications: ['ETS'],
   },
   {
-    track: 'Torah Session',
+    trackName: 'Torah Session',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -12441,7 +12441,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Trinitarian Theology Study Group',
+    trackName: 'Trinitarian Theology Study Group',
     shifts: [
       {
         dayOfWeek: 'Tuesday',
@@ -12499,7 +12499,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'Warfare and Violence in the Old Testament',
+    trackName: 'Warfare and Violence in the Old Testament',
     shifts: [
       {
         dayOfWeek: 'Thursday',
@@ -12581,7 +12581,7 @@ export const Tracks: TrackGroup[] = [
     ],
   },
   {
-    track: 'William Lane Craig’s Systematic Philosophical Theology, Vol. 1',
+    trackName: 'William Lane Craig’s Systematic Philosophical Theology, Vol. 1',
     specialClassifications: ['EPS'],
     shifts: [
       {

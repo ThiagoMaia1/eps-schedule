@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { getEventData, getEventName } from './eventRouter'
 import eps2025Data from './events/eps-2025'
 import epistemologiaAnaliticaUemaData from './events/epistemologia-analitica-uema'
+import scpMidwest2025Data from './events/scp-midwest-2025'
 
 describe('eventRouter', () => {
   describe('getEventData', () => {
@@ -24,6 +25,16 @@ describe('eventRouter', () => {
       it('should return correct event for epistemologia-analitica-uema with trailing slash', () => {
         const eventData = getEventData('/epistemologia-analitica-uema/')
         expect(eventData).toBe(epistemologiaAnaliticaUemaData)
+      })
+
+      it('should return correct event for scp-midwest-2025 without trailing slash', () => {
+        const eventData = getEventData('/scp-midwest-2025')
+        expect(eventData).toBe(scpMidwest2025Data)
+      })
+
+      it('should return correct event for scp-midwest-2025 with trailing slash', () => {
+        const eventData = getEventData('/scp-midwest-2025/')
+        expect(eventData).toBe(scpMidwest2025Data)
       })
 
       it('should handle root path correctly', () => {
@@ -81,6 +92,16 @@ describe('eventRouter', () => {
     it('should return correct name for epistemologia-analitica-uema with trailing slash', () => {
       const name = getEventName('/epistemologia-analitica-uema/')
       expect(name).toBe(epistemologiaAnaliticaUemaData.name)
+    })
+
+    it('should return correct name for scp-midwest-2025 without trailing slash', () => {
+      const name = getEventName('/scp-midwest-2025')
+      expect(name).toBe(scpMidwest2025Data.name)
+    })
+
+    it('should return correct name for scp-midwest-2025 with trailing slash', () => {
+      const name = getEventName('/scp-midwest-2025/')
+      expect(name).toBe(scpMidwest2025Data.name)
     })
   })
 })
