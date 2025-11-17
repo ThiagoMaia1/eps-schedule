@@ -12674,7 +12674,7 @@ const eventData: EventData = {
   footerConfig: {
     officialSourceUrl: 'https://etsjets.org/annual-meeting-overview/',
     officialSourceName: 'the official ETS Annual Meeting page',
-    lastUpdated: 'January 15, 2025',
+    lastUpdated: 'November 16, 2025',
   },
 }
 
