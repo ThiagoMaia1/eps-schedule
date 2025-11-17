@@ -3282,7 +3282,7 @@ export const Tracks: TrackGroup[] = [
         location: {
           hotel: 'Copley Place',
           floor: '4th',
-          room: 'Grand Ballroom Salon A',
+          room: 'Yarmouth',
         },
         sessions: [
           {
@@ -12674,7 +12674,7 @@ const eventData: EventData = {
   footerConfig: {
     officialSourceUrl: 'https://etsjets.org/annual-meeting-overview/',
     officialSourceName: 'the official ETS Annual Meeting page',
-    lastUpdated: 'January 15, 2025',
+    lastUpdated: 'November 16, 2025',
   },
 }
 
