@@ -3282,7 +3282,7 @@ export const Tracks: TrackGroup[] = [
         location: {
           hotel: 'Copley Place',
           floor: '4th',
-          room: 'Grand Ballroom Salon A',
+          room: 'Yarmouth',
         },
         sessions: [
           {
